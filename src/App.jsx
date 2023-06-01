@@ -5,6 +5,7 @@ import { supabase } from './supabaseAuth/supabaseClient';
 import SignUp from './components/SignUp';
 import Login  from './components/Login';
 import Logout from './components/Logout';
+import FoodSearcher from './components/FoodSearcher';
 
 
 function App() {
@@ -27,6 +28,8 @@ function App() {
       <Login/>
       <br/>
       <Logout/>
+      <br/>
+      <FoodSearcher/>
       <ul>
         {weight.map((eachWeight) => (
           <li key={eachWeight.id}>{eachWeight.kg}kg</li>
