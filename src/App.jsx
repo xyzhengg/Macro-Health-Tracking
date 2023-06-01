@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { Routes, Route, Link, useParams } from "react-router-dom";
 import { supabase } from './supabaseAuth/supabaseClient';
 import SignUp from './components/SignUp';
-import  Login  from './components/Login';
+import Login  from './components/Login';
+import Logout from './components/Logout';
 
 
 function App() {
@@ -24,6 +25,8 @@ function App() {
       <SignUp/>
       <br/>
       <Login/>
+      <br/>
+      <Logout/>
       <ul>
         {weight.map((eachWeight) => (
           <li key={eachWeight.id}>{eachWeight.kg}kg</li>
