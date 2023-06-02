@@ -15,6 +15,7 @@ const FoodSearcher = () => {
     try {
       const res = await axios.get(`https://api.edamam.com/api/food-database/v2/parser?app_id=c3a053e6&app_key=a5494242fbb8e5d5184b54cad1d5e4b6&ingr=${search}&nutrition-type=cooking`)
       console.log(res.data.hints)
+      console.log(res.data)
       setResults(res.data.hints)
     } catch(err) {
       console.log(err)
@@ -51,6 +52,7 @@ const FoodSearcher = () => {
         fat = {result.food.nutrients.FAT}
         protein = {result.food.nutrients.PROCNT}
         carbs = {result.food.nutrients.CHOCDF}
+        serving = {result.food.servingSizes && result.food.servingSizes.find((serving) => serving.label === "Gram")}
         />
       ))}
     </>
