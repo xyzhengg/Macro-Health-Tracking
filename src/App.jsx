@@ -6,6 +6,7 @@ import SignUp from './components/SignUp';
 import Login  from './components/Login';
 import Logout from './components/Logout';
 import FoodSearcher from './components/FoodSearcher';
+import RecipeSearcherPage from './pages/RecipeSearcherPage';
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
           <li key={eachWeight.id}>{eachWeight.kg}kg</li>
         ))}
       </ul>
+      <RecipeSearcherPage/>
     </>
 
   );
