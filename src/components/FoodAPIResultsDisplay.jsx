@@ -1,4 +1,4 @@
-const FoodResultsDisplay = ({ label, kcal, fat, protein, carbs, serving}) => {
+const FoodAPIResultsDisplay = ({ label, kcal, fat, protein, carbs, serving}) => {
   return (
     <div>
       <h4> {label} </h4>
@@ -10,4 +10,4 @@ const FoodResultsDisplay = ({ label, kcal, fat, protein, carbs, serving}) => {
     </div>
   )
 }
-export default FoodResultsDisplay
+export default FoodAPIResultsDisplay

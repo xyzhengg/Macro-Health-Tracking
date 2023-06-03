@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import FoodResultsDisplay from './FoodResultsDisplay'
+import FoodAPIResultsDisplay from './FoodAPIResultsDisplay'
 
 
 const FoodSearcher = () => {
@@ -43,7 +43,7 @@ const FoodSearcher = () => {
         <button type="submit"> Search </button>
       </form>
       {filteredResults && filteredResults.map((result) => (
-        <FoodResultsDisplay
+        <FoodAPIResultsDisplay
         key = {result.food.foodId}
         label = {result.food.label}
         kcal = {result.food.nutrients.ENERC_KCAL}
