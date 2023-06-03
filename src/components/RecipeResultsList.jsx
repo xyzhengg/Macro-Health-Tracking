@@ -1,3 +1,7 @@
+import RecipeInfo from "./RecipeInfo"
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
 const RecipeResultsList = ({ id, title, image, totalCalories, fat, protein, carbs, diet, allergies, servings }) => {
   const caloriesPerServe = parseFloat(totalCalories/servings).toFixed(2)
   const allergyConsiderations =[
@@ -34,9 +38,36 @@ const RecipeResultsList = ({ id, title, image, totalCalories, fat, protein, carb
   const filteredAllergies = allergies.filter((allergen) => allergyConsiderations.includes(allergen.toLowerCase()))
   const filteredDiets = diet.filter((dietItem) => dietConsiderations.includes(dietItem.toLowerCase()))
 
+  const [results, setResults] = useState(null)
+  const handleShowRecipeDetails = async (e) => {
+    const id = e.target.id
+    try {
+      const res = await axios.get(`https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=1630a2de&app_key=8c2f7e5b603050e3bc5815d4675ac28e`)
+      console.log(res.data)
+      setResults(res.data)
+    } catch(err) {
+      console.log(err)
+      setError(err)
+    }
+
+    return (
+      <RecipeInfo
+        id = {id}
+        title={title}
+        image = {image}
+        servings = {servings}
+        fat = {fat}
+        protein = {protein}
+        carbs = {carbs}
+        allergies = {filteredAllergies}
+        diets = {filteredDiets}
+      />
+    )
+  }
+
 
   return (
-    <div id={id}>
+    <div id={id} onClick={handleShowRecipeDetails}>
       <h4> {title} </h4>
       <img src={image} alt={`image of ${title}`}/>
       <p> Calories/serve: {caloriesPerServe}kcal </p>
@@ -47,14 +78,14 @@ const RecipeResultsList = ({ id, title, image, totalCalories, fat, protein, carb
       { filteredDiets && (
         <>
           <h4> Diet Considerations </h4>
-          {filteredDiets.map((diet) => (<p> {diet} </p>))}
+          {filteredDiets.map((diet) => (<p key={diet}> {diet} </p>))}
         </>
       )}
       
       { filteredAllergies && (
         <>
           <h4> Allergy Considerations </h4>
-          {filteredAllergies.map((allergen) => (<p> {allergen} </p>))}
+          {filteredAllergies.map((allergen) => (<p key={allergen}> {allergen} </p>))}
         </>
       )}
       <button> + Add </button>

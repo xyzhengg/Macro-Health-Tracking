@@ -141,8 +141,11 @@ const RecipeSearcherPage = () => {
         <input type="reset"/>
       </form>
 
-      {filteredResults && filteredResults.map((result ) => (
-        <RecipeResultsList
+      {filteredResults && filteredResults.map((result ) => 
+        {
+          console.log(result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1))
+          return (
+          <RecipeResultsList
           key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
           id={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
           title = {result.recipe.label}
@@ -155,7 +158,9 @@ const RecipeSearcherPage = () => {
           allergies = {result.recipe.healthLabels}
           servings = {result.recipe.yield}
         />
-      ))}
+          )
+        }
+      )}
       {nextLink && <a href={nextLink}> Next Page </a>}
     </>
   )
