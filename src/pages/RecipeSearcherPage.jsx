@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
-import RecipeResultsDisplay from '../components/RecipeResultsDisplay'
+import RecipeResultsList from '../components/RecipeResultsList'
 
 const RecipeSearcherPage = () => {
   const [results, setResults] = useState(null)
+  const [filteredResults, setFilteredResults] = useState(null)
   const [nextLink, setNextLink] = useState(null)
   const [error, setError] = useState(null)
 
@@ -35,8 +36,12 @@ const RecipeSearcherPage = () => {
 
   useEffect(() => {
     if (results) {
-      }
-      setResults(results)
+      const filteredResults = results.filter((result, index, array) => {
+        const firstIndex = array.findIndex((r) => r.recipe.uri === result.recipe.uri);
+        return firstIndex === index;
+      })
+      setFilteredResults(filteredResults)
+    }
   }, [results])
 
   return (
@@ -136,22 +141,20 @@ const RecipeSearcherPage = () => {
         <input type="reset"/>
       </form>
 
-
-
-      {results && results.map((result ) => (
-  
-      <RecipeResultsDisplay
-        key = {result.recipe.uri}
-        title = {result.recipe.label}
-        image = {result.recipe.image}
-        totalCalories = {parseFloat((result.recipe.calories), 2)}
-        fat = {parseFloat(result.recipe.totalNutrients.FAT.quantity).toFixed(2)}
-        protein = {parseFloat(result.recipe.totalNutrients.PROCNT.quantity).toFixed(2)}
-        carbs = {parseFloat(result.recipe.totalNutrients.CHOCDF.quantity).toFixed(2)}
-        diet = {result.recipe.dietLabels}
-        allergies = {result.recipe.healthLabels}
-        servings = {result.recipe.yield}
-      />
+      {filteredResults && filteredResults.map((result ) => (
+        <RecipeResultsList
+          key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
+          id={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
+          title = {result.recipe.label}
+          image = {result.recipe.image}
+          totalCalories = {parseFloat((result.recipe.calories), 2)}
+          fat = {parseFloat(result.recipe.totalNutrients.FAT.quantity).toFixed(2)}
+          protein = {parseFloat(result.recipe.totalNutrients.PROCNT.quantity).toFixed(2)}
+          carbs = {parseFloat(result.recipe.totalNutrients.CHOCDF.quantity).toFixed(2)}
+          diet = {result.recipe.dietLabels}
+          allergies = {result.recipe.healthLabels}
+          servings = {result.recipe.yield}
+        />
       ))}
       {nextLink && <a href={nextLink}> Next Page </a>}
     </>

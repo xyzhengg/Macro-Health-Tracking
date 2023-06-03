@@ -1,4 +1,4 @@
-const RecipeResultsDisplay = ({ title, image, totalCalories, fat, protein, carbs, diet, allergies, servings }) => {
+const RecipeResultsList = ({ id, title, image, totalCalories, fat, protein, carbs, diet, allergies, servings }) => {
   const caloriesPerServe = parseFloat(totalCalories/servings).toFixed(2)
   const allergyConsiderations =[
     "dairy-free",
@@ -34,8 +34,9 @@ const RecipeResultsDisplay = ({ title, image, totalCalories, fat, protein, carbs
   const filteredAllergies = allergies.filter((allergen) => allergyConsiderations.includes(allergen.toLowerCase()))
   const filteredDiets = diet.filter((dietItem) => dietConsiderations.includes(dietItem.toLowerCase()))
 
+
   return (
-    <div>
+    <div id={id}>
       <h4> {title} </h4>
       <img src={image} alt={`image of ${title}`}/>
       <p> Calories/serve: {caloriesPerServe}kcal </p>
@@ -56,9 +57,9 @@ const RecipeResultsDisplay = ({ title, image, totalCalories, fat, protein, carbs
           {filteredAllergies.map((allergen) => (<p> {allergen} </p>))}
         </>
       )}
-       
+      <button> + Add </button>
     </div>
   )
 }
 
-export default RecipeResultsDisplay
+export default RecipeResultsList
