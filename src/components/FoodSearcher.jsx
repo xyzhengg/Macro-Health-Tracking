@@ -35,8 +35,6 @@ const FoodSearcher = () => {
     }
   }, [results])
 
-  
-  
   return (
     <>
       <form onSubmit={handleSearchFood}>
@@ -48,7 +46,7 @@ const FoodSearcher = () => {
         <FoodResultsDisplay
         key = {result.food.foodId}
         label = {result.food.label}
-        kcal = {result.food.nutrients["ENERC_KCAL"]}
+        kcal = {result.food.nutrients.ENERC_KCAL}
         fat = {result.food.nutrients.FAT}
         protein = {result.food.nutrients.PROCNT}
         carbs = {result.food.nutrients.CHOCDF}

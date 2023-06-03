@@ -1,34 +1,43 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import RecipeResultsDisplay from '../components/RecipeResultsDisplay'
 
 const RecipeSearcherPage = () => {
   const [results, setResults] = useState(null)
+  const [nextLink, setNextLink] = useState(null)
   const [error, setError] = useState(null)
 
   const handleSearchRecipes = async (e) => {
     e.preventDefault()
-    const { keywords, calories, diets, allergies } = Object.fromEntries(new FormData(e.target))
-    console.log(keywords, calories, diets, allergies)
+    const { keywords, calories, diet, allergies } = Object.fromEntries(new FormData(e.target))
+    console.log(keywords, calories, diet, allergies)
 
     const url = `https://api.edamam.com/api/recipes/v2?type=public` 
       + (keywords ? `&q=${keywords}` : '')
       + `&app_id=1630a2de&app_key=8c2f7e5b603050e3bc5815d4675ac28e`
       + (calories ? `&calories=0-${calories}` : '')
-      + (diets ? `&diet=${diets}` : '')
-      + (allergies ? `&health=${allergies}` : '');
+      + (diet ? `&diet=${diet}` : '')
+      + (allergies ? `&health=${allergies}` : '')
 
-console.log(url);
-
+    console.log(url)
 
     try {
       const res = await axios.get(url)
-      console.log(res.data)
-      setResults(res.data)
+      console.log(res.data.hits)
+      console.log(res.data._links.next)
+      setResults(res.data.hits)
+      setNextLink(res.data._links.next.href)
     } catch(err) {
       console.log(err)
       setError(err)
     }
   }
+
+  useEffect(() => {
+    if (results) {
+      }
+      setResults(results)
+  }, [results])
 
   return (
     <>
@@ -62,9 +71,6 @@ console.log(url);
 
           <input type="checkbox" id="low-sodium" name="diet" value="low-sodium"/>
           <label htmlFor="low-sodium"> Low Sodium</label>
-
-          <input type="checkbox" id="no-oil-added" name="diet" value="no-oil-added"/>
-          <label htmlFor="no-oil-added"> No Oil Added</label>
 
           <input type="checkbox" id="paleo" name="diet" value="paleo"/>
           <label htmlFor="paleo"> Paleo </label>
@@ -129,6 +135,25 @@ console.log(url);
         <input type="submit"/>
         <input type="reset"/>
       </form>
+
+
+
+      {results && results.map((result ) => (
+  
+      <RecipeResultsDisplay
+        key = {result.recipe.uri}
+        title = {result.recipe.label}
+        image = {result.recipe.image}
+        totalCalories = {parseFloat((result.recipe.calories), 2)}
+        fat = {parseFloat(result.recipe.totalNutrients.FAT.quantity).toFixed(2)}
+        protein = {parseFloat(result.recipe.totalNutrients.PROCNT.quantity).toFixed(2)}
+        carbs = {parseFloat(result.recipe.totalNutrients.CHOCDF.quantity).toFixed(2)}
+        diet = {result.recipe.dietLabels}
+        allergies = {result.recipe.healthLabels}
+        servings = {result.recipe.yield}
+      />
+      ))}
+      {nextLink && <a href={nextLink}> Next Page </a>}
     </>
   )
 }
