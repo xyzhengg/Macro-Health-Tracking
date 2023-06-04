@@ -3,8 +3,7 @@ import { supabase } from '../supabaseAuth/supabaseClient';
 const CreateFoodForm = () => {
   const handleAddCustomFood = async (e) => {
     e.preventDefault()
-    const formData = new FormData(e.target)
-    const fields = Object.fromEntries(formData)
+    const fields = Object.fromEntries(new FormData(e.target))
     const { calories, carbs, fat, measure, notes, protein, serving, title } = fields
     console.log(fields)
 

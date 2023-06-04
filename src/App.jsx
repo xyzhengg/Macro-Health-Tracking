@@ -50,6 +50,8 @@ function App() {
         <Route path="/apifood/:id" element={<FoodAPIInfoAdd/>}/>
         <Route path="/apifoodsearch" element={<FoodSearcher/>}/>
         <Route path="/createfood" element={<CreateFoodForm/>} />
+        
+        <Route path="*" element={<NotFound/>} />
       </Routes>
     </>
 
