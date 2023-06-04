@@ -1,12 +1,15 @@
 import { useState, useEffect } from 'react'
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { supabase } from '../supabaseAuth/supabaseClient';
 
 const FoodAPIInfoAdd = () => {
   const location = useLocation();
+  const navigate = useNavigate()
   const { id, label, kcal, fat, protein, carbs, serving } = location.state;
   console.log(id, label, kcal, fat, protein, carbs, serving)
 
   const [nutritionValues, setNutritionValues] = useState({
+   foodLabel: label,
    foodServing: serving ? serving.quantity : 100,
    foodKcal: kcal,
    foodProtein: protein,
@@ -41,19 +44,48 @@ const FoodAPIInfoAdd = () => {
     });
   }, [nutritionValues.foodServing]);
 
+  const handleAddFood = async (e) => {
+    e.preventDefault()
+    const { foodLabel, foodServing, foodKcal, foodProtein, foodFat, foodCarbs } = nutritionValues
+    console.log(foodLabel, foodServing, foodKcal, foodProtein, foodFat, foodCarbs)
+    console.log(typeof foodKcal)
+    try {
+      const { data, error } = await supabase
+      .from('food')
+      .insert([
+        {food_name: foodLabel, 
+        calories: foodKcal,
+        fat: foodFat,
+        protein: foodProtein,
+        carbs: foodCarbs,
+        serving_amt: foodServing
+        }
+      ])
+      if (error) {
+        console.log(error)
+      }
+    }
+    catch (err) {
+      console.log(err.message)
+    }
+  }
+
   const { foodServing, foodKcal, foodProtein, foodFat, foodCarbs } = nutritionValues;
 
   return (
-    <form id={id}>
-      <h4>{label}</h4>
-      <input type="number" name="serving" value={foodServing} onChange={handleServingChange}/>
-      <label htmlFor="serving">g</label>
-      <p>Calories: {foodKcal} kcal</p>
-      <p>P: {foodProtein}g</p>
-      <p>F: {foodFat}g</p>
-      <p>C: {foodCarbs}g</p>
-      <button type="submit">Add</button>
-    </form>
+    <>
+      <button onClick={() => navigate(-1)}> Back </button>
+      <form id={id} onClick={handleAddFood}>
+        <h4>{label}</h4>
+        <input type="number" name="serving" value={foodServing} onChange={handleServingChange}/>
+        <label htmlFor="serving">g</label>
+        <p>Calories: {foodKcal.toFixed(1)} kcal</p>
+        <p>P: {foodProtein.toFixed(1)}g</p>
+        <p>F: {foodFat.toFixed(1)}g</p>
+        <p>C: {foodCarbs.toFixed(1)}g</p>
+        <button type="submit">Add</button>
+      </form>
+    </>
   )
 }
 
