@@ -1,9 +1,9 @@
-const EditFoodForm = () => {
+const CreateFoodForm = () => {
 
   return (
-    <form id={id}>
+    <form>
       <label htmlFor="title"> Description </label>
-      <input type="text" name="title" defaultValue={label}/>
+      <input type="text" name="title"/>
 
       <input type="number" name="serving" defaultValue={serving ? `${serving.quantity}` : 100}/>
       <label htmlFor="serving">g</label>
@@ -19,9 +19,9 @@ const EditFoodForm = () => {
       <input type="number" name="fat" defaultValue={fat}/>
       <label htmlFor="carbs"> carbs(g) </label>
       <input type="number" name="carbs" defaultValue={carbs}/>
-      <button type="submit"> Save </button>
+      <button type="submit"> Next </button>
     </form>
   )
 }
 
-export default EditFoodForm
+export default CreateFoodForm

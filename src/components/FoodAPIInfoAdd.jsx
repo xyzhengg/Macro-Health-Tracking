@@ -47,6 +47,9 @@ const FoodAPIInfoAdd = () => {
   const handleAddFood = async (e) => {
     e.preventDefault()
     const { foodLabel, foodServing, foodKcal, foodProtein, foodFat, foodCarbs } = nutritionValues
+    const notes = e.currentTarget.elements.notes.value
+    console.log(notes)
+
     console.log(foodLabel, foodServing, foodKcal, foodProtein, foodFat, foodCarbs)
     console.log(typeof foodKcal)
     try {
@@ -58,7 +61,8 @@ const FoodAPIInfoAdd = () => {
         fat: foodFat,
         protein: foodProtein,
         carbs: foodCarbs,
-        serving_amt: foodServing
+        serving_amt: foodServing,
+        notes: notes
         }
       ])
       if (error) {
@@ -97,6 +101,8 @@ const FoodAPIInfoAdd = () => {
         <p>P: {foodProtein.toFixed(1)}g</p>
         <p>F: {foodFat.toFixed(1)}g</p>
         <p>C: {foodCarbs.toFixed(1)}g</p>
+        <label htmlFor="notes"> Notes </label>
+        <input type="textbox" name="notes" ></input>
         <button type="submit">Add</button>
       </form>
     </>
