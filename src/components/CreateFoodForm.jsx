@@ -5,20 +5,23 @@ const CreateFoodForm = () => {
       <label htmlFor="title"> Description </label>
       <input type="text" name="title"/>
 
-      <input type="number" name="serving" defaultValue={serving ? `${serving.quantity}` : 100}/>
-      <label htmlFor="serving">g</label>
+      <label htmlFor="serving">Serving</label>
+      <div>
+        <input type="number" name="serving"/>
+        <input type="text" maxlength="25" name="measure"/>
+      </div>
 
       <label htmlFor="notes"> Notes </label>
-      <input type="text" name="notes"/>
+      <input type="textbox" name="notes"/>
 
       <label htmlFor="calories"> Calories(kcal) </label>
-      <input type="number" name="calories" defaultValue={kcal}/>
+      <input type="number" name="calories" />
       <label htmlFor="protein"> Protein(g) </label>
-      <input type="number" name="protein" defaultValue={protein}/>
+      <input type="number" name="protein" />
       <label htmlFor="fat"> Fat(g) </label>
-      <input type="number" name="fat" defaultValue={fat}/>
+      <input type="number" name="fat" />
       <label htmlFor="carbs"> carbs(g) </label>
-      <input type="number" name="carbs" defaultValue={carbs}/>
+      <input type="number" name="carbs" />
       <button type="submit"> Next </button>
     </form>
   )

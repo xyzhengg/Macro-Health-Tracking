@@ -93,7 +93,7 @@ const FoodAPIInfoAdd = () => {
   return (
     <>
       <button onClick={() => navigate(-1)}> Back </button>
-      <form id={id} onClick={handleAddFood}>
+      <form id={id} onSubmit={handleAddFood}>
         <h4>{label}</h4>
         <input type="number" name="serving" value={foodServing} onChange={handleServingChange}/>
         <label htmlFor="serving">g</label>
