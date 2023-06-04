@@ -47,14 +47,13 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
   const handleShowRecipeDetails = async (e) => {
     const id = e.currentTarget.id
 
-
-    
     console.log(id)
     try {
       const res = await axios.get(`https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=1630a2de&app_key=8c2f7e5b603050e3bc5815d4675ac28e`)
       console.log(res.data)
       setSelectedRecipe(res.data)
       navigate(`/apirecipe/${id}`, {
+        state: {
           id,
           title,
           image,
@@ -67,13 +66,12 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
           diets: filteredDiets,
           ingredients: res.data.recipe.ingredients,
           linkToDirections: res.data.recipe.url,
-        }
-      )
+        },
+      });
     } catch(err) {
       console.log(err)
       setError(err)
     }
-      
   }
 
   return (

@@ -45,6 +45,7 @@ const FoodSearcher = () => {
       {filteredResults && filteredResults.map((result) => (
         <FoodAPIResultsDisplay
         key = {result.food.foodId}
+        id= {result.food.foodId}
         label = {result.food.label}
         kcal = {result.food.nutrients.ENERC_KCAL}
         fat = {result.food.nutrients.FAT}

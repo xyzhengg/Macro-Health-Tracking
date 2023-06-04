@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate, useParams } from "react-router-dom";
 
-const RecipeAPIInfo = ({id, title, image, servings, fat, protein, carbs, calories, allergies, diets, ingredients, linkToDirections}) => {
+const RecipeAPIInfo = ({ id, title, image, servings, fat, protein, carbs, calories, allergies, diets, ingredients, linkToDirections }) => {
   console.log(ingredients)
   const navigate = useNavigate()
   return (

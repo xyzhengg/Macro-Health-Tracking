@@ -8,6 +8,7 @@ import Logout from './components/Logout';
 import FoodSearcher from './components/FoodAPISearcher';
 import RecipeAPISearcherPage from './pages/RecipeAPISearcherPage';
 import RecipeAPIInfo from './components/RecipeAPIInfo';
+import FoodAPIInfoAdd from './components/FoodAPIInfoAdd';
 
 
 function App() {
@@ -31,7 +32,9 @@ function App() {
       <br/>
       <Logout/>
       <br/>
-      <FoodSearcher/>
+      <Link to="/apifoodsearch"> Food Search </Link>
+      <br/>
+      <Link to="/apirecipesearch"> Recipe Search </Link>
       <ul>
         {weight.map((eachWeight) => (
           <li key={eachWeight.id}>{eachWeight.kg}kg</li>
@@ -39,8 +42,10 @@ function App() {
       </ul>
     
       <Routes>
-        <Route path="/" element={<RecipeAPISearcherPage/>} />
+        <Route path="/apirecipesearch" element={<RecipeAPISearcherPage/>} />
         <Route path="/apirecipe/:id" element={<RecipeAPIInfo/>} />
+        <Route path="/apifood/:id" element={<FoodAPIInfoAdd/>}/>
+        <Route path="/apifoodsearch" element={<FoodSearcher/>}/>
       </Routes>
     </>
 
