@@ -9,6 +9,7 @@ import FoodSearcher from './components/FoodAPISearcher';
 import RecipeAPISearcherPage from './pages/RecipeAPISearcherPage';
 import RecipeAPIInfo from './components/RecipeAPIInfo';
 import FoodAPIInfoAdd from './components/FoodAPIInfoAdd';
+import CreateFoodForm from './components/CreateFoodForm';
 
 
 function App() {
@@ -35,6 +36,8 @@ function App() {
       <Link to="/apifoodsearch"> Food Search </Link>
       <br/>
       <Link to="/apirecipesearch"> Recipe Search </Link>
+      <br/>
+      <Link to="/createfood"> Create Food </Link>
       <ul>
         {weight.map((eachWeight) => (
           <li key={eachWeight.id}>{eachWeight.kg}kg</li>
@@ -46,6 +49,7 @@ function App() {
         <Route path="/apirecipe/:id" element={<RecipeAPIInfo/>} />
         <Route path="/apifood/:id" element={<FoodAPIInfoAdd/>}/>
         <Route path="/apifoodsearch" element={<FoodSearcher/>}/>
+        <Route path="/createfood" element={<CreateFoodForm/>} />
       </Routes>
     </>
 
