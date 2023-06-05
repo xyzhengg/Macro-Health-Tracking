@@ -33,7 +33,9 @@ const Login = () => {
   
   return (
     <form onSubmit={handleLogin}>
+      <label htmlFor="email"> Email</label>
       <input type="email" name="email" placeholder="email" />
+      <label htmlFor="email"> Password</label>
       <input type="password" name="password" placeholder="password" />
       {session && <div> Sign in sucessful! Redirecting... </div>}
       {error && <div> Error: {error} </div>}

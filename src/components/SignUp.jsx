@@ -30,7 +30,9 @@ const SignUp = () => {
 
   return (
     <form onSubmit={handleSignUp}>
+      <label htmlFor="email"> Email</label>
       <input type="email" name="email" placeholder="email" />
+      <label htmlFor="email"> Password</label>
       <input type="password" name="password" placeholder="password" />
       {error && <div>Error: {error}</div>}
       <button type="submit"> Sign Up </button>
