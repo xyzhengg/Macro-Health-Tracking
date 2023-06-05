@@ -12,24 +12,18 @@ import FoodAPIInfoAdd from './components/FoodAPIInfoAdd';
 import CreateFoodForm from './components/CreateFoodForm';
 import NotFound from './pages/NotFound';
 import Homepage from './pages/Homepage';
+import PermanentDrawerLeft from './components/PermanentDrawerLeft';
+import FoodAndRecipeSearcherPage from './components/FoodAndRecipeSearcherPage';
+import Box from '@mui/material/Box'
 
 
 function App() {
 
   return (
-    <> 
-      <SignUp/>
-      <br/>
-      <Login/>
-      <br/>
-      <Logout/>
-      <br/>
-      <Link to="/apifoodsearch"> Food Search </Link>
-      <br/>
-      <Link to="/apirecipesearch"> Recipe Search </Link>
-      <br/>
-      <Link to="/createfood"> Create Food </Link>
-    
+    <>
+      <Box>
+        <PermanentDrawerLeft/>
+      </Box>
       <Routes>
         <Route path="/" element={<Homepage/>}/>
         <Route path="/apirecipesearch" element={<RecipeAPISearcherPage/>} />
@@ -37,6 +31,7 @@ function App() {
         <Route path="/apifood/:id" element={<FoodAPIInfoAdd/>}/>
         <Route path="/apifoodsearch" element={<FoodSearcher/>}/>
         <Route path="/createfood" element={<CreateFoodForm/>} />
+        <Route path="/food-recipe-searcher" element={<FoodAndRecipeSearcherPage/>} />
 
         <Route path="*" element={<NotFound/>} />
       </Routes>

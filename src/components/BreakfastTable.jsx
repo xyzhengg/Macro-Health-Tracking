@@ -6,9 +6,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { supabase } from '../supabaseAuth/supabaseClient';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const BreakfastTable = () => {
   const [data, setData] = useState([])
@@ -81,8 +83,8 @@ const BreakfastTable = () => {
   }));
 
   return (
-    <TableContainer component={Paper} sx={{ minWidth: 400, maxWidth: 900 }}>
-      <Table sx={{ minWidth: 400, maxWidth: 900 }} size="small" aria-label="customized table">
+    <TableContainer component={Paper} sx={{ minWidth: 400, maxWidth: 700 }}>
+      <Table sx={{ minWidth: 400, maxWidth: 700 }} size="small" aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Breakfast</StyledTableCell>
@@ -91,7 +93,9 @@ const BreakfastTable = () => {
             <StyledTableCell align="center">Carbs&nbsp;(g)</StyledTableCell>
             <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell>
             <StyledTableCell sx={{ width: '10px' }}>
-              <AddCircleOutlineIcon/>
+              <IconButton component={Link} to="/food-recipe-searcher" id="breakfast">
+                <AddCircleOutlineIcon/>
+              </IconButton>
             </StyledTableCell>
           </TableRow>
         </TableHead>

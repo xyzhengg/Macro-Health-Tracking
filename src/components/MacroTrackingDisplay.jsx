@@ -4,7 +4,6 @@ import DinnerTable from "./DinnerTable"
 import SnackTable from "./SnackTable"
 
 const MacroTrackingDisplay = () => {
-
   return (
     <>
       <BreakfastTable/>
@@ -15,7 +14,6 @@ const MacroTrackingDisplay = () => {
       <br/>
       <SnackTable/>
       <br/>
-
     </>
   )
 }

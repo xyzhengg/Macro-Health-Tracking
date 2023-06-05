@@ -81,8 +81,8 @@ const LunchTable = () => {
   }));
 
   return (
-    <TableContainer component={Paper} sx={{ minWidth: 400, maxWidth: 900 }}>
-      <Table sx={{ minWidth: 400, maxWidth: 900 }} size="small" aria-label="customized table">
+    <TableContainer component={Paper} sx={{ minWidth: 400, maxWidth: 700 }}>
+      <Table sx={{ minWidth: 400, maxWidth: 700 }} size="small" aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Lunch</StyledTableCell>
