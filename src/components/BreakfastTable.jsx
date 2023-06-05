@@ -11,8 +11,9 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { supabase } from '../supabaseAuth/supabaseClient';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useMeal } from './MacroTrackingDisplay';
 
-const BreakfastTable = ( { setMeal, meal }) => {
+const BreakfastTable = () => {
   const [data, setData] = useState([])
   const [totals, setTotals] = useState({
     calories: 0,
@@ -20,6 +21,7 @@ const BreakfastTable = ( { setMeal, meal }) => {
     carbs: 0,
     protein: 0,
   });
+  const {setMeal} = useMeal()
 
   const handleSelectMeal = () => {
     setMeal('breakfast')
@@ -109,19 +111,20 @@ const BreakfastTable = ( { setMeal, meal }) => {
           {data.map((eachData) => (
             <StyledTableRow key={eachData.id}>
               <StyledTableCell>{eachData.food_name}</StyledTableCell>
-              <StyledTableCell align="center">{eachData.calories}</StyledTableCell>
-              <StyledTableCell align="center">{eachData.fat}</StyledTableCell>
-              <StyledTableCell align="center">{eachData.carbs}</StyledTableCell>
-              <StyledTableCell align="center">{eachData.protein}</StyledTableCell>
+              <StyledTableCell align="center">{eachData.calories.toFixed(1)}</StyledTableCell>
+              <StyledTableCell align="center">{eachData.fat.toFixed(1)}</StyledTableCell>
+              <StyledTableCell align="center">{eachData.carbs.toFixed(1)}</StyledTableCell>
+              <StyledTableCell align="center">{eachData.protein.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center"></StyledTableCell>
             </StyledTableRow>
           ))}
             <StyledTableRow>
               <StyledTableCell style={{ fontWeight: 'bold' }}> Total: </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.calories} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.calories.toFixed(1)} </StyledTableCell>
               <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.fat.toFixed(1)} </StyledTableCell>
               <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.carbs.toFixed(1)} </StyledTableCell>
               <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.protein.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center"></StyledTableCell>
             </StyledTableRow>
         </TableBody>
       </Table>

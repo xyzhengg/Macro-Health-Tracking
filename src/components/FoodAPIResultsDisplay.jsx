@@ -24,7 +24,7 @@ const FoodAPIResultsDisplay = ({ id, label, kcal, fat, protein, carbs, serving})
     navigate(`/apifood/${id}`, { state: food })
   }
   return (
-    <CardContent id={id} sx={{ margin: '15px', paddingBottom: 0, border: '1px solid #e0e0e0', borderRadius: '8px', maxWidth: 180}}>
+    <CardContent id={id} sx={{ margin: '15px', paddingBottom: 0, border: '1px solid #e0e0e0', borderRadius: '8px', maxWidth: 200}}>
       <Typography variant="h6" component="div"> {label} </Typography>
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Serving: {serving ? `${serving.quantity}g` : '100g'} </Typography>
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Calories: {kcal.toFixed(0)} kcal </Typography>

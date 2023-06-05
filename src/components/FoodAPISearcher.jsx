@@ -91,7 +91,7 @@ const FoodAPISearcher = () => {
       </form>
       <Grid container spacing={2}>
         {filteredResults && filteredResults.map((result) => (
-          <Grid item xs={2} key={result.food.foodId}>
+          <Grid item xs={3} key={result.food.foodId}>
             <FoodAPIResultsDisplay
             key = {result.food.foodId}
             id= {result.food.foodId}

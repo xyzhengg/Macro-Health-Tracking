@@ -1,4 +1,4 @@
-const FoodAPIInfoAdd = ( {        
+const FoodAPIInfoEdit = ( {        
   id, 
   label,
   kcal,
@@ -22,9 +22,7 @@ const FoodAPIInfoAdd = ( {
       <input type="number" name = "carbs" defaultValue={carbs}/>
       <button type="submit"> </button>
     </form>
-    
-
   )
 }
 
-export default FoodAPIInfoAdd
+export default FoodAPIInfoEdit

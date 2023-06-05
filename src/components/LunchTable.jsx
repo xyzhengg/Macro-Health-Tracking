@@ -6,9 +6,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import { IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { supabase } from '../supabaseAuth/supabaseClient';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useMeal } from './MacroTrackingDisplay';
 
 const LunchTable = () => {
   const [data, setData] = useState([])
@@ -18,6 +21,12 @@ const LunchTable = () => {
     carbs: 0,
     protein: 0,
   });
+
+  const { setMeal } = useMeal()
+
+  const handleSelectMeal = () => {
+    setMeal('lunch')
+  }
 
   useEffect(() => {
     const getLunchData = async () => {
@@ -47,7 +56,7 @@ const LunchTable = () => {
         fat: 0,
         carbs: 0,
         protein: 0,
-      };
+      }
       const updatedTotals = data.reduce((acc, eachData) => {
         acc.calories += eachData.calories
         acc.fat += eachData.fat
@@ -91,29 +100,32 @@ const LunchTable = () => {
             <StyledTableCell align="center">Carbs&nbsp;(g)</StyledTableCell>
             <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell>
             <StyledTableCell sx={{ width: '10px' }}>
-              <AddCircleOutlineIcon/>
+            <IconButton onClick={handleSelectMeal}>
+                <Link to="/food-recipe-searcher" id="lunch">
+                  <AddCircleOutlineIcon />
+                </Link>
+              </IconButton>
             </StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.map((eachData) => (
             <StyledTableRow key={eachData.id}>
-              <StyledTableCell>
-                {eachData.food_name}
-              </StyledTableCell>
-              <StyledTableCell align="center">{eachData.calories}</StyledTableCell>
-              <StyledTableCell align="center">{eachData.fat}</StyledTableCell>
-              <StyledTableCell align="center">{eachData.carbs}</StyledTableCell>
-              <StyledTableCell align="center">{eachData.protein}</StyledTableCell>
+              <StyledTableCell>{eachData.food_name}</StyledTableCell>
+              <StyledTableCell align="center">{eachData.calories.toFixed(1)}</StyledTableCell>
+              <StyledTableCell align="center">{eachData.fat.toFixed(1)}</StyledTableCell>
+              <StyledTableCell align="center">{eachData.carbs.toFixed(1)}</StyledTableCell>
+              <StyledTableCell align="center">{eachData.protein.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center"></StyledTableCell>
             </StyledTableRow>
           ))}
             <StyledTableRow>
               <StyledTableCell style={{ fontWeight: 'bold' }}> Total: </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.calories} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.calories.toFixed(1)} </StyledTableCell>
               <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.fat.toFixed(1)} </StyledTableCell>
               <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.carbs.toFixed(1)} </StyledTableCell>
               <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.protein.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center"></StyledTableCell>
             </StyledTableRow>
         </TableBody>
       </Table>

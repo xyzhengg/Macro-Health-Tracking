@@ -15,6 +15,7 @@ import Homepage from './pages/Homepage';
 import PermanentDrawerLeft from './components/PermanentDrawerLeft';
 import FoodAndRecipeSearcherPage from './components/FoodAndRecipeSearcherPage';
 import Box from '@mui/material/Box'
+import { MealProvider } from './components/MacroTrackingDisplay';
 
 
 function App() {
@@ -24,17 +25,19 @@ function App() {
       <Box>
         <PermanentDrawerLeft/>
       </Box>
-      <Routes>
-        <Route path="/" element={<Homepage/>}/>
-        <Route path="/apirecipesearch" element={<RecipeAPISearcherPage/>} />
-        <Route path="/apirecipe/:id" element={<RecipeAPIInfo/>} />
-        <Route path="/apifood/:id" element={<FoodAPIInfoAdd/>}/>
-        <Route path="/apifoodsearch" element={<FoodSearcher/>}/>
-        <Route path="/createfood" element={<CreateFoodForm/>} />
-        <Route path="/food-recipe-searcher" element={<FoodAndRecipeSearcherPage/>} />
+      <MealProvider>
+        <Routes>
+          <Route path="/" element={<Homepage/>}/>
+          <Route path="/apirecipesearch" element={<RecipeAPISearcherPage/>} />
+          <Route path="/apirecipe/:id" element={<RecipeAPIInfo/>} />
+          <Route path="/apifood/:id" element={<FoodAPIInfoAdd/>}/>
+          <Route path="/apifoodsearch" element={<FoodSearcher/>}/>
+          <Route path="/createfood" element={<CreateFoodForm/>} />
+          <Route path="/food-recipe-searcher" element={<FoodAndRecipeSearcherPage/>} />
 
-        <Route path="*" element={<NotFound/>} />
-      </Routes>
+          <Route path="*" element={<NotFound/>} />
+        </Routes>
+      </MealProvider>
     </>
 
   );

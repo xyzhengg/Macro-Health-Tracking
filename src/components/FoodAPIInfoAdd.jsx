@@ -4,12 +4,15 @@ import { supabase } from '../supabaseAuth/supabaseClient';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { useMeal } from './MacroTrackingDisplay';
 
-const FoodAPIInfoAdd = ( {meal} ) => {
+const FoodAPIInfoAdd = () => {
   const location = useLocation();
   const navigate = useNavigate()
   const { id, label, kcal, fat, protein, carbs, serving } = location.state;
   console.log(id, label, kcal, fat, protein, carbs, serving)
+  const { meal } = useMeal()
+  console.log(meal)
 
   const [nutritionValues, setNutritionValues] = useState({
    foodLabel: label,
@@ -65,7 +68,7 @@ const FoodAPIInfoAdd = ( {meal} ) => {
         protein: foodProtein,
         carbs: foodCarbs,
         serving_amt: foodServing,
-        notes: notes
+        notes: notes,
         }
       ])
       if (error) {
@@ -79,7 +82,8 @@ const FoodAPIInfoAdd = ( {meal} ) => {
         fat: foodFat,
         protein: foodProtein,
         carbs: foodCarbs,
-        serving_amt: foodServing
+        serving_amt: foodServing,
+        [meal]: true
         }
       ])
       if (error2) {
