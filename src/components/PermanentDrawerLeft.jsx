@@ -15,21 +15,28 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { supabase } from '../supabaseAuth/supabaseClient';
 import { useState } from 'react';
+import { useAuth } from '../supabaseAuth/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 250
 
 const PermanentDrawerLeft = () => {
+  const navigate = useNavigate()
   const routes = ['/', '/apirecipesearch', '/statistics', '/settings'];
   const icons = [<CalendarTodayIcon sx={{color:'#e7e7ec'}}/>, <MenuBookIcon sx={{color:'#e7e7ec'}}/>, <BarChartIcon sx={{color:'#e7e7ec'}}/>, <SettingsIcon sx={{color:'#e7e7ec'}}/> ]
+  const { setUser } = useAuth()
 
   const [error, setError] = useState(null)
   const handleLogout = async () => {
     try {
-      const { error } = await supabase.auth.signOut()
+      const { data, error } = await supabase.auth.signOut()
       if (error) {
         setError(error.message)
         console.log(error)
-      } 
+      } else {
+        setUser(null)
+        navigate("/login")
+      }
     }
     catch (err) {
       setError(err.message)

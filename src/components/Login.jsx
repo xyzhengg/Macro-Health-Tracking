@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabaseAuth/supabaseClient';
+import { useAuth } from '../supabaseAuth/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+  const { user, setUser } = useAuth()
+  const navigate = useNavigate()
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -19,16 +23,19 @@ const Login = () => {
     if (error) {
       setError(error.message)
       console.log(error)
+    } else {
+      setUser(data.user.id)
+      console.log(user)
+      navigate('/')
+    }
     } 
-  } 
   catch (err) {
     setError(err.message)
     console.log(err.message)
   }
   setLoading(false)
-  const { data, error } = await supabase.auth.getSession()
-  setSession(data)
-  console.log(data)
+
+  
   }
   
   return (

@@ -13,12 +13,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const { data: user, error } = await supabase.auth.getUser()
-        if (error) {
-          throw error
+        const req = await supabase.auth.getSession()
+        if (req) {
+          setUser(req.data.session.user.id)
         }
-        setUser(user)
-        console.log(user)
       } catch (error) {
         console.error('Error fetching user:', error)
         setUser(null)
@@ -27,8 +25,25 @@ export const AuthProvider = ({ children }) => {
     fetchUser()
   }, [])
 
+
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event == 'SIGNED_OUT') console.log('SIGNED_OUT', session)
+  })
+
+
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event == 'SIGNED_IN') console.log('SIGNED_IN', session)
+  })
+
+  
+  supabase.auth.onAuthStateChange((event, session) => {
+    console.log(event, session)
+  })
+
+
+
   return (
-    <AuthContext.Provider value={ user }>
+    <AuthContext.Provider value={{user, setUser}}>
       {children}
     </AuthContext.Provider>
   )

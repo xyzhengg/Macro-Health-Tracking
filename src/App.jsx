@@ -4,7 +4,6 @@ import { Routes, Route, Link, useParams, useNavigate } from "react-router-dom";
 import { supabase } from './supabaseAuth/supabaseClient';
 import SignUp from './components/SignUp';
 import Login  from './components/Login';
-import Logout from './components/Logout';
 import FoodSearcher from './components/FoodAPISearcher';
 import RecipeAPISearcherPage from './pages/RecipeAPISearcherPage';
 import RecipeAPIInfo from './components/RecipeAPIInfo';
@@ -16,23 +15,11 @@ import FoodAndRecipeSearcherPage from './components/FoodAndRecipeSearcherPage';
 import Box from '@mui/material/Box'
 import { MealProvider } from './components/MacroTrackingDisplay';
 import DayDisplay from './pages/DayDisplay';
+import { useAuth } from './supabaseAuth/AuthProvider';
 
 function App() {
-  const [user, setUser] = useState(null)
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const getUser = async () => {
-      try {
-        const { data: user } = await supabase.auth.getUser();
-        setUser(user)
-      } catch (error) {
-        setUser(null)
-      }
-    }
-
-    getUser()
-  }, [])
+  const { user } = useAuth()
 
   useEffect(() => {
     if (!user) {
@@ -42,9 +29,9 @@ function App() {
 
   return (
     <>
-      {/* <Box>
+      { user && (<Box>
         <PermanentDrawerLeft/>
-      </Box> */}
+      </Box>)} 
       <MealProvider>
         <Routes>
           <Route path="/" element={<DayDisplay/>}/>
