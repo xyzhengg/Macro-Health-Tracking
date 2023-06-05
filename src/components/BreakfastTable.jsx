@@ -102,9 +102,7 @@ const BreakfastTable = () => {
         <TableBody>
           {data.map((eachData) => (
             <StyledTableRow key={eachData.id}>
-              <StyledTableCell>
-                {eachData.food_name}
-              </StyledTableCell>
+              <StyledTableCell>{eachData.food_name}</StyledTableCell>
               <StyledTableCell align="center">{eachData.calories}</StyledTableCell>
               <StyledTableCell align="center">{eachData.fat}</StyledTableCell>
               <StyledTableCell align="center">{eachData.carbs}</StyledTableCell>
@@ -112,11 +110,13 @@ const BreakfastTable = () => {
               <StyledTableCell align="center"></StyledTableCell>
             </StyledTableRow>
           ))}
-          <StyledTableCell style={{ fontWeight: 'bold' }}> Total: </StyledTableCell>
-          <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.calories} </StyledTableCell>
-          <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.fat.toFixed(1)} </StyledTableCell>
-          <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.carbs.toFixed(1)} </StyledTableCell>
-          <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.protein.toFixed(1)} </StyledTableCell>
+            <StyledTableRow>
+              <StyledTableCell style={{ fontWeight: 'bold' }}> Total: </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.calories} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.fat.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.carbs.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.protein.toFixed(1)} </StyledTableCell>
+            </StyledTableRow>
         </TableBody>
       </Table>
     </TableContainer>

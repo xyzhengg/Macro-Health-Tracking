@@ -4,7 +4,7 @@ import FoodAPIResultsDisplay from './FoodAPIResultsDisplay'
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
-
+import Grid from '@mui/material/Grid';
 
 const FoodAPISearcher = () => {
   const [results, setResults] = useState(null)
@@ -87,21 +87,24 @@ const FoodAPISearcher = () => {
           <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} name="search" />
           <button type="submit"> Search </button>
           </Search>
-        {/* <input type="text" name="search" placeholder="search" /> */}
         {error && <div> Error: {error} </div>}
       </form>
-      {filteredResults && filteredResults.map((result) => (
-        <FoodAPIResultsDisplay
-        key = {result.food.foodId}
-        id= {result.food.foodId}
-        label = {result.food.label}
-        kcal = {result.food.nutrients.ENERC_KCAL}
-        fat = {result.food.nutrients.FAT}
-        protein = {result.food.nutrients.PROCNT}
-        carbs = {result.food.nutrients.CHOCDF}
-        serving = {result.food.servingSizes && result.food.servingSizes.find((serving) => serving.label === "Gram")}
-        />
-      ))}
+      <Grid container spacing={2}>
+        {filteredResults && filteredResults.map((result) => (
+          <Grid item xs={3}>
+            <FoodAPIResultsDisplay
+            key = {result.food.foodId}
+            id= {result.food.foodId}
+            label = {result.food.label}
+            kcal = {result.food.nutrients.ENERC_KCAL}
+            fat = {result.food.nutrients.FAT}
+            protein = {result.food.nutrients.PROCNT}
+            carbs = {result.food.nutrients.CHOCDF}
+            serving = {result.food.servingSizes && result.food.servingSizes.find((serving) => serving.label === "Gram")}
+            />
+          </Grid>
+          ))}
+      </Grid>
     </>
   )
 }

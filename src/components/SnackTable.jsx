@@ -108,11 +108,13 @@ const SnackTable = () => {
               <StyledTableCell align="center"></StyledTableCell>
             </StyledTableRow>
           ))}
-          <StyledTableCell style={{ fontWeight: 'bold' }}> Total: </StyledTableCell>
-          <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.calories} </StyledTableCell>
-          <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.fat.toFixed(1)} </StyledTableCell>
-          <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.carbs.toFixed(1)} </StyledTableCell>
-          <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.protein.toFixed(1)} </StyledTableCell>
+            <StyledTableRow>
+              <StyledTableCell style={{ fontWeight: 'bold' }}> Total: </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.calories} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.fat.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.carbs.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.protein.toFixed(1)} </StyledTableCell>
+            </StyledTableRow>
         </TableBody>
       </Table>
     </TableContainer>
