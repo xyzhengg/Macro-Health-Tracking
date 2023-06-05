@@ -1,6 +1,6 @@
 import './App.css'
 import { useEffect, useState } from "react";
-import { Routes, Route, Link, useParams } from "react-router-dom";
+import { Routes, Route, Link, useParams, useNavigate } from "react-router-dom";
 import { supabase } from './supabaseAuth/supabaseClient';
 import SignUp from './components/SignUp';
 import Login  from './components/Login';
@@ -11,21 +11,43 @@ import RecipeAPIInfo from './components/RecipeAPIInfo';
 import FoodAPIInfoAdd from './components/FoodAPIInfoAdd';
 import CreateFoodForm from './components/CreateFoodForm';
 import NotFound from './pages/NotFound';
-import Homepage from './pages/Homepage';
 import PermanentDrawerLeft from './components/PermanentDrawerLeft';
 import FoodAndRecipeSearcherPage from './components/FoodAndRecipeSearcherPage';
 import Box from '@mui/material/Box'
 import { MealProvider } from './components/MacroTrackingDisplay';
+import DayDisplay from './pages/DayDisplay';
 
 function App() {
+  const [user, setUser] = useState(null)
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const getUser = async () => {
+      try {
+        const { data: user } = await supabase.auth.getUser();
+        setUser(user)
+      } catch (error) {
+        setUser(null)
+      }
+    }
+
+    getUser()
+  }, [])
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login')
+    }
+  }, [user, navigate])
+
   return (
     <>
-      <Box>
+      {/* <Box>
         <PermanentDrawerLeft/>
-      </Box>
+      </Box> */}
       <MealProvider>
         <Routes>
-          <Route path="/" element={<Homepage/>}/>
+          <Route path="/" element={<DayDisplay/>}/>
           <Route path="/signup" element={<SignUp/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/apirecipesearch" element={<RecipeAPISearcherPage/>} />
@@ -39,7 +61,6 @@ function App() {
         </Routes>
       </MealProvider>
     </>
-
   );
 }
 

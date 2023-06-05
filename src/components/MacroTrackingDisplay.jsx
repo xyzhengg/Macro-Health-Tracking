@@ -3,6 +3,8 @@ import BreakfastTable from "./BreakfastTable"
 import LunchTable from "./LunchTable"
 import DinnerTable from "./DinnerTable"
 import SnackTable from "./SnackTable"
+import { supabase } from '../supabaseAuth/supabaseClient';
+
 
 const MealContext = createContext()
 
@@ -21,6 +23,7 @@ export const MealProvider = ({ children }) => {
 
 const MacroTrackingDisplay = () => {
   const {meal, setMeal} = useMeal()
+
   return (
     <>
       <BreakfastTable setMeal={setMeal} meal={meal}/>

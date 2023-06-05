@@ -1,11 +1,10 @@
-import MacroTrackingDisplay from "../components/MacroTrackingDisplay"
-import { Box } from '@mui/material'
+import PermanentDrawerLeft from "../components/PermanentDrawerLeft"
 
 const Homepage = () => {
   return (
     <>
-      <Box component="main" sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3, marginLeft: '300px' }} >
-        <MacroTrackingDisplay/>
+      <Box>
+        <PermanentDrawerLeft/>
       </Box>
     </>
   )
