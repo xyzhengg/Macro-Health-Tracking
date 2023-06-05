@@ -5,7 +5,7 @@ import SnackTable from "./SnackTable"
 import { useState } from "react"
 
 const MacroTrackingDisplay = () => {
-  const [meal, setMeal] = useState()
+  const [meal, setMeal] = useState('')
   return (
     <>
       <BreakfastTable

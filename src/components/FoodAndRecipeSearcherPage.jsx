@@ -10,7 +10,7 @@ const FoodAndRecipeSearcherPage = () => {
 
   const handleChange = (e, newValue) => {
     setValue(newValue);
-  }
+  } 
 
   return (
     <>
@@ -24,7 +24,7 @@ const FoodAndRecipeSearcherPage = () => {
       <br/>
       <Box sx={{ width: '100%', bgcolor: 'background.paper', paddingLeft: '180px', margin: '0 auto'}}>
         {value === 0 && <MyFoodComponent />}
-        {value === 1 && <FoodAPISearcher />}
+        {value === 1 && <FoodAPISearcher/>}
         {value === 2 && <MyRecipesComponent />}
         {value === 3 && <RecipeAPISearcherPage />}
       </Box>

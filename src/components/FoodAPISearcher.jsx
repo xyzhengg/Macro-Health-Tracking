@@ -86,7 +86,7 @@ const FoodAPISearcher = () => {
           </SearchIconWrapper>
           <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} name="search" />
           <button type="submit"> Search </button>
-          </Search>
+        </Search>
         {error && <div> Error: {error} </div>}
       </form>
       <Grid container spacing={2}>

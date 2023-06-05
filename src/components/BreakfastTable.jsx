@@ -12,7 +12,7 @@ import { supabase } from '../supabaseAuth/supabaseClient';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const BreakfastTable = () => {
+const BreakfastTable = ( { setMeal, meal }) => {
   const [data, setData] = useState([])
   const [totals, setTotals] = useState({
     calories: 0,
@@ -20,6 +20,10 @@ const BreakfastTable = () => {
     carbs: 0,
     protein: 0,
   });
+
+  const handleSelectMeal = () => {
+    setMeal('breakfast')
+  }
 
   useEffect(() => {
     const getBreakfastData = async () => {
@@ -93,8 +97,10 @@ const BreakfastTable = () => {
             <StyledTableCell align="center">Carbs&nbsp;(g)</StyledTableCell>
             <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell>
             <StyledTableCell sx={{ width: '10px' }}>
-              <IconButton component={Link} to="/food-recipe-searcher" id="breakfast">
-                <AddCircleOutlineIcon/>
+            <IconButton onClick={handleSelectMeal}>
+                <Link to="/food-recipe-searcher" id="breakfast">
+                  <AddCircleOutlineIcon />
+                </Link>
               </IconButton>
             </StyledTableCell>
           </TableRow>

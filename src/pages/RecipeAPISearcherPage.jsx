@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import RecipeAPIResultsList from '../components/RecipeAPIResultsList'
+import SearchIcon from '@mui/icons-material/Search';
+import { styled, alpha } from '@mui/material/styles';
+import InputBase from '@mui/material/InputBase';
+import Grid from '@mui/material/Grid';
+import AppBar from '@mui/material/AppBar';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 const RecipeAPISearcherPage = () => {
   const [results, setResults] = useState(null)
@@ -44,99 +52,102 @@ const RecipeAPISearcherPage = () => {
     }
   }, [results])
 
+  const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: alpha(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  }));
+  
+  const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }));
+
+  const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+      padding: theme.spacing(1, 1, 1, 0),
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: '20ch',
+      },
+    },
+  }));
+
+  const drawerWidth = 150;
+
   return (
     <>
       <form onSubmit={handleSearchRecipes}>
+        <Search>
+          <SearchIconWrapper>
+              <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase name="keywords" placeholder="Search by keywords" inputProps={{ 'aria-label': 'search' }} name="search" />
+        </Search>
+
+        <AppBar
+          position="fixed"
+          sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
+        >
+        </AppBar>
+
         <div>
-          <label htmlFor="keyword"> Keywords:</label>
-          <input type="text" name="keywords" placeholder="Search by Keywords"/>
+          <label htmlFor="calories"> Max calories /serve: &nbsp;&nbsp;</label>
+          <input type="number" name="calories"/>        
         </div>
 
-        <div>
-          <label htmlFor="calories"> Maximum Calories per Serve:</label>
-          <input type="number" name="calories"/><p>kcal</p>          
-        </div>
+        <h3> Diets </h3>
+        <FormGroup>
+          <FormControlLabel control={<Checkbox id="low-carb" name="diet" value="low-carb" />} label="Low Carb" />
+          <FormControlLabel control={<Checkbox id="low-fat" name="diet" value="low-fat" />} label="Low Fat" />
+          <FormControlLabel control={<Checkbox id="high-protein" name="diet" value="high-protein" />} label="High Protein" />
+          <FormControlLabel control={<Checkbox id="balanced" name="diet" value="balanced" />} label="Balanced" />
+          <FormControlLabel control={<Checkbox id="high-fiber" name="diet" value="high-fiber" />} label="High Fiber" />
+          <FormControlLabel control={<Checkbox id="low-sodium" name="diet" value="low-sodium" />} label="Low Sodium" />
+          <FormControlLabel control={<Checkbox id="paleo" name="diet" value="paleo" />} label="Paleo" />
+          <FormControlLabel control={<Checkbox id="pescatarian" name="diet" value="pescatarian" />} label="Pescatarian" />
+          <FormControlLabel control={<Checkbox id="vegan" name="diet" value="vegan" />} label="Vegan" />
+          <FormControlLabel control={<Checkbox id="vegetarian" name="diet" value="vegetarian" />} label="Vegetarian" />
+          <FormControlLabel control={<Checkbox id="pork-free" name="diet" value="pork-free" />} label="Pork Free" />
+          <FormControlLabel control={<Checkbox id="mustard-free" name="allergies" value="mustard-free" />} label="Mustard Free" />
+        </FormGroup>
 
-        <div>
-          <h3> Diets </h3>
-          <input type="checkbox" id="low-carb" name="diet" value="low-carb"/>
-          <label htmlFor="low-carb"> Low Carb</label>
-
-          <input type="checkbox" id="low-fat" name="diet" value="low-fat"/>
-          <label htmlFor="low-fat"> Low Fat</label>
-
-          <input type="checkbox" id="high-protein" name="diet" value="high-protein"/>
-          <label htmlFor="high-protein"> High Protein</label>
-
-          <input type="checkbox" id="balanced" name="diet" value="balanced"/>
-          <label htmlFor="balanced"> Balanced</label>
-
-          <input type="checkbox" id="high-fiber" name="diet" value="high-fiber"/>
-          <label htmlFor="high-fiber"> High Fiber</label>
-
-          <input type="checkbox" id="low-sodium" name="diet" value="low-sodium"/>
-          <label htmlFor="low-sodium"> Low Sodium</label>
-
-          <input type="checkbox" id="paleo" name="diet" value="paleo"/>
-          <label htmlFor="paleo"> Paleo </label>
-
-          <input type="checkbox" id="pescatarian" name="diet" value="pescatarian"/>
-          <label htmlFor="pescatarian"> Pescatarian</label>
-
-          <input type="checkbox" id="vegan" name="diet" value="vegan"/>
-          <label htmlFor="vegan"> Vegan </label>
-
-          <input type="checkbox" id="vegetarian" name="diet" value="vegetarian"/>
-          <label htmlFor="vegetarian"> Vegetarian</label>
-
-          <input type="checkbox" id="pork-free" name="diet" value="pork-free"/>
-          <label htmlFor="pork-free"> Pork Free</label>
-        </div>
-
-        <div>
         <h3> Allergies </h3>
-          <input type="checkbox" id="dairy-free" name="allergies" value="dairy-free"/>
-          <label htmlFor="dairy-free"> Dairy Free</label>
+        <FormGroup>
+          <FormControlLabel control={<Checkbox id="dairy-free" name="allergies" value="dairy-free" />} label="Dairy Free" />
+          <FormControlLabel control={<Checkbox id="egg-free" name="allergies" value="egg-free" />} label="Egg Free" />
+          <FormControlLabel control={<Checkbox id="gluten-free" name="allergies" value="gluten-free" />} label="Gluten Free" />
+          <FormControlLabel control={<Checkbox id="peanut-free" name="allergies" value="peanut-free" />} label="Peanut Free" />
+          <FormControlLabel control={<Checkbox id="shellfish-free" name="allergies" value="shellfish-free" />} label="Shellfish Free" />
+          <FormControlLabel control={<Checkbox id="crustacean-free" name="allergies" value="crustacean-free" />} label="Crustacean Free" />
+          <FormControlLabel control={<Checkbox id="soy-free" name="allergies" value="soy-free" />} label="Soy Free" />
+          <FormControlLabel control={<Checkbox id="sesame-free" name="allergies" value="sesame-free" />} label="Sesame Free" />
+          <FormControlLabel control={<Checkbox id="wheat-free" name="allergies" value="wheat-free" />} label="Wheat Free" />
+          <FormControlLabel control={<Checkbox id="fish-free" name="allergies" value="fish-free" />} label="Fish Free" />
+          <FormControlLabel control={<Checkbox id="lupine-free" name="allergies" value="lupine-free" />} label="Lupine Free" />
+          <FormControlLabel control={<Checkbox id="tree-nut-free" name="allergies" value="tree-nut-free" />} label="Tree Nut Free" />
+          <FormControlLabel control={<Checkbox id="celery-free" name="allergies" value="celery-free" />} label="Celery Free" />
+          <FormControlLabel control={<Checkbox id="mustard-free" name="allergies" value="mustard-free" />} label="Mustard Free" />
+        </FormGroup>
 
-          <input type="checkbox" id="egg-free" name="allergies" value="egg-free"/>
-          <label htmlFor="egg-free"> Egg Free</label>
-
-          <input type="checkbox" id="gluten-free" name="allergies" value="gluten-free"/>
-          <label htmlFor="gluten-free"> Gluten Free</label>
-
-          <input type="checkbox" id="peanut-free" name="allergies" value="peanut-free"/>
-          <label htmlFor="peanut-free"> Peanut Free </label>
-
-          <input type="checkbox" id="shellfish-free" name="allergies" value="shellfish-free"/>
-          <label htmlFor="shellfish-free"> Shellfish Free </label>
-
-          <input type="checkbox" id="crustacean-free" name="allergies" value="crustacean-free"/>
-          <label htmlFor="crustacean-free"> Crustacean Free</label>
-
-          <input type="checkbox" id="soy-free" name="allergies" value="soy-free"/>
-          <label htmlFor="soy-free"> Soy Free </label>
-
-          <input type="checkbox" id="sesame-free" name="allergies" value="sesame-free"/>
-          <label htmlFor="sesame-free"> Sesame Free</label>
-
-          <input type="checkbox" id="wheat-free" name="allergies" value="wheat-free"/>
-          <label htmlFor="wheat-free"> Wheat Free</label>
-
-          <input type="checkbox" id="fish-free" name="allergies" value="fish-free"/>
-          <label htmlFor="fish-free"> Fish Free </label>
-
-          <input type="checkbox" id="lupine-free" name="allergies" value="lupine-free"/>
-          <label htmlFor="lupine-free"> Lupine Free </label>
-
-          <input type="checkbox" id="tree-nut-free" name="allergies" value="tree-nut-free"/>
-          <label htmlFor="tree-nut-free"> Tree Nut Free</label>
-
-          <input type="checkbox" id="celery-free " name="allergies" value="celery-free"/>
-          <label htmlFor="celery-free"> Celery Free </label>
-
-          <input type="checkbox" id="mustard-free" name="allergies" value="mustard-free"/>
-          <label htmlFor="mustard-free"> Mustard Free</label>
-        </div>
         <input type="submit"/>
         <input type="reset"/>
       </form>

@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import { Box } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
-const FoodAPIInfoAdd = () => {
+const FoodAPIInfoAdd = ( {meal} ) => {
   const location = useLocation();
   const navigate = useNavigate()
   const { id, label, kcal, fat, protein, carbs, serving } = location.state;
