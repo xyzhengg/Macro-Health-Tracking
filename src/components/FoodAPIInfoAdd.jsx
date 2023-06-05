@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseAuth/supabaseClient';
+import Button from '@mui/material/Button';
+import { Box } from '@mui/material'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const FoodAPIInfoAdd = () => {
   const location = useLocation();
@@ -86,13 +89,16 @@ const FoodAPIInfoAdd = () => {
     catch (err) {
       console.log(err.message)
     }
+    navigate('/')
   }
 
   const { foodServing, foodKcal, foodProtein, foodFat, foodCarbs } = nutritionValues;
 
   return (
-    <>
-      <button onClick={() => navigate(-1)}> Back </button>
+    <Box sx={{ bgcolor: 'background.paper', marginTop: '20px', maxWidth: '80%', margin: '0 auto', marginLeft: '300px'}}>
+      <br/>
+      <br/>
+      <Button variant="outlined" onClick={() => navigate(-1)}> <ArrowBackIcon></ArrowBackIcon> Back</Button>
       <form id={id} onSubmit={handleAddFood}>
         <h4>{label}</h4>
         <input type="number" name="serving" value={foodServing} onChange={handleServingChange}/>
@@ -103,9 +109,11 @@ const FoodAPIInfoAdd = () => {
         <p>C: {foodCarbs.toFixed(1)}g</p>
         <label htmlFor="notes"> Notes </label>
         <input type="textbox" name="notes" ></input>
-        <button type="submit">Add</button>
+        <br/>
+        <br/>
+        <Button variant="contained" size="small" type="submit">Add</Button>
       </form>
-    </>
+    </Box>
   )
 }
 

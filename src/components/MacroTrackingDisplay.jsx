@@ -2,17 +2,27 @@ import BreakfastTable from "./BreakfastTable"
 import LunchTable from "./LunchTable"
 import DinnerTable from "./DinnerTable"
 import SnackTable from "./SnackTable"
+import { useState } from "react"
 
 const MacroTrackingDisplay = () => {
+  const [meal, setMeal] = useState()
   return (
     <>
-      <BreakfastTable/>
+      <BreakfastTable
+      setMeal = {setMeal}
+      meal = {meal}/>
       <br/>
-      <LunchTable/>
+      <LunchTable
+      setMeal = {setMeal}
+      meal = {meal}/>
       <br/>
-      <DinnerTable/>
+      <DinnerTable
+      setMeal = {setMeal}
+      meal = {meal}/>
       <br/>
-      <SnackTable/>
+      <SnackTable
+      setMeal = {setMeal}
+      meal = {meal}/>
       <br/>
     </>
   )

@@ -1,4 +1,4 @@
-import Box from '@mui/material/Box'
+import { Box } from '@mui/material'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import { useState } from 'react'
@@ -14,15 +14,15 @@ const FoodAndRecipeSearcherPage = () => {
 
   return (
     <>
-    <Box sx={{ bgcolor: 'background.paper', marginTop: '20px', maxWidth: 900 }}>
-      <Tabs value={value} onChange={handleChange} centered sx={{ paddingLeft: '280px'}}>
+    <Box sx={{ bgcolor: 'background.paper', marginTop: '20px', maxWidth: '80%', margin: '0 auto' }}>
+      <Tabs value={value} onChange={handleChange} centered sx={{margin: '0 auto'}}>
         <Tab label="My Food" />
         <Tab label="Food Library" />
         <Tab label="My Recipes" />
         <Tab label="Recipe Library" />
       </Tabs>
       <br/>
-      <Box sx={{ width: '100%', bgcolor: 'background.paper', paddingLeft: '280px'}}>
+      <Box sx={{ width: '100%', bgcolor: 'background.paper', paddingLeft: '180px', margin: '0 auto'}}>
         {value === 0 && <MyFoodComponent />}
         {value === 1 && <FoodAPISearcher />}
         {value === 2 && <MyRecipesComponent />}
