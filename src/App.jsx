@@ -17,9 +17,7 @@ import FoodAndRecipeSearcherPage from './components/FoodAndRecipeSearcherPage';
 import Box from '@mui/material/Box'
 import { MealProvider } from './components/MacroTrackingDisplay';
 
-
 function App() {
-
   return (
     <>
       <Box>
@@ -28,6 +26,8 @@ function App() {
       <MealProvider>
         <Routes>
           <Route path="/" element={<Homepage/>}/>
+          <Route path="/signup" element={<SignUp/>}/>
+          <Route path="/login" element={<Login/>}/>
           <Route path="/apirecipesearch" element={<RecipeAPISearcherPage/>} />
           <Route path="/apirecipe/:id" element={<RecipeAPIInfo/>} />
           <Route path="/apifood/:id" element={<FoodAPIInfoAdd/>}/>

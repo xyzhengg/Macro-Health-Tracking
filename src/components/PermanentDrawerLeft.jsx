@@ -13,12 +13,31 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { supabase } from '../supabaseAuth/supabaseClient';
+import { useState } from 'react';
 
 const drawerWidth = 250
 
 const PermanentDrawerLeft = () => {
-  const routes = ['/', '/apirecipesearch', '/statistics', '/settings', '/logout'];
-  const icons = [<CalendarTodayIcon sx={{color:'#e7e7ec'}}/>, <MenuBookIcon sx={{color:'#e7e7ec'}}/>, <BarChartIcon sx={{color:'#e7e7ec'}}/>, <SettingsIcon sx={{color:'#e7e7ec'}}/>, <LogoutIcon sx={{color:'#e7e7ec'}}/> ]
+  const routes = ['/', '/apirecipesearch', '/statistics', '/settings'];
+  const icons = [<CalendarTodayIcon sx={{color:'#e7e7ec'}}/>, <MenuBookIcon sx={{color:'#e7e7ec'}}/>, <BarChartIcon sx={{color:'#e7e7ec'}}/>, <SettingsIcon sx={{color:'#e7e7ec'}}/> ]
+
+  const [error, setError] = useState(null)
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) {
+        setError(error.message)
+        console.log(error)
+      } 
+    }
+    catch (err) {
+      setError(err.message)
+      console.log(err.message)
+    }
+    const { data, error } = await supabase.auth.getSession()
+    console.log(data)
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -43,7 +62,7 @@ const PermanentDrawerLeft = () => {
       >
         <Toolbar />
         <List>
-          {['Today', 'Recipes', 'Statistics', 'Settings', 'Logout'].map((text, index) => (
+          {['Today', 'Recipes', 'Statistics', 'Settings'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton component={Link} to={routes[index]}>
                 <ListItemIcon sx={{ marginLeft: '30px'}}>
@@ -53,6 +72,14 @@ const PermanentDrawerLeft = () => {
               </ListItemButton>
             </ListItem>
           ))}
+            <ListItem disablePadding onClick={handleLogout}>
+              <ListItemButton>
+                <ListItemIcon sx={{ marginLeft: '30px'}}>
+                  <LogoutIcon sx={{color:'#e7e7ec'}}/>
+                </ListItemIcon>
+                <ListItemText primary='Logout' sx={{color: 'white', paddingLeft: '0px'}}/>
+              </ListItemButton>
+            </ListItem>
         </List>
       </Drawer>
     </Box>
