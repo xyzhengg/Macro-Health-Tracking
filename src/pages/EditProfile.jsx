@@ -10,7 +10,7 @@ const EditProfile = () => {
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
   const navigate = useNavigate()
-  const [profileData, setProfileData] = useState([])
+  const [profileData, setProfileData] = useState(null)
 
   useEffect (() => {
     setLoading(true)
@@ -45,7 +45,10 @@ const EditProfile = () => {
         first_name: fields.firstname,
         last_name: fields.lastname,
         goal_calories: fields.goalcalories,
-        goal_weight: fields.goalweight
+        goal_weight: fields.goalweight,
+        fat: fields.fat,
+        carbs: fields.carbs,
+        protein: fields.protein
        })
       .eq('user_id', user)
       if (error) {
@@ -65,6 +68,7 @@ const EditProfile = () => {
 
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3} >
+      {profileData && (
       <Grid container sx={{ maxWidth: 350, marginTop: 10}}>
         <form onSubmit={handleEditProfile}>
           <Typography variant="h4" align="center" gutterBottom> Edit Profile </Typography>
@@ -81,11 +85,21 @@ const EditProfile = () => {
             <Grid item xs={12}>
               <TextField label="Calorie Intake (kcal)" name="goalcalories" type="number" variant="outlined" margin="normal" defaultValue={profileData.goal_calories } InputLabelProps={{ shrink: true }} required fullWidth sx={{ height: 40 }}/>
             </Grid>
+            <Grid item xs={12}>
+              <TextField label="Fat (g)" name="fat" type="number" variant="outlined" margin="normal" defaultValue={profileData.fat } InputLabelProps={{ shrink: true }} required fullWidth sx={{ height: 40 }}/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField label="Carbohydrate (g)" name="carbs" type="number" variant="outlined" margin="normal" defaultValue={profileData.carbs } InputLabelProps={{ shrink: true }} required fullWidth sx={{ height: 40 }}/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField label="Protein (g)" name="protein" type="number" variant="outlined" margin="normal" defaultValue={profileData.protein } InputLabelProps={{ shrink: true }} required fullWidth sx={{ height: 40 }}/>
+            </Grid>
           </Grid>
         <Button type="submit" variant="contained" fullWidth sx={{ marginTop: 5 }}> Save </Button>
       </form>
       {success && ( <Typography variant="body1" align="center" > {success} </Typography> )}
     </Grid>
+    )}
   </Grid>
   )     
 }

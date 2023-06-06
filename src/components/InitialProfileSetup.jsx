@@ -24,7 +24,10 @@ const InitialProfileSetup = () => {
         first_name: fields.firstname.charAt(0).toUpperCase() + fields.firstname.slice(1).toLowerCase(),
         last_name: fields.lastname.charAt(0).toUpperCase() + fields.lastname.slice(1).toLowerCase(),
         goal_weight: fields.goalweight,
-        goal_calories: fields.goalcalories
+        goal_calories: fields.goalcalories,
+        fat: fields.fat,
+        protein: fields.protein,
+        carbs: fields.carbs
         }
       ])
       if (error) {
@@ -58,6 +61,15 @@ const InitialProfileSetup = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField label="Calorie Intake (kcal)" name="goalcalories" type="number" variant="outlined" margin="normal" required fullWidth sx={{ height: 40 }}/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField label="Fat (g)" name="fat" type="number" variant="outlined" margin="normal" required fullWidth sx={{ height: 40 }}/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField label="Carbohydrate (g)" name="carbs" type="number" variant="outlined" margin="normal" required fullWidth sx={{ height: 40 }}/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField label="Protein (g)" name="protein" type="number" variant="outlined" margin="normal" required fullWidth sx={{ height: 40 }}/>
             </Grid>
           </Grid>
         <Button type="submit" variant="contained" fullWidth sx={{ marginTop: 5 }}> Save </Button>
