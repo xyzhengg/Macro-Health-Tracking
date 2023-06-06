@@ -5,7 +5,7 @@ import DateNavigation from "../components/DateNavigation"
 const DayDisplay = () => {
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3}> 
-      <Grid sx={{ marginTop: 3}}>
+      <Grid sx={{ marginTop: 7}}>
         <DateNavigation/>
       </Grid>
       <Grid> 
