@@ -40,6 +40,8 @@ const BreakfastTable = () => {
           .select('*')
           .eq('breakfast', true)
           .eq('user_id', user)
+          .gte('created_at', `${date.toISOString().split('T')[0]} 00:00:00`)
+          .lte('created_at', `${date.toISOString().split('T')[0]} 23:59:59`)
           .order('created_at', { descending: true })
         if (error) {
           console.log(error)
@@ -51,7 +53,7 @@ const BreakfastTable = () => {
       }
     }
     getBreakfastData()
-  }, [])
+  }, [date])
 
   useEffect(() => {
     const calculateTotals = () => {

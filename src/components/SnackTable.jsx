@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMeal } from '../contexts/MealContext';
 import { useAuth } from '../contexts/AuthProvider';
+import { useDate } from '../contexts/DateProvider';
 
 const SnackTable = () => {
   const [data, setData] = useState([])
@@ -24,6 +25,7 @@ const SnackTable = () => {
   });
   const {setMeal} = useMeal()
   const { user } = useAuth()
+  const { date, setDate } = useDate()
 
   const handleSelectMeal = () => {
     setMeal('snack')
@@ -37,6 +39,8 @@ const SnackTable = () => {
           .select('*')
           .eq('snack', true)
           .eq('user_id', user)
+          .gte('created_at', `${date.toISOString().split('T')[0]} 00:00:00`)
+          .lte('created_at', `${date.toISOString().split('T')[0]} 23:59:59`)
           .order('created_at', { descending: true })
         if (error) {
           console.log(error)
@@ -48,7 +52,7 @@ const SnackTable = () => {
       }
     }
     getSnackData()
-  }, [])
+  }, [date])
 
   useEffect(() => {
     const calculateTotals = () => {

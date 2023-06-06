@@ -12,6 +12,7 @@ import { supabase } from '../supabaseAuth/supabaseClient';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMeal } from '../contexts/MealContext';
+import { useDate } from '../contexts/DateProvider';
 import { useAuth } from '../contexts/AuthProvider';
 
 const LunchTable = () => {
@@ -25,6 +26,7 @@ const LunchTable = () => {
 
   const { setMeal } = useMeal()
   const { user } = useAuth()
+  const { date, setDate } = useDate()
 
   const handleSelectMeal = () => {
     setMeal('lunch')
@@ -38,6 +40,8 @@ const LunchTable = () => {
           .select('*')
           .eq('lunch', true)
           .eq('user_id', user)
+          .gte('created_at', `${date.toISOString().split('T')[0]} 00:00:00`)
+          .lte('created_at', `${date.toISOString().split('T')[0]} 23:59:59`)
           .order('created_at', { descending: true })
         if (error) {
           console.log(error)
@@ -49,7 +53,7 @@ const LunchTable = () => {
       }
     }
     getLunchData()
-  }, [])
+  }, [date])
 
   useEffect(() => {
     const calculateTotals = () => {

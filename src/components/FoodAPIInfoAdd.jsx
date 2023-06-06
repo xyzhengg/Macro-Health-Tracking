@@ -26,12 +26,12 @@ const FoodAPIInfoAdd = () => {
 
   const handleServingChange = (e) => {
     const newServing = e.target.value;
-    console.log(newServing)
+    // console.log(newServing)
     setNutritionValues({
       ...nutritionValues,
      foodServing: newServing,
     });
-    console.log(nutritionValues)
+    // console.log(nutritionValues)
   };
 
   useEffect(() => {
