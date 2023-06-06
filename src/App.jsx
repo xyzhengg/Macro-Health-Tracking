@@ -17,7 +17,8 @@ import DayDisplay from './pages/DayDisplay';
 import { useAuth } from './contexts/AuthProvider'
 import { DateProvider} from './contexts/DateProvider.jsx'
 import ProfilePage from './pages/ProfilePage';
-import ProfileEditForm from './components/ProfileEditForm';
+import EditProfile from './pages/EditProfile';
+import InitialProfileSetup from './components/InitialProfileSetup';
 
 
 function App() {
@@ -42,7 +43,8 @@ function App() {
             {user && 
               <>
                 <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/edit" element={<ProfileEditForm/>}/>
+                <Route path="/profile/edit" element={<EditProfile />} />
+                <Route path="/profile/setup" element={<InitialProfileSetup/>}/>
                 <Route path="/apirecipesearch" element={<RecipeAPISearcherPage />} />
                 <Route path="/apirecipe/:id" element={<RecipeAPIInfo />} />
                 <Route path="/apifood/:id" element={<FoodAPIInfoAdd />} />
