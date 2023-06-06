@@ -11,7 +11,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { supabase } from '../supabaseAuth/supabaseClient';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useMeal } from './MacroTrackingDisplay';
+import { useMeal } from '../contexts/MealContext';
 
 const LunchTable = () => {
   const [data, setData] = useState([])
@@ -73,10 +73,10 @@ const LunchTable = () => {
     [`&.${tableCellClasses.head}`]: {
       backgroundColor: '#9fa0c6',
       color: theme.palette.common.white,
-      fontSize: 18
+      fontSize: 16
     },
     [`&.${tableCellClasses.body}`]: {
-      fontSize: 16,
+      fontSize: 14
     },
   }));
   
@@ -91,7 +91,7 @@ const LunchTable = () => {
 
   return (
     <TableContainer component={Paper} sx={{ minWidth: 400, maxWidth: 700 }}>
-      <Table sx={{ minWidth: 400, maxWidth: 700 }} size="small" aria-label="customized table">
+      <Table size="small" aria-label="customized table">
         <TableHead>
           <TableRow>
             <StyledTableCell>Lunch</StyledTableCell>

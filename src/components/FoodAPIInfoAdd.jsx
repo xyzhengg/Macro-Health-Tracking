@@ -4,7 +4,7 @@ import { supabase } from '../supabaseAuth/supabaseClient';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { useMeal } from './MacroTrackingDisplay';
+import { useMeal } from '../contexts/MealContext';
 
 const FoodAPIInfoAdd = () => {
   const location = useLocation();
