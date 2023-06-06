@@ -40,8 +40,6 @@ export const AuthProvider = ({ children }) => {
     console.log(event, session)
   })
 
-
-
   return (
     <AuthContext.Provider value={{user, setUser}}>
       {children}

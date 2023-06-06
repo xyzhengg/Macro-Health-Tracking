@@ -93,11 +93,11 @@ const SnackTable = () => {
       <Table size="small" aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Snack</StyledTableCell>
-            <StyledTableCell align="center">Calories&nbsp;(kcal)</StyledTableCell>
+            <StyledTableCell sx={{width: 200}}>Snack</StyledTableCell>
             <StyledTableCell align="center">Fat&nbsp;(g)</StyledTableCell>
             <StyledTableCell align="center">Carbs&nbsp;(g)</StyledTableCell>
             <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell>
+            <StyledTableCell align="center">Calories&nbsp;(kcal)</StyledTableCell>
             <StyledTableCell sx={{ width: '10px' }}>
             <IconButton onClick={handleSelectMeal}>
                 <Link to="/food-recipe-searcher" id="snack">
@@ -108,22 +108,22 @@ const SnackTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((eachData) => (
+        {data.map((eachData) => (
             <StyledTableRow key={eachData.id}>
               <StyledTableCell>{eachData.food_name}</StyledTableCell>
-              <StyledTableCell align="center">{eachData.calories.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center">{eachData.fat.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center">{eachData.carbs.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center">{eachData.protein.toFixed(1)}</StyledTableCell>
+              <StyledTableCell align="center">{eachData.calories.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center"></StyledTableCell>
             </StyledTableRow>
           ))}
             <StyledTableRow>
               <StyledTableCell style={{ fontWeight: 'bold' }}> Total: </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.calories.toFixed(1)} </StyledTableCell>
               <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.fat.toFixed(1)} </StyledTableCell>
               <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.carbs.toFixed(1)} </StyledTableCell>
               <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.protein.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.calories.toFixed(1)} </StyledTableCell>
               <StyledTableCell align="center"></StyledTableCell>
             </StyledTableRow>
         </TableBody>

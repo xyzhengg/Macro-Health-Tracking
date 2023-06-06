@@ -1,6 +1,6 @@
 import './App.css'
 import { useEffect, useState } from "react";
-import { Routes, Route, Link, useParams, useNavigate } from "react-router-dom";
+import { Routes, Route, Link, useParams, useNavigate, Navigate } from "react-router-dom";
 import SignUp from './components/SignUp';
 import Login  from './components/Login';
 import FoodSearcher from './components/FoodAPISearcher';
@@ -14,7 +14,9 @@ import FoodAndRecipeSearcherPage from './components/FoodAndRecipeSearcherPage';
 import { Box, Grid} from '@mui/material'
 import { MealProvider } from './contexts/MealContext';
 import DayDisplay from './pages/DayDisplay';
-import { useAuth } from './contexts/AuthProvider';
+import { useAuth } from './contexts/AuthProvider'
+import { DateProvider } from './contexts/DateProvider.jsx';
+
 
 function App() {
   const navigate = useNavigate();
@@ -27,29 +29,44 @@ function App() {
   }, [user, navigate])
 
   return (
-    <Grid container>
-      { user && (<Grid item xs={2}>
-        <PermanentDrawerLeft/>
-      </Grid>)} 
-      <Grid item xs={user? 10 : 12}>
-      <MealProvider>
-        <Routes>
-          <Route path="/" element={<DayDisplay/>}/>
-          <Route path="/signup" element={<SignUp/>}/>
-          <Route path="/login" element={<Login/>}/>
-          <Route path="/apirecipesearch" element={<RecipeAPISearcherPage/>} />
-          <Route path="/apirecipe/:id" element={<RecipeAPIInfo/>} />
-          <Route path="/apifood/:id" element={<FoodAPIInfoAdd/>}/>
-          <Route path="/apifoodsearch" element={<FoodSearcher/>}/>
-          <Route path="/createfood" element={<CreateFoodForm/>} />
-          <Route path="/food-recipe-searcher" element={<FoodAndRecipeSearcherPage/>} />
-
-          <Route path="*" element={<NotFound/>} />
-        </Routes>
-      </MealProvider>
+    <DateProvider>
+      <Grid container>
+        { user && (<Grid item xs={2}>
+          <PermanentDrawerLeft/>
+        </Grid>)} 
+        <Grid item xs={user? 10 : 12}>
+          <MealProvider>
+            <Routes>
+            {user ? (
+                <>
+                  <Route path="/" element={<DayDisplay />} />
+                  <Route path="/apirecipesearch" element={<RecipeAPISearcherPage />} />
+                  <Route path="/apirecipe/:id" element={<RecipeAPIInfo />} />
+                  <Route path="/apifood/:id" element={<FoodAPIInfoAdd />} />
+                  <Route path="/apifoodsearch" element={<FoodSearcher />} />
+                  <Route path="/createfood" element={<CreateFoodForm />} />
+                  <Route path="/food-recipe-searcher" element={<FoodAndRecipeSearcherPage />} />
+                  <Route path="/signup" element={<Navigate to="/" />} />
+                  <Route path="/login" element={<Navigate to="/" />} />
+                </>
+              ) : (
+                <>
+                  <Route path="/" element={<Navigate to="/login"/>} />
+                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="*" element={<Navigate to="/login"/>} />
+                </>
+              )}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </MealProvider>
+        </Grid>
       </Grid>
-    </Grid>
+    </DateProvider>
   );
 }
 
 export default App;
+
+
+// https://ui.dev/react-router-programmatically-navigate

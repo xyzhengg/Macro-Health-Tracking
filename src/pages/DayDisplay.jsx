@@ -8,7 +8,7 @@ const DayDisplay = () => {
       <Box>
         <DateNavigation/>
       </Box>
-      <Box component="main" sx={{ bgcolor: 'background.default', p: 3, marginLeft: '300px' }} >
+      <Box component="main" sx={{ bgcolor: 'background.default', p: 3, margin: 5}} >
         <MacroTrackingDisplay/>
       </Box>
     </>
