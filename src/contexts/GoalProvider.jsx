@@ -37,7 +37,7 @@ export const GoalProvider = ({ children }) => {
       };
       getGoalData()
     }
-  }, [user])
+  }, [])
 
   return (
     <GoalContext.Provider value={{goal, setGoal}}>
