@@ -27,7 +27,7 @@ const DateNavigation = () => {
             date.toISOString().split('T')[0] === new Date().toISOString().split('T')[0] ? "TODAY" :
             date.toISOString().split('T')[0] === new Date(new Date().setDate(new Date().getDate() - 1)).toISOString().split('T')[0] ? "YESTERDAY" :
             date.toISOString().split('T')[0] === new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().split('T')[0] ? "TOMORROW" :
-            date.toISOString().split('T')[0]
+            date.toDateString()
           }
           </Button>
         </Grid>

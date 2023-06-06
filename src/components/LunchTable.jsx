@@ -100,7 +100,7 @@ const LunchTable = () => {
       <Table size="small" aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell sx={{width: 200}}>Lunch</StyledTableCell>
+            <StyledTableCell sx={{width: 200 }}>Lunch</StyledTableCell>
             <StyledTableCell align="center">Fat&nbsp;(g)</StyledTableCell>
             <StyledTableCell align="center">Carbs&nbsp;(g)</StyledTableCell>
             <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell>
