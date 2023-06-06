@@ -15,7 +15,9 @@ const DateNavigation = () => {
   return (
     <>
       <Button onClick={handleShowCalendar}> TODAY </Button>
-      {showCalendar && <CalendarDisplay/>}
+      {showCalendar && <CalendarDisplay
+      setShowCalendar = {setShowCalendar}
+      />}
     </>
   )
 
