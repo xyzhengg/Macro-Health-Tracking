@@ -6,6 +6,7 @@ import { Box } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useMeal } from '../contexts/MealContext';
 import { useAuth } from '../contexts/AuthProvider';
+import { useDate } from '../contexts/DateProvider';
 
 const FoodAPIInfoAdd = () => {
   const location = useLocation();
@@ -13,6 +14,7 @@ const FoodAPIInfoAdd = () => {
   const { id, label, kcal, fat, protein, carbs, serving } = location.state;
   const { meal } = useMeal()
   const { user } = useAuth()
+  const { date, setDate } = useDate()
   // console.log(meal)
 
   const [nutritionValues, setNutritionValues] = useState({
@@ -86,7 +88,8 @@ const FoodAPIInfoAdd = () => {
         carbs: foodCarbs,
         serving_amt: foodServing,
         [meal]: true,
-        user_id: user
+        user_id: user,
+        created_at: date
         }
       ])
       if (error2) {
