@@ -118,7 +118,7 @@ const FoodAPIInfoAdd = () => {
         <p>F: {foodFat.toFixed(1)}g</p>
         <p>C: {foodCarbs.toFixed(1)}g</p>
         <label htmlFor="notes"> Notes </label>
-        <input type="textbox" name="notes" ></input>
+        <input type="textbox" name="notes" />
         <br/>
         <br/>
         <Button variant="contained" size="small" type="submit">Add</Button>

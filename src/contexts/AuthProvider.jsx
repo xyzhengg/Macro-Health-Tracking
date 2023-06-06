@@ -8,41 +8,49 @@ export const useAuth = () => {
 }
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState()
+  const [session, setSession] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const req = await supabase.auth.getSession()
-        if (req) {
-          setUser(req.data.session.user.id)
+    const gotSession = localStorage.getItem('authSession');
+      if (gotSession) {
+        const sessionData = JSON.parse(gotSession)
+        setSession(JSON.parse(gotSession))
+        setUser(sessionData.user.id)
+    }
+
+    async function getSession() {
+      setLoading(false)
+      const { subscription } = supabase.auth.onAuthStateChange(
+        async (event, session) => {
+          if (session) {
+            console.log("New session: ", session)
+            setUser(session.user.id)
+            localStorage.setItem("authSession", JSON.stringify(session))
+            setSession(session)
+          } else {
+            localStorage.removeItem("authSession")
+            setSession(null)
+            setUser(null)
+          }
+          setLoading(false)
         }
-      } catch (error) {
-        console.error('Error fetching user:', error)
-        setUser(null)
+      )
+      return () => {
+        subscription?.unsubscribe()
       }
     }
-    fetchUser()
+    getSession()
   }, [])
 
 
-  // supabase.auth.onAuthStateChange((event, session) => {
-  //   if (event == 'SIGNED_OUT') console.log('SIGNED_OUT', session)
-  // })
-
-
-  // supabase.auth.onAuthStateChange((event, session) => {
-  //   if (event == 'SIGNED_IN') console.log('SIGNED_IN', session)
-  // })
-
-  
-  // supabase.auth.onAuthStateChange((event, session) => {
-  //   console.log(event, session)
-  // })
-
   return (
-    <AuthContext.Provider value={{user, setUser}}>
-      {children}
+    <AuthContext.Provider value={{ setUser, user, setSession, session}}>
+      {!loading && children}
     </AuthContext.Provider>
   )
 }
+
+
+// https://levelup.gitconnected.com/the-easy-react-supabase-authentication-and-session-storage-dedeb4abe45e

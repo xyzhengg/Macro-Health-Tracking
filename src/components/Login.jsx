@@ -13,6 +13,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault()
     setLoading(true)
+    setSession(false)
     const fields = Object.fromEntries(new FormData(e.target))
 
     try {
@@ -25,6 +26,7 @@ const Login = () => {
       console.log(error)
     } else {
       setUser(data.user.id)
+      setSession(true)
       console.log(user)
       navigate('/')
     }
@@ -34,8 +36,6 @@ const Login = () => {
     console.log(err.message)
   }
   setLoading(false)
-
-  
   }
   
   return (

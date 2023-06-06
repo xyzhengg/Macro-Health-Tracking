@@ -16,17 +16,20 @@ import { MealProvider } from './contexts/MealContext';
 import DayDisplay from './pages/DayDisplay';
 import { useAuth } from './contexts/AuthProvider'
 import { DateProvider} from './contexts/DateProvider.jsx'
+import ProfilePage from './pages/ProfilePage';
+import ProfileEditForm from './components/ProfileEditForm';
 
 
 function App() {
   const navigate = useNavigate();
-  const { user } = useAuth()
+  const { user, session } = useAuth()
 
   useEffect(() => {
-    if (!user) {
+    console.log(user)
+    if (!user && !session) {
       navigate('/login')
     }
-  }, [user, navigate])
+  }, [user, session])
   
   return (
     <DateProvider>
@@ -36,28 +39,33 @@ function App() {
         </Grid>)} 
         <Grid item xs={user? 10 : 12}>
           <MealProvider>
-            <Routes>
-            {user ? (
-                <>
-                  <Route path="/" element={<DayDisplay />} />
-                  <Route path="/apirecipesearch" element={<RecipeAPISearcherPage />} />
-                  <Route path="/apirecipe/:id" element={<RecipeAPIInfo />} />
-                  <Route path="/apifood/:id" element={<FoodAPIInfoAdd />} />
-                  <Route path="/apifoodsearch" element={<FoodSearcher />} />
-                  <Route path="/createfood" element={<CreateFoodForm />} />
-                  <Route path="/food-recipe-searcher" element={<FoodAndRecipeSearcherPage />} />
-                  <Route path="/signup" element={<Navigate to="/" />} />
-                  <Route path="/login" element={<Navigate to="/" />} />
-                </>
-              ) : (
-                <>
-                  <Route path="/" element={<Navigate to="/login"/>} />
-                  <Route path="/signup" element={<SignUp />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="*" element={<Navigate to="/login"/>} />
-                </>
-              )}
-              <Route path="*" element={<NotFound />} />
+          <Routes>
+            {user && 
+              <>
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/edit" element={<ProfileEditForm/>}/>
+                <Route path="/apirecipesearch" element={<RecipeAPISearcherPage />} />
+                <Route path="/apirecipe/:id" element={<RecipeAPIInfo />} />
+                <Route path="/apifood/:id" element={<FoodAPIInfoAdd />} />
+                <Route path="/apifoodsearch" element={<FoodSearcher />} />
+                <Route path="/createfood" element={<CreateFoodForm />} />
+                <Route path="/food-recipe-searcher" element={<FoodAndRecipeSearcherPage />} />
+                <Route path="/signup" element={<Navigate to="/" />} />
+                <Route path="/login" element={<Navigate to="/" />} />
+                <Route path="/" element={<DayDisplay />} />
+              </>
+              }
+
+              {!user && (
+                  <>
+                    <Route path="/" element={<Navigate to="/login"/>} />
+                    <Route path="/signup" element={<SignUp />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/*" element={<Navigate to="/login"/>} />
+                  </>
+                )
+              }
+              <Route path="/*" element={<NotFound />} />
             </Routes>
           </MealProvider>
         </Grid>

@@ -1,4 +1,6 @@
 import { useAuth } from "../contexts/AuthProvider"
+import { supabase } from "../supabaseAuth/supabaseClient"
+import { useState } from "react"
 
 const ProfileEditForm = () => {
   const { user } = useAuth()
@@ -16,34 +18,41 @@ const ProfileEditForm = () => {
       .from('user_profile')
       .insert([
         {user_id: user,
-        first_name: fields.firstname,
-        last_name: fields.lastname,
+        first_name: fields.firstname.charAt(0).toUpperCase() + fields.firstname.slice(1).toLowerCase(),
+        last_name: fields.lastname.charAt(0).toUpperCase() + fields.lastname.slice(1).toLowerCase(),
         goal_weight: fields.goalweight,
         goal_calories: fields.goalcalories
         }
       ])
       if (error) {
         setError(error.message)
+        console.log(error)
       } else {
         setSuccess("Your profile has been updated! Redirecting...")
       }
     }
     catch (err){
       setError(err.message)
+      console.log(error)
     }    
     setLoading(false)
   }
   return (
     <>  
-      <form onClick = {handleSubmitProfile}> 
+      <form onSubmit = {handleSubmitProfile}> 
         <label htmlFor="firstname" placeholder="First name" required> First name</label>
-        <input type="text" name="firstname" required></input>
+        <input type="text" name="firstname" required/>
+
         <label htmlFor="lastname" placeholder="Last name" required> Last name</label>
-        <input type="text" name="lastname" required></input>
+        <input type="text" name="lastname" required/>
+
         <label htmlFor="goalweight" required> Goal Weight</label>
-        <input type="number" name="goalweight"></input>
+        <input type="number" name="goalweight"/>
+
         <label htmlFor="goalcalories" required> Calorie Intake</label>
-        <input type="number" name="goalcalories"></input>
+        <input type="number" name="goalcalories"/>
+
+        <button type="submit"> Save </button>
       </form>
       { error && <p> Error: { error } </p>}
       { success && <p> { success } </p>}
