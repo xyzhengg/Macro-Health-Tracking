@@ -5,14 +5,15 @@ import Button from '@mui/material/Button';
 import { Box } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useMeal } from '../contexts/MealContext';
+import { useAuth } from '../contexts/AuthProvider';
 
 const FoodAPIInfoAdd = () => {
   const location = useLocation();
   const navigate = useNavigate()
   const { id, label, kcal, fat, protein, carbs, serving } = location.state;
-  console.log(id, label, kcal, fat, protein, carbs, serving)
   const { meal } = useMeal()
-  console.log(meal)
+  const { user } = useAuth()
+  // console.log(meal)
 
   const [nutritionValues, setNutritionValues] = useState({
    foodLabel: label,
@@ -69,6 +70,7 @@ const FoodAPIInfoAdd = () => {
         carbs: foodCarbs,
         serving_amt: foodServing,
         notes: notes,
+        user_id: user
         }
       ])
       if (error) {
@@ -83,7 +85,8 @@ const FoodAPIInfoAdd = () => {
         protein: foodProtein,
         carbs: foodCarbs,
         serving_amt: foodServing,
-        [meal]: true
+        [meal]: true,
+        user_id: user
         }
       ])
       if (error2) {

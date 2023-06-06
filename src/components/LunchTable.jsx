@@ -12,6 +12,7 @@ import { supabase } from '../supabaseAuth/supabaseClient';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMeal } from '../contexts/MealContext';
+import { useAuth } from '../contexts/AuthProvider';
 
 const LunchTable = () => {
   const [data, setData] = useState([])
@@ -23,6 +24,7 @@ const LunchTable = () => {
   });
 
   const { setMeal } = useMeal()
+  const { user } = useAuth()
 
   const handleSelectMeal = () => {
     setMeal('lunch')
@@ -35,6 +37,7 @@ const LunchTable = () => {
           .from('diary')
           .select('*')
           .eq('lunch', true)
+          .eq('user_id', user)
           .order('created_at', { descending: true })
         if (error) {
           console.log(error)
