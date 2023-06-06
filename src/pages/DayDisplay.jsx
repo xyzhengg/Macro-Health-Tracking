@@ -1,17 +1,19 @@
 import MacroTrackingDisplay from "../components/MacroTrackingDisplay"
-import { Box } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 import DateNavigation from "../components/DateNavigation"
 
 const DayDisplay = () => {
   return (
-    <>
-      <Box>
+    <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3}> 
+      <Grid sx={{ marginTop: 3}}>
         <DateNavigation/>
-      </Box>
-      <Box component="main" sx={{ bgcolor: 'background.default', p: 3, margin: 5}} >
-        <MacroTrackingDisplay/>
-      </Box>
-    </>
+      </Grid>
+      <Grid> 
+        <Box component="main" sx={{ bgcolor: 'background.default', p: 3, margin: 1}} >
+          <MacroTrackingDisplay/>
+        </Box>
+      </Grid>
+    </Grid>
   )
 }
 

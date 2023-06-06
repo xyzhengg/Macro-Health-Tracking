@@ -100,7 +100,7 @@ const RecipeAPISearcherPage = () => {
           <SearchIconWrapper>
               <SearchIcon />
           </SearchIconWrapper>
-          <StyledInputBase name="keywords" placeholder="Search by keywords" inputProps={{ 'aria-label': 'search' }} name="search" />
+          <StyledInputBase name="keywords" placeholder="Search by keywords" inputProps={{ 'aria-label': 'search' }}/>
         </Search>
 
         <AppBar

@@ -38,7 +38,6 @@ const BreakfastTable = () => {
         if (error) {
           console.log(error)
         } else {
-          console.log(data)
           setData(data)
         }
       } catch (err) {

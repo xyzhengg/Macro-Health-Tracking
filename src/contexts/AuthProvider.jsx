@@ -26,19 +26,19 @@ export const AuthProvider = ({ children }) => {
   }, [])
 
 
-  supabase.auth.onAuthStateChange((event, session) => {
-    if (event == 'SIGNED_OUT') console.log('SIGNED_OUT', session)
-  })
+  // supabase.auth.onAuthStateChange((event, session) => {
+  //   if (event == 'SIGNED_OUT') console.log('SIGNED_OUT', session)
+  // })
 
 
-  supabase.auth.onAuthStateChange((event, session) => {
-    if (event == 'SIGNED_IN') console.log('SIGNED_IN', session)
-  })
+  // supabase.auth.onAuthStateChange((event, session) => {
+  //   if (event == 'SIGNED_IN') console.log('SIGNED_IN', session)
+  // })
 
   
-  supabase.auth.onAuthStateChange((event, session) => {
-    console.log(event, session)
-  })
+  // supabase.auth.onAuthStateChange((event, session) => {
+  //   console.log(event, session)
+  // })
 
   return (
     <AuthContext.Provider value={{user, setUser}}>

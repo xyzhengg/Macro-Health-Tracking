@@ -15,7 +15,7 @@ import { Box, Grid} from '@mui/material'
 import { MealProvider } from './contexts/MealContext';
 import DayDisplay from './pages/DayDisplay';
 import { useAuth } from './contexts/AuthProvider'
-import { DateProvider } from './contexts/DateProvider.jsx';
+import { DateProvider} from './contexts/DateProvider.jsx'
 
 
 function App() {
@@ -27,7 +27,7 @@ function App() {
       navigate('/login')
     }
   }, [user, navigate])
-
+  
   return (
     <DateProvider>
       <Grid container>
