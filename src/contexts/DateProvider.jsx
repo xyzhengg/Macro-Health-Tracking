@@ -11,7 +11,7 @@ export const DateProvider = ({ children }) => {
 
   useEffect (() => {
     setDate(new Date())
-    console.log(date)
+    // console.log(date)
   }, [])
 
   return (

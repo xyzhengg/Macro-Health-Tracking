@@ -25,7 +25,6 @@ function App() {
   const { user, session } = useAuth()
 
   useEffect(() => {
-    console.log(user)
     if (!user && !session) {
       navigate('/login')
     }

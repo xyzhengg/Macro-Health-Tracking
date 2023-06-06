@@ -17,14 +17,16 @@ import { supabase } from '../supabaseAuth/supabaseClient';
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import { useDate } from '../contexts/DateProvider';
 
 const drawerWidth = 250
 
 const PermanentDrawerLeft = () => {
   const navigate = useNavigate()
-  const routes = ['/', '/apirecipesearch', '/statistics', '/settings'];
-  const icons = [<CalendarTodayIcon sx={{color:'#e7e7ec'}}/>, <MenuBookIcon sx={{color:'#e7e7ec'}}/>, <BarChartIcon sx={{color:'#e7e7ec'}}/>, <SettingsIcon sx={{color:'#e7e7ec'}}/> ]
+  const routes = ['/apirecipesearch', '/statistics', '/settings'];
+  const icons = [<MenuBookIcon sx={{color:'#e7e7ec'}}/>, <BarChartIcon sx={{color:'#e7e7ec'}}/>, <SettingsIcon sx={{color:'#e7e7ec'}}/> ]
   const { setUser } = useAuth()
+  const { setDate } = useDate()
 
   const [error, setError] = useState(null)
   const handleLogout = async () => {
@@ -44,6 +46,11 @@ const PermanentDrawerLeft = () => {
     }
     const { data, error } = await supabase.auth.getSession()
     console.log(data)
+  }
+
+  const handleClickToday = () => {
+    setDate(new Date())
+    navigate('/')
   }
 
   return (
@@ -69,7 +76,15 @@ const PermanentDrawerLeft = () => {
       >
         <Toolbar />
         <List>
-          {['Today', 'Recipes', 'Statistics', 'Settings'].map((text, index) => (
+            <ListItem disablePadding onClick={handleClickToday}>
+              <ListItemButton>
+                <ListItemIcon sx={{ marginLeft: '30px'}}>
+                  <CalendarTodayIcon sx={{color:'#e7e7ec'}}/>
+                </ListItemIcon>
+                <ListItemText primary='Today' sx={{color: 'white', paddingLeft: '0px'}}/>
+              </ListItemButton>
+            </ListItem>
+          {['Recipes', 'Statistics', 'Settings'].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton component={Link} to={routes[index]}>
                 <ListItemIcon sx={{ marginLeft: '30px'}}>
