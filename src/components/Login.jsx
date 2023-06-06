@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { supabase } from '../supabaseAuth/supabaseClient';
-import { useAuth } from '../supabaseAuth/AuthProvider';
+import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {

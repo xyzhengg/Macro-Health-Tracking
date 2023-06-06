@@ -15,7 +15,7 @@ import FoodAndRecipeSearcherPage from './components/FoodAndRecipeSearcherPage';
 import Box from '@mui/material/Box'
 import { MealProvider } from './components/MacroTrackingDisplay';
 import DayDisplay from './pages/DayDisplay';
-import { useAuth } from './supabaseAuth/AuthProvider';
+import { useAuth } from './contexts/AuthProvider';
 
 function App() {
   const navigate = useNavigate();

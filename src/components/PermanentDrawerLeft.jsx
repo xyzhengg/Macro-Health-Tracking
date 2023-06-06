@@ -15,7 +15,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { supabase } from '../supabaseAuth/supabaseClient';
 import { useState } from 'react';
-import { useAuth } from '../supabaseAuth/AuthProvider';
+import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 
 const drawerWidth = 250
