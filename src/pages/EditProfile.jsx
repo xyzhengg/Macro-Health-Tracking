@@ -1,11 +1,13 @@
 import { useAuth } from "../contexts/AuthProvider"
 import { supabase } from "../supabaseAuth/supabaseClient"
+import { useGoal } from "../contexts/GoalProvider"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Button, Typography, Paper, Card, Grid, TextField } from "@mui/material"
 
 const EditProfile = () => {
   const { user } = useAuth()
+  const { goal, setGoal } = useGoal()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [success, setSuccess] = useState(null)
@@ -25,7 +27,7 @@ const EditProfile = () => {
         } else {
           setLoading(false)
           setProfileData(data[0])
-          console.log(data[0])
+          // console.log(data[0])
         }
       } catch (err) {
         setError(err.message)
@@ -55,6 +57,13 @@ const EditProfile = () => {
         setError(error.message)
         console.log(error)
       } else {
+        setGoal({
+          goal_calories: fields.goalcalories,
+          goal_weight: fields.goalweight,
+          fat: fields.fat,
+          carbs: fields.carbs,
+          protein: fields.protein
+        })
         setSuccess("Your profile is being updated! Redirecting...")
         navigate('/profile')
       }

@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import { supabase } from '../supabaseAuth/supabaseClient';
 import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
+import { useGoal } from '../contexts/GoalProvider';
 
 const Login = () => {
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const { user, setUser } = useAuth()
+  const { goal } = useGoal()
   const navigate = useNavigate()
 
   const handleLogin = async (e) => {
@@ -27,7 +29,7 @@ const Login = () => {
     } else {
       setUser(data.user.id)
       setSession(true)
-      console.log(user)
+      console.log(data.user.id)
       navigate('/')
     }
     } 
