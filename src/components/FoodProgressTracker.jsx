@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { LinearProgress, Stack, FormLabel, Grid } from "@mui/material";
+import { LinearProgress, Stack, FormLabel, Grid, Typography } from "@mui/material";
 import { useGoal } from "../contexts/GoalProvider";
 
 const FoodProgressTracker = ( { accCalories, accFat, accCarbs, accProtein }) => {
@@ -7,7 +7,21 @@ const FoodProgressTracker = ( { accCalories, accFat, accCarbs, accProtein }) => 
   const [fatProgress, setFatProgress] = useState(0)
   const [carbsProgress, setCarbsProgress] = useState(0)
   const [proteinProgress, setProteinProgress] = useState(0)
+  const [goalValues, setGoalValues] = useState({
+    calories: 0, 
+    fat: 0,
+    carbs: 0,
+    protein: 0
+  })
+  const [intakeValues, setIntakeValues] = useState({
+    calories: 0, 
+    fat: 0,
+    carbs: 0,
+    protein: 0
+  })
+
   const { goal } = useGoal()
+
 
   useEffect(() => {
     if (goal) {
@@ -15,10 +29,23 @@ const FoodProgressTracker = ( { accCalories, accFat, accCarbs, accProtein }) => 
       const fatAmount = (accFat / goal.fat) * 100
       const carbsAmount = (accCarbs / goal.carbs) * 100
       const proteinAmount = (accProtein / goal.protein) * 100
+
       setCaloriesProgress(calorieAmount >= 100 ? 100 : calorieAmount)
       setFatProgress(fatAmount >= 100 ? 100 : fatAmount)
       setCarbsProgress(carbsAmount >= 100 ? 100 : carbsAmount)
       setProteinProgress(proteinAmount >= 100 ? 100 : proteinAmount)
+      setIntakeValues({
+        calories: calorieAmount,
+        fat: fatAmount,
+        carbs: carbsAmount,
+        protein: proteinAmount,
+      })
+      setGoalValues({
+        calories: goal["goal_calories"],
+        fat: goal.fat,
+        carbs: goal.carbs,
+        protein: goal.protein,
+      })
     }
   }, [accCalories, goal])
 
@@ -29,12 +56,14 @@ const FoodProgressTracker = ( { accCalories, accFat, accCarbs, accProtein }) => 
 
   const colors = [calorieColor, fatColor, carbsColor, proteinColor]
   const labels = ["Calories", "Fat", "Carbohydrate", "Protein"]
+  const intake = [intakeValues.calories, intakeValues.fat, intakeValues.carbs, intakeValues.protein]
+  const goalValue = [`${goalValues.calories}kcal`, `${goalValues.fat}g`, `${goalValues.carbs}g`, `${goalValues.protein}g`]
   const values = [caloriesProgress, fatProgress, carbsProgress, proteinProgress]
 
   return (
     <Stack spacing={3} sx={{width:300}}>
     {labels.map((label, index) => (
-      <Grid key={index}>
+      <Grid key={label}>
         <FormLabel>{label}</FormLabel>
         <LinearProgress
           variant="determinate"
@@ -46,6 +75,7 @@ const FoodProgressTracker = ( { accCalories, accFat, accCarbs, accProtein }) => 
           }}
           value={values[index]}
         />
+        <Typography variant="body2"> {Math.round(intake[index])} / {goalValue[index]} </Typography>
       </Grid>
     ))}
   </Stack>
