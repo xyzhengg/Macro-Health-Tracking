@@ -46,6 +46,27 @@ const DataEditDeleteButton = ( { id }) => {
     }
   }
 
+  const handleEdit = async (e) => {
+    console.log(date)
+    handleClose()
+    setLoading(true)
+    try {
+      const { data, error } = await supabase
+        .from('diary')
+        .delete()
+        .eq('id', e.currentTarget.id)
+      if (error) {
+        console.log(error)
+      } else {
+        setLoading(false)
+        setDate(new Date(date.getTime() + 10000))
+        console.log(date)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   return (
     <>
       <IconButton color="neutral" variant="plain" onClick={handleClick}>
