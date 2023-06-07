@@ -1,7 +1,16 @@
-import { MenuItem, ListItemDecorator, ListDivider, Menu, IconButton, Paper, TableRow, TableHead, TableContainer, TableCell, tableCellClasses, TableBody, Table, styled } from '@mui/material';
-import { MoreVert, Edit, DeleteForever, AddCircleOutlineIcon } from '@mui/icons-material';
+import { styled } from '@mui/material/styles';
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
+import { IconButton } from '@mui/material';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Link } from 'react-router-dom';
 import { useMeal } from '../contexts/MealContext';
+import DataEditDeleteButton from './DataEditDeleteButton';
 
 const BreakfastTable = ( {breakfastData, breakfastTotals}) => {
   const { setMeal } = useMeal()
@@ -40,7 +49,7 @@ const BreakfastTable = ( {breakfastData, breakfastTotals}) => {
             <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell>
             <StyledTableCell align="center">Calories&nbsp;(kcal)</StyledTableCell>
             <StyledTableCell sx={{ width: '10px' }}>
-              <IconButton onClick={handleSelectMeal}>
+            <IconButton onClick={handleSelectMeal}>
                 <Link to="/food-recipe-searcher" id="breakfast">
                   <AddCircleOutlineIcon />
                 </Link>
@@ -56,7 +65,9 @@ const BreakfastTable = ( {breakfastData, breakfastTotals}) => {
               <StyledTableCell align="center">{eachData.carbs.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center">{eachData.protein.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center">{eachData.calories.toFixed(1)}</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
+              <StyledTableCell align="center">
+                <DataEditDeleteButton />
+              </StyledTableCell>
             </StyledTableRow>
           ))}
             <StyledTableRow>
