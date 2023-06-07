@@ -15,64 +15,12 @@ import { useMeal } from '../contexts/MealContext';
 import { useAuth } from '../contexts/AuthProvider';
 import { useDate } from '../contexts/DateProvider';
 
-const SnackTable = () => {
-  const [data, setData] = useState([])
-  const [totals, setTotals] = useState({
-    calories: 0,
-    fat: 0,
-    carbs: 0,
-    protein: 0,
-  });
+const SnackTable = ( {snackData, snackTotals}) => {
   const {setMeal} = useMeal()
-  const { user } = useAuth()
-  const { date, setDate } = useDate()
 
   const handleSelectMeal = () => {
     setMeal('snack')
   }
-
-  useEffect(() => {
-    const getSnackData = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('diary')
-          .select('*')
-          .eq('snack', true)
-          .eq('user_id', user)
-          .gte('created_at', `${date.toISOString().split('T')[0]} 00:00:00`)
-          .lte('created_at', `${date.toISOString().split('T')[0]} 23:59:59`)
-          .order('created_at', { descending: true })
-        if (error) {
-          console.log(error)
-        } else {
-          setData(data)
-        }
-      } catch (err) {
-        console.log(err.message)
-      }
-    }
-    getSnackData()
-  }, [date])
-
-  useEffect(() => {
-    const calculateTotals = () => {
-      const initialTotals = {
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      };
-      const updatedTotals = data.reduce((acc, eachData) => {
-        acc.calories += eachData.calories
-        acc.fat += eachData.fat
-        acc.carbs += eachData.carbs
-        acc.protein += eachData.protein
-        return acc
-      }, initialTotals)
-      setTotals(updatedTotals)
-    }
-    calculateTotals()
-  }, [data])
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -114,7 +62,7 @@ const SnackTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-        {data.map((eachData) => (
+        {snackData.map((eachData) => (
             <StyledTableRow key={eachData.id}>
               <StyledTableCell>{eachData.food_name}</StyledTableCell>
               <StyledTableCell align="center">{eachData.fat.toFixed(1)}</StyledTableCell>
@@ -126,10 +74,10 @@ const SnackTable = () => {
           ))}
             <StyledTableRow>
               <StyledTableCell style={{ fontWeight: 'bold' }}> Total: </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.fat.toFixed(1)} </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.carbs.toFixed(1)} </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.protein.toFixed(1)} </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.calories.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {snackTotals.fat.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {snackTotals.carbs.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {snackTotals.protein.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {snackTotals.calories.toFixed(1)} </StyledTableCell>
               <StyledTableCell align="center"></StyledTableCell>
             </StyledTableRow>
         </TableBody>

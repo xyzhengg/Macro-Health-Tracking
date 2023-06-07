@@ -8,72 +8,14 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { supabase } from '../supabaseAuth/supabaseClient';
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMeal } from '../contexts/MealContext';
-import { useDate } from '../contexts/DateProvider';
-import { useAuth } from '../contexts/AuthProvider';
 
-const BreakfastTable = () => {
-  const [data, setData] = useState([])
-  const [totals, setTotals] = useState({
-    calories: 0,
-    fat: 0,
-    carbs: 0,
-    protein: 0,
-  });
-
+const BreakfastTable = ( {breakfastData, breakfastTotals}) => {
   const { setMeal } = useMeal()
-  const { date, setDate } = useDate()
-  const { user } = useAuth()
-
   const handleSelectMeal = () => {
     setMeal('breakfast')
   }
-
-  useEffect(() => {
-    const getBreakfastData = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('diary')
-          .select('*')
-          .eq('breakfast', true)
-          .eq('user_id', user)
-          .gte('created_at', `${date.toISOString().split('T')[0]} 00:00:00`)
-          .lte('created_at', `${date.toISOString().split('T')[0]} 23:59:59`)
-          .order('created_at', { descending: true })
-        if (error) {
-          console.log(error)
-        } else {
-          setData(data)
-        }
-      } catch (err) {
-        console.log(err.message)
-      }
-    }
-    getBreakfastData()
-  }, [date])
-
-  useEffect(() => {
-    const calculateTotals = () => {
-      const initialTotals = {
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0,
-      };
-      const updatedTotals = data.reduce((acc, eachData) => {
-        acc.calories += eachData.calories
-        acc.fat += eachData.fat
-        acc.carbs += eachData.carbs
-        acc.protein += eachData.protein
-        return acc
-      }, initialTotals)
-      setTotals(updatedTotals)
-    }
-    calculateTotals()
-  }, [data])
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -115,7 +57,7 @@ const BreakfastTable = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((eachData) => (
+          {breakfastData.map((eachData) => (
             <StyledTableRow key={eachData.id}>
               <StyledTableCell>{eachData.food_name}</StyledTableCell>
               <StyledTableCell align="center">{eachData.fat.toFixed(1)}</StyledTableCell>
@@ -127,10 +69,10 @@ const BreakfastTable = () => {
           ))}
             <StyledTableRow>
               <StyledTableCell style={{ fontWeight: 'bold' }}> Total: </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.fat.toFixed(1)} </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.carbs.toFixed(1)} </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.protein.toFixed(1)} </StyledTableCell>
-              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {totals.calories.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {breakfastTotals.fat.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {breakfastTotals.carbs.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {breakfastTotals.protein.toFixed(1)} </StyledTableCell>
+              <StyledTableCell align="center" style={{ fontWeight: 'bold' }}> {breakfastTotals.calories.toFixed(1)} </StyledTableCell>
               <StyledTableCell align="center"></StyledTableCell>
             </StyledTableRow>
         </TableBody>
