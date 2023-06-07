@@ -35,10 +35,10 @@ const FoodProgressTracker = ( { accCalories, accFat, accCarbs, accProtein }) => 
       setCarbsProgress(carbsAmount >= 100 ? 100 : carbsAmount)
       setProteinProgress(proteinAmount >= 100 ? 100 : proteinAmount)
       setIntakeValues({
-        calories: calorieAmount,
-        fat: fatAmount,
-        carbs: carbsAmount,
-        protein: proteinAmount,
+        calories: accCalories,
+        fat: accFat,
+        carbs: accCarbs,
+        protein: accProtein,
       })
       setGoalValues({
         calories: goal["goal_calories"],
@@ -61,7 +61,7 @@ const FoodProgressTracker = ( { accCalories, accFat, accCarbs, accProtein }) => 
   const values = [caloriesProgress, fatProgress, carbsProgress, proteinProgress]
 
   return (
-    <Stack spacing={3} sx={{width:300}}>
+    <Stack spacing={2} sx={{width:300}}>
     {labels.map((label, index) => (
       <Grid key={label}>
         <FormLabel>{label}</FormLabel>

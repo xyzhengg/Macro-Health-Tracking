@@ -58,7 +58,7 @@ const BreakfastTable = ( {breakfastData, breakfastTotals}) => {
         </TableHead>
         <TableBody>
           {breakfastData.map((eachData) => (
-            <StyledTableRow key={eachData.id}>
+            <StyledTableRow key={eachData.id} id={eachData.id}>
               <StyledTableCell>{eachData.food_name}</StyledTableCell>
               <StyledTableCell align="center">{eachData.fat.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center">{eachData.carbs.toFixed(1)}</StyledTableCell>
