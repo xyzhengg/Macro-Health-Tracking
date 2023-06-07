@@ -2,7 +2,7 @@ import MacroTrackingDisplay from "../components/MacroTrackingDisplay"
 import { supabase } from '../supabaseAuth/supabaseClient';
 import { Box, Grid } from '@mui/material'
 import DateNavigation from "../components/DateNavigation"
-import CalorieProgress from "../components/CalorieProgress"
+import FoodProgressTracker from "../components/FoodProgressTracker";
 import { useEffect, useState } from 'react';
 import { useMeal } from '../contexts/MealContext';
 import { useDate } from '../contexts/DateProvider';
@@ -19,6 +19,32 @@ const DayDisplay = () => {
     carbs: 0,
     protein: 0,
   })
+  const [lunchData, setLunchData] = useState([])
+  const [lunchTotals, setLunchTotals] = useState({
+    calories: 0,
+    fat: 0,
+    carbs: 0,
+    protein: 0,
+  })
+  const [dinnerData, setDinnerData] = useState([]);
+  const [dinnerTotals, setDinnerTotals] = useState({
+    calories: 0,
+    fat: 0,
+    carbs: 0,
+    protein: 0,
+  })
+  const [snackData, setSnackData] = useState([])
+  const [snackTotals, setSnackTotals] = useState({
+    calories: 0,
+    fat: 0,
+    carbs: 0,
+    protein: 0,
+  })
+
+  const [accCalories, setAccCalories] = useState(0)
+  const [accFat, setAccFat] = useState(0)
+  const [accCarbs, setAccCarbs] = useState(0)
+  const [accProtein, setAccProtein] = useState(0)
 
   useEffect(() => {
     const getBreakfastData = async () => {
@@ -63,14 +89,6 @@ const DayDisplay = () => {
     calculateBreakfastTotals()
   }, [breakfastData])
 
-  const [lunchData, setLunchData] = useState([])
-  const [lunchTotals, setLunchTotals] = useState({
-    calories: 0,
-    fat: 0,
-    carbs: 0,
-    protein: 0,
-  })
-
   useEffect(() => {
     const getLunchData = async () => {
       try {
@@ -110,18 +128,9 @@ const DayDisplay = () => {
         return acc
       }, initialTotals)
       setLunchTotals(updatedTotals)
-    };
+    }
     calculateLunchTotals()
   }, [lunchData])
-
-
-  const [dinnerData, setDinnerData] = useState([]);
-  const [dinnerTotals, setDinnerTotals] = useState({
-    calories: 0,
-    fat: 0,
-    carbs: 0,
-    protein: 0,
-  });
 
   useEffect(() => {
     const getDinnerData = async () => {
@@ -165,14 +174,6 @@ const DayDisplay = () => {
     };
     calculateDinnerTotals()
   }, [dinnerData])
-
-  const [snackData, setSnackData] = useState([]);
-  const [snackTotals, setSnackTotals] = useState({
-    calories: 0,
-    fat: 0,
-    carbs: 0,
-    protein: 0,
-  });
   
   useEffect(() => {
     const getSnackData = async () => {
@@ -184,18 +185,18 @@ const DayDisplay = () => {
           .eq('user_id', user)
           .gte('created_at', `${date.toISOString().split('T')[0]} 00:00:00`)
           .lte('created_at', `${date.toISOString().split('T')[0]} 23:59:59`)
-          .order('created_at', { descending: true });
+          .order('created_at', { descending: true })
         if (error) {
-          console.log(error);
+          console.log(error)
         } else {
-          setSnackData(data);
+          setSnackData(data)
         }
       } catch (err) {
-        console.log(err.message);
+        console.log(err.message)
       }
-    };
-    getSnackData();
-  }, [date]);
+    }
+    getSnackData()
+  }, [date])
   
   useEffect(() => {
     const calculateSnackTotals = () => {
@@ -204,19 +205,30 @@ const DayDisplay = () => {
         fat: 0,
         carbs: 0,
         protein: 0,
-      };
+      }
       const updatedTotals = snackData.reduce((acc, item) => {
-        acc.calories += item.calories;
-        acc.fat += item.fat;
-        acc.carbs += item.carbs;
-        acc.protein += item.protein;
-        return acc;
-      }, initialTotals);
-      setSnackTotals(updatedTotals);
-    };
-    calculateSnackTotals();
-  }, [snackData]);
+        acc.calories += item.calories
+        acc.fat += item.fat
+        acc.carbs += item.carbs
+        acc.protein += item.protein
+        return acc
+      }, initialTotals)
+      setSnackTotals(updatedTotals)
+    }
+    calculateSnackTotals()
+  }, [snackData])
   
+  useEffect(() => {
+    const totalCalories = Math.round(breakfastTotals.calories + lunchTotals.calories + dinnerTotals.calories + snackTotals.calories)
+    const totalFat = Math.round(breakfastTotals.fat + lunchTotals.fat + dinnerTotals.fat + snackTotals.fat)
+    const totalCarbs = Math.round(breakfastTotals.carbs + lunchTotals.carbs + dinnerTotals.carbs + snackTotals.carbs)
+    const totalProtein = Math.round(breakfastTotals.protein + lunchTotals.protein + dinnerTotals.protein + snackTotals.protein)
+    setAccCalories(totalCalories)
+    setAccFat(totalFat)
+    setAccCarbs(totalCarbs)
+    setAccProtein(totalProtein)
+
+  },[breakfastTotals, lunchTotals, dinnerTotals, snackTotals])
 
   return (
     <Grid container direction="row">
@@ -240,7 +252,12 @@ const DayDisplay = () => {
         </Grid>
       </Grid>
       <Grid container direction="column">
-        <CalorieProgress/>
+        <FoodProgressTracker 
+          accCalories = {accCalories}
+          accFat = {accFat}
+          accCarbs = {accCarbs}
+          accProtein = {accProtein}
+          />
       </Grid>
     </Grid>
   )
