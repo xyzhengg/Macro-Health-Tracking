@@ -1,11 +1,4 @@
-const FoodAPIInfoEdit = ( {        
-  id, 
-  label,
-  kcal,
-  fat,
-  protein,
-  carbs,
-  serving} ) => {
+const FoodAPIInfoEdit = ( { id, kcal, fat, protein, carbs, serving} ) => {
 
 
   return (

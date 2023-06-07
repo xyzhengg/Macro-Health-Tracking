@@ -12,7 +12,7 @@ import { Link } from 'react-router-dom';
 import { useMeal } from '../contexts/MealContext';
 import DataEditDeleteButton from './DataEditDeleteButton';
 
-const BreakfastTable = ( {breakfastData, breakfastTotals}) => {
+const BreakfastTable = ( {breakfastData, breakfastTotals, handleDelete}) => {
   const { setMeal } = useMeal()
   const handleSelectMeal = () => {
     setMeal('breakfast')
@@ -50,7 +50,7 @@ const BreakfastTable = ( {breakfastData, breakfastTotals}) => {
             <StyledTableCell align="center">Calories&nbsp;(kcal)</StyledTableCell>
             <StyledTableCell sx={{ width: '10px' }}>
             <IconButton onClick={handleSelectMeal}>
-                <Link to="/food-recipe-searcher" id="breakfast">
+                <Link to="/search" id="breakfast">
                   <AddCircleOutlineIcon />
                 </Link>
               </IconButton>
@@ -66,7 +66,7 @@ const BreakfastTable = ( {breakfastData, breakfastTotals}) => {
               <StyledTableCell align="center">{eachData.protein.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center">{eachData.calories.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center">
-                <DataEditDeleteButton />
+                <DataEditDeleteButton id={eachData.id} handleDelete={handleDelete}/>
               </StyledTableCell>
             </StyledTableRow>
           ))}

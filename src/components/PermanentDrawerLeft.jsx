@@ -23,7 +23,7 @@ const drawerWidth = 250
 
 const PermanentDrawerLeft = () => {
   const navigate = useNavigate()
-  const routes = ['/apirecipesearch', '/statistics', '/settings'];
+  const routes = ['/api/recipe/search', '/statistics', '/settings'];
   const icons = [<MenuBookIcon sx={{color:'#e7e7ec'}}/>, <BarChartIcon sx={{color:'#e7e7ec'}}/>, <SettingsIcon sx={{color:'#e7e7ec'}}/> ]
   const { setUser } = useAuth()
   const { setDate } = useDate()
@@ -37,6 +37,7 @@ const PermanentDrawerLeft = () => {
         console.log(error)
       } else {
         setUser(null)
+        localStorage.removeItem("authSession")
         navigate("/login")
       }
     }
@@ -45,6 +46,7 @@ const PermanentDrawerLeft = () => {
       console.log(err.message)
     }
     const { data, error } = await supabase.auth.getSession()
+    localStorage.removeItem("authSession")
     console.log(data)
   }
 

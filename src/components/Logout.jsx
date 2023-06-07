@@ -9,7 +9,9 @@ const Logout = () => {
       if (error) {
         setError(error.message)
         console.log(error)
-      } 
+      } else {
+        localStorage.removeItem("authSession")
+      }
     }
     catch (err) {
       setError(err.message)
@@ -17,6 +19,7 @@ const Logout = () => {
     }
     const { data, error } = await supabase.auth.getSession()
     console.log(data)
+    localStorage.removeItem("authSession")
   }
 
 return (

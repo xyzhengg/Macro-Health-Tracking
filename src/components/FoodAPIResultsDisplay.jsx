@@ -17,7 +17,7 @@ const FoodAPIResultsDisplay = ({ id, label, kcal, fat, protein, carbs, serving})
       carbs: carbs,
       serving: serving
     }
-    navigate(`/apifood/${id}`, { state: food })
+    navigate(`/api/food/${id}`, { state: food })
   }
   return (
     <CardContent id={id} sx={{ margin: '15px', paddingBottom: 0, border: '1px solid #e0e0e0', borderRadius: '8px', maxWidth: 200}}>

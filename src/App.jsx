@@ -47,12 +47,12 @@ function App() {
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/profile/edit" element={<EditProfile />} />
                   <Route path="/profile/setup" element={<InitialProfileSetup/>}/>
-                  <Route path="/apirecipesearch" element={<RecipeAPISearcherPage />} />
-                  <Route path="/apirecipe/:id" element={<RecipeAPIInfo />} />
-                  <Route path="/apifood/:id" element={<FoodAPIInfoAdd />} />
-                  <Route path="/apifoodsearch" element={<FoodSearcher />} />
+                  <Route path="/api/recipes/search" element={<RecipeAPISearcherPage />} />
+                  <Route path="/api/recipe/:id" element={<RecipeAPIInfo />} />
+                  <Route path="/api/food/:id" element={<FoodAPIInfoAdd />} />
+                  <Route path="/api/food/search" element={<FoodSearcher />} />
                   <Route path="/createfood" element={<CreateFoodForm />} />
-                  <Route path="/food-recipe-searcher" element={<FoodAndRecipeSearcherPage />} />
+                  <Route path="/search" element={<FoodAndRecipeSearcherPage />} />
                   <Route path="/signup" element={<Navigate to="/" />} />
                   <Route path="/login" element={<Navigate to="/" />} />
                   <Route path="/" element={<DayDisplay />} />

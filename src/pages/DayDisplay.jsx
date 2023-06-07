@@ -227,7 +227,6 @@ const DayDisplay = () => {
     setAccFat(totalFat)
     setAccCarbs(totalCarbs)
     setAccProtein(totalProtein)
-
   },[breakfastTotals, lunchTotals, dinnerTotals, snackTotals])
 
   return (
