@@ -1,0 +1,8 @@
+.MuiCalendarOrClockPicker-root,
+.MuiCalendarOrClockPicker-root > div {
+  width: 500px;
+}
+    
+.MuiCalendarPicker-root {
+  width: 500;
+}
