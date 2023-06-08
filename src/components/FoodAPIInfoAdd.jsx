@@ -142,9 +142,17 @@ const FoodAPIInfoAdd = () => {
           rows={4}
           fullWidth
         />
-        <Button variant="contained" size="small" type="submit" fullWidth sx={{ marginTop: '10px' }}>
-          Add
+
+        <Button type="submit" fullWidth 
+          sx={{ marginTop: '10px',
+            backgroundColor: `rgb(196, 155, 178)`, 
+            color: `rgb(255,255,255)`, 
+            '&:hover': {
+            backgroundColor: `rgb(196, 155, 178)`, 
+            color: `rgb(255,255,255)`}}}
+          > Add
         </Button>
+
       </form>
     </Box>
   );

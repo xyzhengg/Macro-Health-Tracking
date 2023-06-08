@@ -104,7 +104,15 @@ const EditProfile = () => {
               <TextField label="Protein (g)" name="protein" type="number" variant="outlined" margin="normal" defaultValue={profileData.protein } InputLabelProps={{ shrink: true }} required fullWidth sx={{ height: 40 }}/>
             </Grid>
           </Grid>
-        <Button type="submit" variant="contained" fullWidth sx={{ marginTop: 5 }}> Save </Button>
+        <Button type="submit" fullWidth 
+          sx={{ marginTop: 5,
+          backgroundColor: `rgb(196, 155, 178)`, 
+          color: `rgb(255,255,255)`, 
+          '&:hover': {
+          backgroundColor: `rgb(196, 155, 178)`, 
+          color: `rgb(255,255,255)`}}}
+          > Save
+        </Button>
       </form>
       {success && ( <Typography variant="body1" align="center" > {success} </Typography> )}
     </Grid>
@@ -114,3 +122,4 @@ const EditProfile = () => {
 }
 
 export default EditProfile
+

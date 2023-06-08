@@ -138,8 +138,8 @@ const WeightTile = () => {
             <Grid item>
               <Typography variant="h4">{weight.kg}kg</Typography>
             </Grid>
-            <Grid item>
-              <IconButton onClick={handleEditModeToggle}>
+            <Grid>
+              <IconButton onClick={handleEditModeToggle} >
                 <AddIcon />
               </IconButton>
             </Grid>

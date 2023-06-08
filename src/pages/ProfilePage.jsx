@@ -65,7 +65,15 @@ const ProfilePage = () => {
           </Grid>
         </div>
         <Grid container justifyContent="center" alignSelf="center">
-          <Button variant="contained" fullWidth sx={{marginTop: 5}} onClick={(handleEditProfile)}> Edit </Button>
+          <Button type="submit" fullWidth onClick={(handleEditProfile)}
+            sx={{ marginTop: 5,
+            backgroundColor: `rgb(196, 155, 178)`, 
+            color: `rgb(255,255,255)`, 
+            '&:hover': {
+            backgroundColor: `rgb(196, 155, 178)`, 
+            color: `rgb(255,255,255)`}}}
+            > Edit
+          </Button>
         </Grid>
       </Card>
     </Grid>
@@ -74,3 +82,4 @@ const ProfilePage = () => {
 }
 
 export default ProfilePage
+

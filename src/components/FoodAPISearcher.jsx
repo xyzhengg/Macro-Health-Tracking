@@ -3,8 +3,7 @@ import axios from 'axios'
 import FoodAPIResultsDisplay from './FoodAPIResultsDisplay'
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import Grid from '@mui/material/Grid';
+import {InputBase, Grid, Button, Box} from '@mui/material/';
 
 const FoodAPISearcher = () => {
   const [results, setResults] = useState(null)
@@ -72,23 +71,33 @@ const FoodAPISearcher = () => {
       transition: theme.transitions.create('width'),
       width: '100%',
       [theme.breakpoints.up('md')]: {
-        width: '20ch',
+        width: '100%',
       },
-    },
-  }));
+    }}))
 
   return (
     <>
+    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
       <form onSubmit={handleSearchFood}>
-        <Search>
+        <Search sx={{ width: '600px'}}>
           <SearchIconWrapper>
               <SearchIcon />
           </SearchIconWrapper>
-          <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} name="search" />
-          <button type="submit"> Search </button>
+          <StyledInputBase placeholder="Search…" name="search" sx={{ border: '1px solid #e0e0e0', width: '600px'}}/>
+            <Button type="submit" sx={{ 
+              height:"40px",
+              backgroundColor: `rgb(196, 155, 178)`, 
+              color: `rgb(255,255,255)`, 
+              '&:hover': {
+              backgroundColor: `rgb(196, 155, 178)`, 
+              color: `rgb(255,255,255)`,
+              transform: 'scale(1.05)'}}}
+              > Search
+            </Button>
         </Search>
         {error && <div> Error: {error} </div>}
       </form>
+      </Box>
       <Grid container spacing={2}>
         {filteredResults && filteredResults.map((result) => (
           <Grid item xs={3} key={result.food.foodId}>
@@ -110,8 +119,3 @@ const FoodAPISearcher = () => {
 }
 
 export default FoodAPISearcher
-
-// search box
-// search button
-// results area
-    // should be clickable/selectable to save
