@@ -8,14 +8,11 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import { supabase } from '../supabaseAuth/supabaseClient';
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMeal } from '../contexts/MealContext';
-import { useDate } from '../contexts/DateProvider';
-import { useAuth } from '../contexts/AuthProvider';
+import DataEditDeleteButton from './DataEditDeleteButton';
 
-const DinnerTable = ( {dinnerData, dinnerTotals}) => {
+const DinnerTable = ( {dinnerData, dinnerTotals, handleDelete}) => {
   const {setMeal} = useMeal()
   const handleSelectMeal = () => {
     setMeal('dinner')
@@ -53,7 +50,7 @@ const DinnerTable = ( {dinnerData, dinnerTotals}) => {
             <StyledTableCell align="center">Calories&nbsp;(kcal)</StyledTableCell>
             <StyledTableCell sx={{ width: '10px' }}>
             <IconButton onClick={handleSelectMeal}>
-                <Link to="/food-recipe-searcher" id="dinner">
+                <Link to="/search" id="dinner">
                   <AddCircleOutlineIcon />
                 </Link>
               </IconButton>
@@ -68,7 +65,9 @@ const DinnerTable = ( {dinnerData, dinnerTotals}) => {
               <StyledTableCell align="center">{eachData.carbs.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center">{eachData.protein.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center">{eachData.calories.toFixed(1)}</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
+              <StyledTableCell align="center">
+                <DataEditDeleteButton id={eachData.id} handleDelete={handleDelete}/>
+              </StyledTableCell>
             </StyledTableRow>
           ))}
             <StyledTableRow>

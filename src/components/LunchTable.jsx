@@ -10,8 +10,9 @@ import { IconButton } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { Link } from 'react-router-dom';
 import { useMeal } from '../contexts/MealContext';
+import DataEditDeleteButton from './DataEditDeleteButton';
 
-const LunchTable = ( {lunchData, lunchTotals}) => {
+const LunchTable = ( {lunchData, lunchTotals, handleDelete}) => {
   const { setMeal } = useMeal()
   const handleSelectMeal = () => {
     setMeal('lunch')
@@ -49,7 +50,7 @@ const LunchTable = ( {lunchData, lunchTotals}) => {
             <StyledTableCell align="center">Calories&nbsp;(kcal)</StyledTableCell>
             <StyledTableCell sx={{ width: '10px' }}>
             <IconButton onClick={handleSelectMeal}>
-                <Link to="/food-recipe-searcher" id="lunch">
+                <Link to="/search" id="lunch">
                   <AddCircleOutlineIcon />
                 </Link>
               </IconButton>
@@ -64,7 +65,9 @@ const LunchTable = ( {lunchData, lunchTotals}) => {
               <StyledTableCell align="center">{eachData.carbs.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center">{eachData.protein.toFixed(1)}</StyledTableCell>
               <StyledTableCell align="center">{eachData.calories.toFixed(1)}</StyledTableCell>
-              <StyledTableCell align="center"></StyledTableCell>
+              <StyledTableCell align="center">
+                <DataEditDeleteButton id={eachData.id} handleDelete={handleDelete}/>
+              </StyledTableCell>
             </StyledTableRow>
         ))}
             <StyledTableRow>
