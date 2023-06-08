@@ -39,7 +39,6 @@ const DataEditDeleteButton = ({ id }) => {
   const handleDelete = async (e) => {
     handleClose()
     setLoading(true)
-    console.log(e.target)
     try {
       const { data, error } = await supabase
         .from('diary')
@@ -71,6 +70,7 @@ const DataEditDeleteButton = ({ id }) => {
         setOpenModal(true)
         setInitialFoodData(data[0])
         setFoodData(data[0])
+        console.log(data[0])
       }
     } catch (err) {
       console.log(err)
@@ -88,10 +88,11 @@ const DataEditDeleteButton = ({ id }) => {
     
   useEffect(() => {
       const { serving_amt } = foodData
-      const newKcal = initialFoodData.calories * (serving_amt / 100)
-      const newProtein = initialFoodData.protein * (serving_amt / 100)
-      const newFat = initialFoodData.fat  * (serving_amt / 100)
-      const newCarbs = initialFoodData.carbs  * (serving_amt / 100)
+      const servingMultiplier = serving_amt / initialFoodData.serving_amt
+      const newKcal = initialFoodData.calories * servingMultiplier
+      const newProtein = initialFoodData.protein * servingMultiplier
+      const newFat = initialFoodData.fat  * servingMultiplier
+      const newCarbs = initialFoodData.carbs  * servingMultiplier
       setFoodData((prevFoodData) => ({
         ...prevFoodData,
         serving_amt: serving_amt,
@@ -103,11 +104,40 @@ const DataEditDeleteButton = ({ id }) => {
   },[foodData.serving_amt])
 
 
-  const handleSaveEdit = (e) => {
+  const handleSaveEdit = async (e) => {
     e.preventDefault();
-    // Perform the save operation here
-    console.log("Save edit", foodData);
-    handleCloseModal();
+    try {
+      const { data, error } = await supabase
+      .from('diary')
+      .update({ 
+        serving_amt: foodData.serving_amt,
+        calories: foodData.calories,
+        fat: foodData.fat,
+        protein: foodData.protein,
+        carbs: foodData.carbs
+       })
+      .eq('id', id)
+      if (error) {
+        console.log(error)
+      } else {
+        console.log(data)
+        setDate(new Date(date.getTime() + 10000))
+        setInitialFoodData("")
+        setFoodData({
+          food_name: "",
+          serving_amt: "",
+          serving_measure: "",
+          calories: "",
+          protein: "",
+          fat: "",
+          carbs: ""
+        })
+        handleCloseModal()
+      }
+    }
+    catch (err){
+      console.log(err)
+    }    
   }
 
   return (
