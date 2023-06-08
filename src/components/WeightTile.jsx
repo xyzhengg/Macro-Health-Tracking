@@ -1,19 +1,20 @@
 import { supabase } from "../supabaseAuth/supabaseClient"
 import { useState, useEffect } from "react";
-import { LinearProgress, Stack, FormLabel, Grid, Typography, Box, Button } from "@mui/material";
+import { TextField, Stack, FormLabel, Grid, Typography, Box, Button } from "@mui/material";
 import { useGoal } from "../contexts/GoalProvider";
 import { useAuth } from "../contexts/AuthProvider";
 import { useDate } from "../contexts/DateProvider";
 
 const WeightTile = () => {
   const { user } = useAuth() 
-  const { date } = useDate()
+  const { date, setDate } = useDate()
   const { goal } = useGoal()
   const [ weight, setWeight ] = useState()
+  const [ editMode, setEditMode] = useState(false)
   const [weightDifference, setWeightDifference] = useState(0)
 
   useEffect(() => {
-    console.log(date.toISOString())
+    // console.log(date.toISOString())
     const getWeightData = async () => {
       try {
         const { data, error } = await supabase
@@ -28,39 +29,117 @@ const WeightTile = () => {
         } else {
           setWeight(data[0])
           setWeightDifference((goal.goal_weight - data[0].kg) > 0 ? `+${goal.goal_weight - data[0].kg}` : goal.goal_weight - data[0].kg)
-          console.log(goal.goal_weight - data[0].kg)
+          // console.log(goal.goal_weight - data[0].kg)
         }
       } catch (err) {
         console.log(err)
       }
     } 
     getWeightData()
-  }, [date])
+  }, [date, goal])
 
-  const handleAddWeight = () => {
-
+  const handleEditModeToggle = () => {
+    setEditMode(!editMode)
   }
+
+  const addWeight = async (e) => {
+    e.preventDefault()
+    const fields = Object.fromEntries(new FormData(e.target))
+    // console.log(fields.newWeight)
+
+    try {
+      const { data: dataExist, error: dataExistError } = await supabase
+        .from('weight')
+        .select('*')
+        .eq('user_id', user)
+        .eq('created_at', date.toISOString())
+      // console.log(dataExist)
+
+      if (dataExistError) {
+        console.log(dataExistError)
+      } else {
+        if (dataExist.length === 0) {
+          const { data: addWeight, error: addWeightError } = await supabase
+            .from('weight')
+            .insert([
+              {
+                user_id: user,
+                kg: fields.newWeight,
+                created_at: date.toISOString(),
+              },
+            ]);
+          // console.log(addWeight)
+          setDate(new Date(date.getTime() + 10000))
+
+          if (addWeightError) {
+            console.log(addWeightError)
+          }
+        } else {
+          try {
+            const { data, error } = await supabase
+              .from('weight')
+              .update({ kg: fields.newWeight })
+              .eq('user_id', user)
+              .eq('created_at', date.toISOString())
+            // console.log(data)
+            if (error) {
+              console.log(error)
+            } else{
+              setDate(new Date(date.getTime() + 10000))
+            }
+          } catch (error) {
+            console.log(error)
+          }
+        }
+      }
+    } catch (error) {
+      console.log(error)
+    }
+    handleEditModeToggle()
+  }
+
   return (
     <>
-    { weight && (
-      <Grid container direction="column" sx={{ border: '1px solid #ccc', borderRadius: '1rem', p: '2rem'}}>
-      <Grid container direction="row" justifyContent="space-between" alignItems="center">
-        <Grid item>
-          <Typography variant="h4">{weight.kg}kg</Typography>
+      {editMode && weight && (
+        <Grid container direction="column" sx={{ border: '1px solid #ccc', borderRadius: '1rem', p: '2rem'}}>
+          <Grid container direction="row" justifyContent="space-between" alignItems="center">
+            <Grid item>
+              <form onSubmit={addWeight} id="editWeightForm">
+                <TextField
+                  label="kg"
+                  defaultValue={weight.kg}
+                  variant="outlined"
+                  size="small"
+                  sx={{ width: '100px' }}
+                  name="newWeight"
+                />
+              </form>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" type="submit" form="editWeightForm">Save</Button>
+            </Grid>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Button variant="contained">+</Button>
+      )}
+  
+      {!editMode && weight && (
+        <Grid container direction="column" sx={{ border: '1px solid #ccc', borderRadius: '1rem', p: '2rem'}}>
+          <Grid container direction="row" justifyContent="space-between" alignItems="center">
+            <Grid item>
+              <Typography variant="h4">{weight.kg}kg</Typography>
+            </Grid>
+            <Grid item>
+              <Button variant="contained" onClick={handleEditModeToggle}>+</Button>
+            </Grid>
+          </Grid>
+          <Grid container direction="row" justifyContent="flex-start" alignItems="center">
+            <Grid item>
+              <Typography variant="body2">{weightDifference}kg left to target</Typography>
+            </Grid>
+          </Grid>
         </Grid>
-      </Grid>
-      <Grid container direction="row" justifyContent="flex-start" alignItems="center">
-        <Grid item>
-          <Typography variant="body2"> {weightDifference}kg left to target</Typography>
-        </Grid>
-      </Grid>
-    </Grid>
-    )}
+      )}
     </>
-    
   )
 }
 
