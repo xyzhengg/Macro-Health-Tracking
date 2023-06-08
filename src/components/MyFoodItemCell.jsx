@@ -11,7 +11,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const MyFoodItemCell = ( {id, food_name, serving_amt, serving_measure, fat, carbs, protein, calories}) => {
+const MyFoodItemCell = ( {id, food_name, serving_amt, serving_measure, fat, carbs, protein, calories, handleClick}) => {
   return(
     <StyledTableRow key={id} sx={{width: 200}}>
       <TableCell align="left" sx={{ fontStyle: "italic", width:"8rem"}}>{food_name}</TableCell>
@@ -20,7 +20,7 @@ const MyFoodItemCell = ( {id, food_name, serving_amt, serving_measure, fat, carb
       <TableCell align="left">C: {Math.round(carbs)}g</TableCell>
       <TableCell align="left">P:{Math.round(protein)}g</TableCell>
       <TableCell align="left">Cal: {Math.round(calories)}kcal</TableCell>
-      <TableCell align="left"><AddCircleOutlineIcon /></TableCell>
+      <TableCell align="left"><AddCircleOutlineIcon onClick={handleClick} id={id}/></TableCell>
     </StyledTableRow>
   )
 }

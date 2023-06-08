@@ -1,18 +1,25 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider"
 import { supabase } from "../supabaseAuth/supabaseClient"
-import {InputBase, Button, Box, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import {InputBase, Button, Box, Grid, Table, TableBody, TableContainer, Paper } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import MyFoodItemCell from "../components/MyFoodItemCell";
 import FoodItemTableRow from "../components/FoodItemTableRow";
+import { useMeal } from '../contexts/MealContext';
+import { useDate } from '../contexts/DateProvider';
 
 const MyFoodSearcherPage = () => {
   const { user } = useAuth()
+  const { meal } = useMeal()
+  const { date } = useDate()
   const [myFoodData, setMyFoodData] = useState()
   const [mySearchResult, setMySearchResult] = useState()
+  const [dataToAdd, setDataToAdd] = useState()
   const [searching, setSearching] = useState(false)
   const [searchTerm, setSearchTerm] = useState()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getMyFoods = async () => {
@@ -25,16 +32,16 @@ const MyFoodSearcherPage = () => {
         if (error) {
           console.log(error)
         } else {
-          const sortedData = {};
+          const sortedData = {}
           for (const food of data) {
-            const letter = food.food_name.charAt(0).toUpperCase();
+            const letter = food.food_name.charAt(0).toUpperCase()
             if (!sortedData[letter]) {
-              sortedData[letter] = [];
+              sortedData[letter] = []
             }
-            sortedData[letter].push(food);
+            sortedData[letter].push(food)
           }
           setMyFoodData(Object.entries(sortedData))
-          console.log(sortedData)
+          // console.log(sortedData)
         }
       } catch (err) {
         console.log(err)
@@ -42,6 +49,84 @@ const MyFoodSearcherPage = () => {
     }
     getMyFoods()
   }, [])
+
+  const handleSearchFood = async (e) => {
+    e.preventDefault()
+    const { search } = Object.fromEntries(new FormData(e.target))
+    setSearchTerm(search)
+    try {
+      const { data, error } = await supabase
+      .from('food')
+      .select('*')
+      .eq('user_id', user)
+      .ilike('food_name', `%${search}%`)
+      .order('food_name', { ascending: true })
+      if (error) {
+        console.log(error)
+      } else {
+        setMySearchResult(data)
+        setSearching(true)
+        setSearchTerm(search)
+        // console.log(data)
+      }
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
+  const handleAddFood = async (e) => {
+    e.preventDefault()
+    const id = e.currentTarget.id
+  
+    try {
+      const { data, error } = await supabase
+        .from('food')
+        .select('*')
+        .eq('user_id', user)
+        .eq('id', id)
+      if (error) {
+        console.log(error)
+      } else {
+        setDataToAdd(data[0])
+      }
+    } catch (err) {
+      console.log(err.message)
+    }
+  }
+  
+  useEffect(() => {
+    if (dataToAdd) {
+    console.log(dataToAdd)
+  
+    const insertData = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('diary')
+          .insert([{
+            food_name: dataToAdd.food_name,
+            calories: dataToAdd.calories,
+            fat: dataToAdd.fat,
+            protein: dataToAdd.protein,
+            carbs: dataToAdd.carbs,
+            serving_amt: dataToAdd.serving_amt,
+            serving_measure: dataToAdd.serving_measure,
+            [meal]: true,
+            user_id: user,
+            created_at: date,
+          },
+        ])
+        if (error) {
+          console.log(error)
+        } else {
+          navigate('/')
+        }
+      } catch (err) {
+        console.log(err.message)
+      }
+    }
+    insertData()
+    }
+  }, [dataToAdd])
 
   const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -80,30 +165,6 @@ const MyFoodSearcherPage = () => {
         width: '100%',
       },
   }}))
-
-  const handleSearchFood = async (e) => {
-    e.preventDefault()
-    const { search } = Object.fromEntries(new FormData(e.target))
-    setSearchTerm(search)
-    try {
-      const { data, error } = await supabase
-      .from('food')
-      .select('*')
-      .eq('user_id', user)
-      .ilike('food_name', `%${search}%`)
-      .order('food_name', { ascending: true })
-      if (error) {
-        console.log(error)
-      } else {
-        setMySearchResult(data)
-        setSearching(true)
-        setSearchTerm(search)
-        console.log(data)
-      }
-    } catch(err) {
-      console.log(err)
-    }
-  }
       
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center">
@@ -149,6 +210,7 @@ const MyFoodSearcherPage = () => {
               carbs={food.carbs}
               protein={food.protein}
               calories={food.calories}
+              handleClick={handleAddFood}
             />
             ))}
           </TableBody>
@@ -174,6 +236,7 @@ const MyFoodSearcherPage = () => {
               carbs={food.carbs}
               protein={food.protein}
               calories={food.calories}
+              handleClick={handleAddFood}
             />
           ))}
           </TableBody>
