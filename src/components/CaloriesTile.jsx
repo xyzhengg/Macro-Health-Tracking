@@ -7,80 +7,76 @@ import { useDate } from "../contexts/DateProvider";
 import AddIcon from '@mui/icons-material/Add';
 import { IconButton } from '@mui/material';
 
-const WeightTile = () => {
+const CaloriesTile = ( { totalCalories} ) => {
   const { user } = useAuth() 
   const { date, setDate } = useDate()
   const { goal } = useGoal()
-  const [ weight, setWeight ] = useState()
+  const [ calories, setCalories ] = useState()
   const [ editMode, setEditMode] = useState(false)
-  const [weightDifference, setWeightDifference] = useState(0)
 
   useEffect(() => {
     // console.log(date.toISOString())
-    const getWeightData = async () => {
+    const getCalorieData = async () => {
       try {
         const { data, error } = await supabase
-        .from('weight')
+        .from('calories_out')
         .select('*')
         .eq('user_id', user)
-        .lte('created_at', date.toISOString())
-        .order('created_at', { ascending: false })
+        .eq('created_at', date.toISOString())
         .limit(1)
         if (error) {
           console.log(error)
         } else {
-          setWeight(data[0])
-          setWeightDifference((goal.goal_weight - data[0].kg) > 0 ? `+${goal.goal_weight - data[0].kg}` : goal.goal_weight - data[0].kg)
-          // console.log(goal.goal_weight - data[0].kg)
+          setCalories(data[0])
+          console.log(data[0])
         }
       } catch (err) {
         console.log(err)
       }
     } 
-    getWeightData()
-  }, [date, goal])
+    getCalorieData()
+  }, [date])
 
   const handleEditModeToggle = () => {
     setEditMode(!editMode)
   }
 
-  const addWeight = async (e) => {
+  const addCalories = async (e) => {
     e.preventDefault()
     const fields = Object.fromEntries(new FormData(e.target))
     // console.log(fields.newWeight)
-
     try {
       const { data: dataExist, error: dataExistError } = await supabase
-        .from('weight')
+        .from('calories_out')
         .select('*')
         .eq('user_id', user)
         .eq('created_at', date.toISOString())
+        .limit(1)
       // console.log(dataExist)
 
       if (dataExistError) {
         console.log(dataExistError)
       } else {
         if (dataExist.length === 0) {
-          const { data: addWeight, error: addWeightError } = await supabase
-            .from('weight')
+          const { data: addCalories, error: addCaloriesError } = await supabase
+            .from('calories_out')
             .insert([
               {
                 user_id: user,
-                kg: fields.newWeight,
+                calories: fields.newCalories,
                 created_at: date.toISOString(),
               },
             ]);
-          // console.log(addWeight)
           setDate(new Date(date.getTime() + 10000))
 
-          if (addWeightError) {
-            console.log(addWeightError)
+          if (addCaloriesError) {
+            console.log(addCaloriesError)
           }
         } else {
           try {
             const { data, error } = await supabase
-              .from('weight')
-              .update({ kg: fields.newWeight })
+              .from('calories_out')
+              .update({ calories: fields.newCalories })
               .eq('user_id', user)
               .eq('created_at', date.toISOString())
             // console.log(data)
@@ -102,24 +98,24 @@ const WeightTile = () => {
 
   return (
     <>
-      {editMode && weight && (
+      {editMode && calories && (
         <Grid container direction="column" sx={{ border: '1px solid #ccc', borderRadius: '1rem', p: '2rem'}}>
-          <Typography variant="subtitle1"> Weight </Typography>
+          <Typography variant="h6"> Calories </Typography>
           <Grid container direction="row" justifyContent="space-between" alignItems="center">
             <Grid item>
-              <form onSubmit={addWeight} id="editWeightForm">
+              <form onSubmit={addCalories} id="editCaloriesForm">
                 <TextField
-                  label="kg"
-                  defaultValue={weight.kg}
+                  label="kcal"
+                  defaultValue={calories.calories}
                   variant="outlined"
                   size="small"
                   sx={{ width: '100px' }}
-                  name="newWeight"
+                  name="newCalories"
                 />
               </form>
             </Grid>
             <Grid item>
-              <Button type="submit" form="editWeightForm" sx={{
+              <Button type="submit" form="editCaloriesForm" sx={{
                 backgroundColor: `rgb(196, 155, 178)`, 
                 color: `rgb(255,255,255)`, 
                 '&:hover': {
@@ -133,30 +129,34 @@ const WeightTile = () => {
         </Grid>
       )}
   
-      {!editMode && weight && (
+      {!editMode && calories && (
         <Grid container direction="column" sx={{ border: '1px solid #ccc', borderRadius: '1rem', p: '2rem'}}>
           <Grid container direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="h6"> Weight </Typography>
-            <IconButton onClick={handleEditModeToggle} >
+            <Typography variant="h6"> Calories </Typography>
+            <Grid>
+              <IconButton onClick={handleEditModeToggle} >
                 <AddIcon />
               </IconButton>
+            </Grid>
           </Grid>
-          <Grid container direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="h5">{weight.kg}kg</Typography>
-          <Grid>
-          <Grid container direction="row" justifyContent="flex-start" alignItems="center">
-            <Typography variant="body2">{weightDifference}kg left to target</Typography>
+          
+          <Grid container direction="row" justifyContent="space-between" alignItems="center" >
+            <Grid item>
+              <Typography variant="body2">In </Typography>
+              <Typography variant="h5">{totalCalories} </Typography>
+            </Grid>
+            <Grid item>
+              <Typography variant="body2">Out </Typography>
+              <Typography variant="h5">{calories.calories} </Typography>
+            </Grid>
+            
           </Grid>
-        </Grid>
-        </Grid>
-
         </Grid>
       )}
-      
     </>
   )
 }
 
-export default WeightTile
+export default CaloriesTile
 
 

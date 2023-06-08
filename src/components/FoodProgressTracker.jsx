@@ -62,6 +62,7 @@ const FoodProgressTracker = ( { accCalories, accFat, accCarbs, accProtein }) => 
 
   return (
     <Box sx={{ border: '1px solid #ccc', borderRadius: '1rem', p: '2rem' }} >
+      <Typography variant="h6" sx={{marginBottom: 2}}> Macros </Typography>
       <Stack spacing={2} sx={{ width: 180 }}>
         {labels.map((label, index) => (
         <Grid key={label}>

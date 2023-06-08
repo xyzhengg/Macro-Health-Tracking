@@ -1,5 +1,6 @@
 import MacroTrackingDisplay from "../components/MacroTrackingDisplay"
 import WeightTile from "../components/WeightTile";
+import CaloriesTile from "../components/CaloriesTile";
 import { supabase } from '../supabaseAuth/supabaseClient';
 import { Box, Grid } from '@mui/material'
 import DateNavigation from "../components/DateNavigation"
@@ -252,7 +253,12 @@ const DayDisplay = () => {
             </Box>
           </Grid>
           <Grid item >
-            <Grid container direction="column" spacing={2} justifyContent="flex-start">
+            <Grid container direction="column" spacing={2} justifyContent="space-between">
+              <Grid item>
+                <CaloriesTile
+                totalCalories = {accCalories}
+                />
+              </Grid>
               <Grid item>
                 <FoodProgressTracker 
                 accCalories = {accCalories}
