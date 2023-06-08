@@ -1,7 +1,8 @@
 import RecipeAPIInfo from "./RecipeAPIInfo"
 import { useState, useEffect } from 'react'
 import { Routes, Route, useNavigate, useParams, Link } from "react-router-dom";
-
+import {Typography, Button, CardContent, Box} from '@mui/material';
+import { AspectRatio } from "@mui/icons-material";
 import axios from 'axios'
 
 const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, carbs, diet, allergies, servings }) => {
@@ -46,28 +47,26 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
 
   const handleShowRecipeDetails = async (e) => {
     const id = e.currentTarget.id
-
     console.log(id)
     try {
       const res = await axios.get(`https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=1630a2de&app_key=8c2f7e5b603050e3bc5815d4675ac28e`)
       console.log(res.data)
       setSelectedRecipe(res.data)
-      navigate(`/api/recipe/${id}`, {
-        state: {
-          id,
-          title,
-          image,
-          calories: caloriesPerServe,
-          servings,
-          fat,
-          protein,
-          carbs,
-          allergies: filteredAllergies,
-          diets: filteredDiets,
-          ingredients: res.data.recipe.ingredients,
-          linkToDirections: res.data.recipe.url,
-        },
-      });
+      const recipe = {
+        id: id,
+        title: title,
+        image: image,
+        calories: caloriesPerServe,
+        servings: servings,
+        fat: fat,
+        protein: protein,
+        carbs: carbs,
+        allergies: filteredAllergies,
+        diets: filteredDiets,
+        ingredients: res.data.recipe.ingredients,
+        linkToDirections: res.data.recipe.url,
+      }
+      navigate(`/api/recipe/${id}`, { state: recipe})
     } catch(err) {
       console.log(err)
       setError(err)
@@ -76,44 +75,26 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
 
   return (
     <>
-    <div id={id} onClick={handleShowRecipeDetails}>
-      <h4> {title} </h4>
-      <img src={image} alt={`image of ${title}`}/>
-      <p> Calories/serve: {caloriesPerServe}kcal </p>
-      <p> Servings: {servings}</p>
-      <p> F: {fat}g </p>
-      <p> P: {protein}g </p>
-      <p> C: {carbs}g </p> 
-      {filteredDiets && (
-        <>
-          <h4> Diet Considerations </h4>
-          {filteredDiets.map((diet) => (<p key={diet}> {diet} </p>))}
-        </>
-      )}
-      
-      {filteredAllergies && (
-        <>
-          <h4> Allergy Considerations </h4>
-          {filteredAllergies.map((allergen) => (<p key={allergen}> {allergen} </p>))}
-        </>
-      )}
-      <button> + Add </button>
-    </div>
-    {/* {selectedRecipe && 
-      <RecipeAPIInfo
-        id = {id}
-        title={title}
-        image = {image}
-        calories = {caloriesPerServe}
-        servings = {servings}
-        fat = {fat}
-        protein = {protein}
-        carbs = {carbs}
-        allergies = {filteredAllergies}
-        diets = {filteredDiets}
-        ingredients = {selectedRecipe.recipe.ingredients}
-        linkToDirections = {selectedRecipe.recipe.url}
-      />} */}
+      <CardContent  sx={{ marginTop: 2, paddingBottom: 0, border: '1px solid #e0e0e0', borderRadius: '8px', maxWidth: 200}}>
+        <Typography variant="h6" component="div" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}> {title} </Typography>
+        <Box minHeight="120px" maxHeight="200px" display="flex" alignItems="center" justifyContent="center">
+          <img src={image} loading="lazy" alt={`image of ${title}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        </Box>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Calories/serve: {caloriesPerServe}kcal </Typography>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Servings: {servings} </Typography>
+        <Typography variant="body2">F: {Math.round(fat)}g </Typography>
+        <Typography variant="body2">C: {Math.round(carbs)}g </Typography>
+        <Typography variant="body2">P: {Math.round(protein)}g </Typography>
+        <Button id={id} size="small" fullWidth onClick={handleShowRecipeDetails}
+          sx={{ padding:'0px', marginTop: "20px",
+          backgroundColor: `rgb(175, 194, 214)`, 
+          color: `rgb(255,255,255)`, 
+          '&:hover': {
+          backgroundColor: `rgb(175, 194, 214)`, 
+          color: `rgb(255,255,255)`}}}
+          > Show More
+        </Button>
+      </CardContent>
     </>
   )
 }

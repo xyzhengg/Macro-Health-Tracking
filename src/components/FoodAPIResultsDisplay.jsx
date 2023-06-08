@@ -24,9 +24,9 @@ const FoodAPIResultsDisplay = ({ id, label, kcal, fat, protein, carbs, serving})
       <Typography variant="h6" component="div" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}> {label} </Typography>
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Serving: {serving ? `${Math.round(serving.quantity)}g` : '100g'} </Typography>
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Calories: {kcal.toFixed(0)} kcal </Typography>
-      <Typography variant="body2">F: {fat.toFixed(1)}g </Typography>
-      <Typography variant="body2">P: {protein.toFixed(1)}g </Typography>
-      <Typography variant="body2">C: {carbs.toFixed(1)}g </Typography>
+      <Typography variant="body2">F: {Math.round(fat)}g </Typography>
+      <Typography variant="body2">C: {Math.round(carbs)}g </Typography>
+      <Typography variant="body2">P: {Math.round(protein)}g </Typography>
       <Button size="small" fullWidth onClick={showFoodDetails}
         sx={{ padding:'0px', marginTop: "20px",
         backgroundColor: `rgb(175, 194, 214)`, 

@@ -87,12 +87,12 @@ const RecipeAPISearcherPage = () => {
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center">
       <form onSubmit={handleSearchRecipes}>
-        <Grid container >
+        <Grid container sx={{ display: 'flex', justifyContent: 'center', marginBottom: 2, marginTop: 5 }}>
           <Search sx={{ width: '600px' }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase placeholder="Search…" name="keywords" sx={{ border: '1px solid #e0e0e0', width: '600px' }} />
+            <StyledInputBase placeholder="Search…" name="keywords" sx={{ border: '1px solid #e0e0e0', width: '800px' }} />
             <Button
               type="submit"sx={{
               height: "40px",
@@ -108,18 +108,9 @@ const RecipeAPISearcherPage = () => {
         </Grid>
         <Grid container justifyContent="space-between" alignItems="center">
           <TextField type="number" name="calories" label="Max calories /serve" variant="outlined" margin="normal"/>
-          <Button size="small" type="reset" sx={{ 
-            height: "30px",
-            backgroundColor: `rgb(175, 194, 214)`, 
-            color: `rgb(255,255,255)`, 
-            '&:hover': {
-            backgroundColor: `rgb(175, 194, 214)`, 
-            color: `rgb(255,255,255)`}}} > 
-            Reset All Fields
-          </Button>
         </Grid>
         <Grid container> 
-          <Grid item xs={3}>
+          <Grid item xs={2}>
             <Typography variant="h6" sx={{marginTop: 2}}> Diets </Typography>
             <FormGroup>
               <FormControlLabel control={<Checkbox id="low-carb" name="diet" value="low-carb" />} label="Low Carb" sx={{ height: '28px' }} />
@@ -152,21 +143,24 @@ const RecipeAPISearcherPage = () => {
               <FormControlLabel control={<Checkbox id="mustard-free" name="allergies" value="mustard-free" />} label="Mustard Free" sx={{ height: '28px' }}/>
             </FormGroup>
           </Grid>
-          <Grid item xs={9}>
+          <Grid container xs={10}justifyContent="space-around">
           {filteredResults && filteredResults.map((result) => (
-            <RecipeAPIResultsList
-              key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
-              id={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
-              title={result.recipe.label}
-              image={result.recipe.image}
-              totalCalories={parseFloat(result.recipe.calories.toFixed(2))}
-              fat={parseFloat(result.recipe.totalNutrients.FAT.quantity).toFixed(2)}
-              protein={parseFloat(result.recipe.totalNutrients.PROCNT.quantity).toFixed(2)}
-              carbs={parseFloat(result.recipe.totalNutrients.CHOCDF.quantity).toFixed(2)}
-              diet={result.recipe.dietLabels}
-              allergies={result.recipe.healthLabels}
-              servings={result.recipe.yield}              
-            /> ))}
+            <Grid container justifyContent="flex-start" xs={3} key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}>
+              <RecipeAPIResultsList
+                key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
+                id={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
+                title={result.recipe.label}
+                image={result.recipe.image}
+                totalCalories={parseFloat(result.recipe.calories.toFixed(2))}
+                fat={parseFloat(result.recipe.totalNutrients.FAT.quantity).toFixed(2)}
+                protein={parseFloat(result.recipe.totalNutrients.PROCNT.quantity).toFixed(2)}
+                carbs={parseFloat(result.recipe.totalNutrients.CHOCDF.quantity).toFixed(2)}
+                diet={result.recipe.dietLabels}
+                allergies={result.recipe.healthLabels}
+                servings={result.recipe.yield}              
+              /> 
+            </Grid>
+            ))}
           </Grid>
         </Grid>
       </form>

@@ -128,10 +128,10 @@ const FoodAPIInfoAdd = () => {
           variant="outlined"
           margin="normal"
         />
-        <Typography>Calories: {foodKcal.toFixed(1)} kcal</Typography>
-        <Typography>P: {foodProtein.toFixed(1)}g</Typography>
-        <Typography>F: {foodFat.toFixed(1)}g</Typography>
-        <Typography>C: {foodCarbs.toFixed(1)}g</Typography>
+        <Typography>Calories: {Math.round(foodKcal)} kcal</Typography>
+        <Typography>F: {Math.round(foodFat)}g</Typography>
+        <Typography>C: {Math.round(foodCarbs)}g</Typography>
+        <Typography>P: {Math.round(foodProtein)}g</Typography>
         <TextField
           type="text"
           name="notes"
