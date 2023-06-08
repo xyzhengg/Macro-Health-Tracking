@@ -10,6 +10,7 @@ const WeightTile = () => {
   const { date } = useDate()
   const { goal } = useGoal()
   const [ weight, setWeight ] = useState()
+  const [weightDifference, setWeightDifference] = useState(0)
 
   useEffect(() => {
     console.log(date.toISOString())
@@ -26,6 +27,8 @@ const WeightTile = () => {
           console.log(error)
         } else {
           setWeight(data[0])
+          setWeightDifference((goal.goal_weight - data[0].kg) > 0 ? `+${goal.goal_weight - data[0].kg}` : goal.goal_weight - data[0].kg)
+          console.log(goal.goal_weight - data[0].kg)
         }
       } catch (err) {
         console.log(err)
@@ -51,7 +54,7 @@ const WeightTile = () => {
       </Grid>
       <Grid container direction="row" justifyContent="flex-start" alignItems="center">
         <Grid item>
-          <Typography variant="body2"> 2kg left to target</Typography>
+          <Typography variant="body2"> {weightDifference}kg left to target</Typography>
         </Grid>
       </Grid>
     </Grid>
