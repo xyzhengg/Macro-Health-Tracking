@@ -1,34 +1,45 @@
 import { supabase } from "../supabaseAuth/supabaseClient"
-import { MenuItem , Menu, IconButton } from '@mui/material';
+import { MenuItem , Menu, IconButton, Typography, Box, Grid, TextField, Button, Modal } from '@mui/material';
 import { MoreVert, Edit, DeleteForever  } from '@mui/icons-material';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from "../contexts/AuthProvider";
-import { useMeal } from "../contexts/MealContext";
-import { useNavigate } from "react-router-dom";
 import { useDate } from "../contexts/DateProvider";
 
-const DataEditDeleteButton = ( { id }) => {
-  const navigate = useNavigate()
+const DataEditDeleteButton = ({ id }) => {
   const { user } = useAuth()
-  const { meal } = useMeal()
   const { date, setDate } = useDate()
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null)
+  const [foodData, setFoodData] = useState({
+    food_name: "",
+    serving_amt: "",
+    serving_measure: "",
+    calories: "",
+    protein: "",
+    fat: "",
+    carbs: ""
+  })
+  const [initialFoodData, setInitialFoodData] = useState('')
+
   const [onDisplay, setOnDisplay] = useState(null)
   const open = Boolean(onDisplay)
+  const [openModal, setOpenModal] = useState(false)
 
   const handleClick = (e) => {
     setOnDisplay(e.currentTarget)
   }
-  
+
   const handleClose = () => {
     setOnDisplay(null)
   }
 
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  }
+
   const handleDelete = async (e) => {
-    console.log(date)
     handleClose()
     setLoading(true)
+    console.log(e.target)
     try {
       const { data, error } = await supabase
         .from('diary')
@@ -39,32 +50,64 @@ const DataEditDeleteButton = ( { id }) => {
       } else {
         setLoading(false)
         setDate(new Date(date.getTime() + 10000))
-        console.log(date)
       }
     } catch (err) {
       console.log(err)
     }
   }
 
-  const handleEdit = async (e) => {
-    console.log(date)
+  const handleEditModal = async (e) => {
     handleClose()
     setLoading(true)
     try {
       const { data, error } = await supabase
         .from('diary')
-        .delete()
-        .eq('id', e.currentTarget.id)
+        .select('*')
+        .eq('id', id)
       if (error) {
         console.log(error)
       } else {
         setLoading(false)
-        setDate(new Date(date.getTime() + 10000))
-        console.log(date)
+        setOpenModal(true)
+        setInitialFoodData(data[0])
+        setFoodData(data[0])
       }
     } catch (err) {
       console.log(err)
     }
+  };
+
+  const handleServingChange = (e) => {
+    const newServing = e.target.value;
+    // console.log(e.target.value)
+    setFoodData({
+      ...foodData,
+      serving_amt: newServing
+    })
+  }
+    
+  useEffect(() => {
+      const { serving_amt } = foodData
+      const newKcal = initialFoodData.calories * (serving_amt / 100)
+      const newProtein = initialFoodData.protein * (serving_amt / 100)
+      const newFat = initialFoodData.fat  * (serving_amt / 100)
+      const newCarbs = initialFoodData.carbs  * (serving_amt / 100)
+      setFoodData((prevFoodData) => ({
+        ...prevFoodData,
+        serving_amt: serving_amt,
+        calories: newKcal,
+        protein: newProtein,
+        fat: newFat,
+        carbs: newCarbs,
+      }));
+  },[foodData.serving_amt])
+
+
+  const handleSaveEdit = (e) => {
+    e.preventDefault();
+    // Perform the save operation here
+    console.log("Save edit", foodData);
+    handleCloseModal();
   }
 
   return (
@@ -73,7 +116,7 @@ const DataEditDeleteButton = ( { id }) => {
         <MoreVert />
       </IconButton>
       <Menu anchorEl={onDisplay} open={open} onClose={handleClose} placement="right-start">
-        <MenuItem onClick={handleClose}>
+        <MenuItem id={id} onClick={handleEditModal}>
           <IconButton>
             <Edit />
           </IconButton>
@@ -86,7 +129,57 @@ const DataEditDeleteButton = ( { id }) => {
           Delete
         </MenuItem>
       </Menu>
+
+      { foodData && (
+      
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3} >
+          <Grid container sx={{ maxWidth: 350, marginTop: 10, padding: 5, position: 'absolute', left: '58%', transform: 'translate(-50%, -50%)', top: '40%', bgcolor: 'background.paper', border: '1px solid #b8b8b8', borderRadius: '0.5rem', boxShadow: 24 }}>
+            <form onSubmit={handleSaveEdit}>
+              <Grid container spacing={1}>
+                <Grid item xs={12}>
+                  <Typography variant="h6">{foodData.food_name}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    onChange={handleServingChange}
+                    label={`Serving size ${initialFoodData.serving_measure || 'g'}`}
+                    name="serving_amt"
+                    type="number"
+                    variant="outlined"
+                    margin="normal"
+                    defaultValue={foodData.serving_amt}
+                    InputLabelProps={{ shrink: true }}
+                    required
+                    fullWidth
+                    sx={{ height: 40 }}
+                  />
+                  <Typography></Typography>
+                  </Grid>
+                  <Grid item xs={12} sx={{marginTop: 5}}>
+                    <Typography>Calories: {Math.round(foodData.calories)}kcal</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography>F: {Math.round(foodData.fat)}g</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography>C: {Math.round(foodData.carbs)}g</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography>P: {Math.round(foodData.protein)}g</Typography>
+                  </Grid>
+                </Grid>
+                <Button type="submit" variant="contained" fullWidth sx={{ marginTop: 5 }}>
+                  Save
+                </Button>
+              </form>
+            </Grid>
+        </Grid>
+      </Modal>
+      )
+      }
     </>
   )
 }
-export default DataEditDeleteButton
+
+export default DataEditDeleteButton;

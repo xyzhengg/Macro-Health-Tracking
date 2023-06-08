@@ -1,6 +1,5 @@
 const FoodAPIInfoEdit = ( { id, kcal, fat, protein, carbs, serving} ) => {
 
-
   return (
     <form id={id}>
       <label htmlFor="title"> Description </label>

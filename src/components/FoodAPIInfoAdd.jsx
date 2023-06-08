@@ -9,7 +9,7 @@ import { useAuth } from '../contexts/AuthProvider';
 import { useDate } from '../contexts/DateProvider';
 
 const FoodAPIInfoAdd = () => {
-  const location = useLocation();
+  const location = useLocation()
   const navigate = useNavigate()
   const { id, label, kcal, fat, protein, carbs, serving } = location.state;
   const { meal } = useMeal()
@@ -37,11 +37,11 @@ const FoodAPIInfoAdd = () => {
   };
 
   useEffect(() => {
-    const { foodServing } = nutritionValues;
-    const newKcal = kcal * (foodServing / 100);
-    const newProtein = protein * (foodServing / 100);
-    const newFat = fat * (foodServing / 100);
-    const newCarbs = carbs * (foodServing / 100);
+    const { foodServing } = nutritionValues
+    const newKcal = kcal * (foodServing / 100)
+    const newProtein = protein * (foodServing / 100)
+    const newFat = fat * (foodServing / 100)
+    const newCarbs = carbs * (foodServing / 100)
 
     setNutritionValues({
       ...nutritionValues,
@@ -51,7 +51,7 @@ const FoodAPIInfoAdd = () => {
       foodFat: newFat,
       foodCarbs: newCarbs,
     });
-  }, [nutritionValues.foodServing]);
+  }, [nutritionValues.foodServing])
 
   const handleAddFood = async (e) => {
     e.preventDefault()
