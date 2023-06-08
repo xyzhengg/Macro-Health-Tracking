@@ -77,7 +77,7 @@ const FoodAPISearcher = () => {
 
   return (
     <>
-    <Box sx={{ display: 'flex', justifyContent: 'center' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 7, marginTop: 5}}>
       <form onSubmit={handleSearchFood}>
         <Search sx={{ width: '600px'}}>
           <SearchIconWrapper>

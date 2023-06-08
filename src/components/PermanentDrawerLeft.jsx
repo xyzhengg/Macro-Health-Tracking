@@ -57,13 +57,6 @@ const PermanentDrawerLeft = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed" sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}> Hello
-        {/* <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Profile
-          </Typography>
-        </Toolbar> */}
-      </AppBar>
       <Drawer
         sx={{
           width: drawerWidth, flexShrink: 0,

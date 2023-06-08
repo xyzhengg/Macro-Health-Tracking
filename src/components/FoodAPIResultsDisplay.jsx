@@ -29,10 +29,10 @@ const FoodAPIResultsDisplay = ({ id, label, kcal, fat, protein, carbs, serving})
       <Typography variant="body2">C: {carbs.toFixed(1)}g </Typography>
       <Button size="small" fullWidth onClick={showFoodDetails}
         sx={{ padding:'0px', marginTop: "20px",
-        backgroundColor: `rgb(196, 155, 178)`, 
+        backgroundColor: `rgb(175, 194, 214)`, 
         color: `rgb(255,255,255)`, 
         '&:hover': {
-        backgroundColor: `rgb(196, 155, 178)`, 
+        backgroundColor: `rgb(175, 194, 214)`, 
         color: `rgb(255,255,255)`}}}
         > Select
       </Button>

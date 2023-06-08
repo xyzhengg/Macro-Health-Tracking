@@ -5,7 +5,7 @@ import { Routes, Route, useNavigate, useParams, Link } from "react-router-dom";
 import axios from 'axios'
 
 const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, carbs, diet, allergies, servings }) => {
-  const caloriesPerServe = parseFloat(totalCalories/servings).toFixed(2)
+  const caloriesPerServe = (Math.round(totalCalories/servings))
   const allergyConsiderations =[
     "dairy-free",
     "egg-free",

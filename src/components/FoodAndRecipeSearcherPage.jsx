@@ -5,6 +5,7 @@ import { useState } from 'react'
 import RecipeAPISearcherPage from '../pages/RecipeAPISearcherPage'
 import FoodAPISearcher from './FoodAPISearcher'
 import CreateFoodForm from './CreateFoodForm'
+import MyFoodSearcherPage from '../pages/MyFoodSearcherPage'
 
 const FoodAndRecipeSearcherPage = () => {
   const [value, setValue] = useState(1)
@@ -33,8 +34,8 @@ const FoodAndRecipeSearcherPage = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{  bgcolor: 'background.paper', marginTop: '20px', maxWidth: '80%', margin: '0 auto' }}>
-        <Tabs value={value} onChange={handleChange} centered sx={{margin: '0 auto'}}>
+      <Box sx={{  bgcolor: 'background.paper', marginTop: 20, maxWidth: '80%', margin: '0 auto' }}>
+        <Tabs value={value} onChange={handleChange} centered sx={{margin: 'auto', marginTop: 5}}>
           <Tab label="My Food" />
           <Tab label="Food Library" />
           <Tab label="My Recipes" />
@@ -42,7 +43,7 @@ const FoodAndRecipeSearcherPage = () => {
         </Tabs>
         <br/>
         <Box sx={{ width: '100%', bgcolor: 'background.paper', margin: '0 auto'}}>
-          {value === 0 && <CreateFoodForm />}
+          {value === 0 && <MyFoodSearcherPage />}
           {value === 1 && <FoodAPISearcher/>}
           {value === 2 && <MyRecipesComponent />}
           {value === 3 && <RecipeAPISearcherPage />}
