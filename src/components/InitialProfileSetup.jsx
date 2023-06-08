@@ -33,10 +33,21 @@ const InitialProfileSetup = () => {
       if (error) {
         setError(error.message)
         console.log(error)
-      } else {
-        setSuccess("Your profile is being created! Redirecting...")
-        navigate('/')
       }
+      const { data: data2, error: error2 } = await supabase
+      .from('weight')
+      .insert([
+        {user_id: user,
+        kg: fields.weight
+        }
+      ])
+        if (error2) {
+          setError(error2)
+          console.log(error2)
+        } else {
+          setSuccess("Your profile is being created! Redirecting...")
+          navigate('/')
+        }
     }
     catch (err){
       setError(err.message)
@@ -58,6 +69,9 @@ const InitialProfileSetup = () => {
             </Grid>
             <Grid item xs={12}>
               <TextField label="Goal Weight (kg)" name="goalweight" type="number" variant="outlined" margin="normal" required fullWidth sx={{ height: 40 }}/>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField label="Current Weight (kg)" name="weight" type="number" variant="outlined" margin="normal" required fullWidth sx={{ height: 40 }}/>
             </Grid>
             <Grid item xs={12}>
               <TextField label="Calorie Intake (kcal)" name="goalcalories" type="number" variant="outlined" margin="normal" required fullWidth sx={{ height: 40 }}/>
