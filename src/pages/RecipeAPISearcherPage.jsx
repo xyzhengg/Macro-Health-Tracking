@@ -3,12 +3,7 @@ import axios from 'axios'
 import RecipeAPIResultsList from '../components/RecipeAPIResultsList'
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
-import Grid from '@mui/material/Grid';
-import AppBar from '@mui/material/AppBar';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import {InputBase, Grid, FormGroup, FormControlLabel, Checkbox, Box, Button} from '@mui/material';
 
 const RecipeAPISearcherPage = () => {
   const [results, setResults] = useState(null)
@@ -35,7 +30,6 @@ const RecipeAPISearcherPage = () => {
       console.log(res.data.hits)
       console.log(res.data._links.next)
       setResults(res.data.hits)
-      setNextLink(res.data._links.next.href)
     } catch(err) {
       setError(err)
       console.log(error)
@@ -91,85 +85,92 @@ const RecipeAPISearcherPage = () => {
     },
   }));
 
-  const drawerWidth = 150;
-
-  return (
-    <>
-      <form onSubmit={handleSearchRecipes}>
-        <Search>
-          <SearchIconWrapper>
-              <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase name="keywords" placeholder="Search by keywords" inputProps={{ 'aria-label': 'search' }}/>
-        </Search>
-
-        <AppBar
-          position="fixed"
-          sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-        >
-        </AppBar>
-
+    return (
+      <>
+          <form onSubmit={handleSearchRecipes}>
+            <Search sx={{ width: '600px' }}>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase placeholder="Search…" name="search" sx={{ border: '1px solid #e0e0e0', width: '600px' }} />
+              <Button
+                type="submit"
+                sx={{
+                  height: "40px",
+                  backgroundColor: `rgb(196, 155, 178)`,
+                  color: `rgb(255,255,255)`,
+                  '&:hover': {
+                    backgroundColor: `rgb(196, 155, 178)`,
+                    color: `rgb(255,255,255)`,
+                    transform: 'scale(1.05)'
+                  }
+                }}
+              >
+                Search
+              </Button>
+            </Search>
+    
         <div>
           <label htmlFor="calories"> Max calories /serve: &nbsp;&nbsp;</label>
-          <input type="number" name="calories"/>        
+          <input type="number" name="calories" />
         </div>
-
+    
         <h3> Diets </h3>
         <FormGroup>
-          <FormControlLabel control={<Checkbox id="low-carb" name="diet" value="low-carb" />} label="Low Carb" />
-          <FormControlLabel control={<Checkbox id="low-fat" name="diet" value="low-fat" />} label="Low Fat" />
-          <FormControlLabel control={<Checkbox id="high-protein" name="diet" value="high-protein" />} label="High Protein" />
-          <FormControlLabel control={<Checkbox id="balanced" name="diet" value="balanced" />} label="Balanced" />
-          <FormControlLabel control={<Checkbox id="high-fiber" name="diet" value="high-fiber" />} label="High Fiber" />
-          <FormControlLabel control={<Checkbox id="low-sodium" name="diet" value="low-sodium" />} label="Low Sodium" />
-          <FormControlLabel control={<Checkbox id="paleo" name="diet" value="paleo" />} label="Paleo" />
-          <FormControlLabel control={<Checkbox id="pescatarian" name="diet" value="pescatarian" />} label="Pescatarian" />
-          <FormControlLabel control={<Checkbox id="vegan" name="diet" value="vegan" />} label="Vegan" />
-          <FormControlLabel control={<Checkbox id="vegetarian" name="diet" value="vegetarian" />} label="Vegetarian" />
-          <FormControlLabel control={<Checkbox id="pork-free" name="diet" value="pork-free" />} label="Pork Free" />
-          <FormControlLabel control={<Checkbox id="mustard-free" name="allergies" value="mustard-free" />} label="Mustard Free" />
+          <FormControlLabel control={<Checkbox id="low-carb" name="diet" value="low-carb" />} label="Low Carb" sx={{ height: '28px' }} />
+          <FormControlLabel control={<Checkbox id="low-fat" name="diet" value="low-fat" />} label="Low Fat" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="high-protein" name="diet" value="high-protein" />} label="High Protein" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="balanced" name="diet" value="balanced" />} label="Balanced" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="high-fiber" name="diet" value="high-fiber" />} label="High Fiber" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="low-sodium" name="diet" value="low-sodium" />} label="Low Sodium" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="paleo" name="allergies" value="paleo" />} label="Paleo" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="pescatarian" name="allergies" value="pescatarian" />} label="Pescatarian" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="vegan" name="allergies" value="vegan" />} label="Vegan" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="vegetarian" name="allergies" value="vegetarian" />} label="Vegetarian" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="pork-free" name="allergies" value="pork-free" />} label="Pork Free" sx={{ height: '28px' }}/>
         </FormGroup>
-
+    
         <h3> Allergies </h3>
         <FormGroup>
-          <FormControlLabel control={<Checkbox id="dairy-free" name="allergies" value="dairy-free" />} label="Dairy Free" />
-          <FormControlLabel control={<Checkbox id="egg-free" name="allergies" value="egg-free" />} label="Egg Free" />
-          <FormControlLabel control={<Checkbox id="gluten-free" name="allergies" value="gluten-free" />} label="Gluten Free" />
-          <FormControlLabel control={<Checkbox id="peanut-free" name="allergies" value="peanut-free" />} label="Peanut Free" />
-          <FormControlLabel control={<Checkbox id="shellfish-free" name="allergies" value="shellfish-free" />} label="Shellfish Free" />
-          <FormControlLabel control={<Checkbox id="crustacean-free" name="allergies" value="crustacean-free" />} label="Crustacean Free" />
-          <FormControlLabel control={<Checkbox id="soy-free" name="allergies" value="soy-free" />} label="Soy Free" />
-          <FormControlLabel control={<Checkbox id="sesame-free" name="allergies" value="sesame-free" />} label="Sesame Free" />
-          <FormControlLabel control={<Checkbox id="wheat-free" name="allergies" value="wheat-free" />} label="Wheat Free" />
-          <FormControlLabel control={<Checkbox id="fish-free" name="allergies" value="fish-free" />} label="Fish Free" />
-          <FormControlLabel control={<Checkbox id="lupine-free" name="allergies" value="lupine-free" />} label="Lupine Free" />
-          <FormControlLabel control={<Checkbox id="tree-nut-free" name="allergies" value="tree-nut-free" />} label="Tree Nut Free" />
-          <FormControlLabel control={<Checkbox id="celery-free" name="allergies" value="celery-free" />} label="Celery Free" />
-          <FormControlLabel control={<Checkbox id="mustard-free" name="allergies" value="mustard-free" />} label="Mustard Free" />
+
+          <FormControlLabel control={<Checkbox id="dairy-free" name="allergies" value="dairy-free" />} label="Dairy Free" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="egg-free" name="allergies" value="egg-free" />} label="Egg Free" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="gluten-free" name="allergies" value="gluten-free" />} label="Gluten Free" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="peanut-free" name="allergies" value="peanut-free" />} label="Peanut Free" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="shellfish-free" name="allergies" value="shellfish-free" />} label="Shellfish Free" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="crustacean-free" name="allergies" value="crustacean-free" />} label="Crustacean Free" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="soy-free" name="allergies" value="soy-free" />} label="Soy Free" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="sesame-free" name="allergies" value="sesame-free" />} label="Sesame Free" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="wheat-free" name="allergies" value="wheat-free" />} label="Wheat Free" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="fish-free" name="allergies" value="fish-free" />} label="Fish Free" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="lupine-free" name="allergies" value="lupine-free" />} label="Lupine Free" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="tree-nut-free" name="allergies" value="tree-nut-free" />} label="Tree Nut Free" sx={{ height: '28px' }}/>
+          <FormControlLabel control={<Checkbox id="celery-free" name="allergies" value="celery-free" />} label="Celery Free" sx={{ height: '28px' }} />
+          <FormControlLabel control={<Checkbox id="mustard-free" name="allergies" value="mustard-free" />} label="Mustard Free" sx={{ height: '28px' }}/>
         </FormGroup>
-
-        <input type="submit"/>
-        <input type="reset"/>
       </form>
-
-      {filteredResults && filteredResults.map((result) => (
-      <RecipeAPIResultsList
-        key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
-        id={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
-        title = {result.recipe.label}
-        image = {result.recipe.image}
-        totalCalories = {parseFloat((result.recipe.calories).toFixed(2))}
-        fat = {parseFloat(result.recipe.totalNutrients.FAT.quantity).toFixed(2)}
-        protein = {parseFloat(result.recipe.totalNutrients.PROCNT.quantity).toFixed(2)}
-        carbs = {parseFloat(result.recipe.totalNutrients.CHOCDF.quantity).toFixed(2)}
-        diet = {result.recipe.dietLabels}
-        allergies = {result.recipe.healthLabels}
-        servings = {result.recipe.yield}
-      />
-      ))}
-      {nextLink && <a href={nextLink}> Next Page </a>}
-    </>
-  )
-}
+    
+        <input type="submit" />
+        <input type="reset" />
+    
+        {filteredResults &&
+          filteredResults.map((result) => (
+            <RecipeAPIResultsList
+              key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
+              id={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
+              title={result.recipe.label}
+              image={result.recipe.image}
+              totalCalories={parseFloat(result.recipe.calories.toFixed(2))}
+              fat={parseFloat(result.recipe.totalNutrients.FAT.quantity).toFixed(2)}
+              protein={parseFloat(result.recipe.totalNutrients.PROCNT.quantity).toFixed(2)}
+              carbs={parseFloat(result.recipe.totalNutrients.CHOCDF.quantity).toFixed(2)}
+              diet={result.recipe.dietLabels}
+              allergies={result.recipe.healthLabels}
+              servings={result.recipe.yield}
+            />
+          ))}
+      </>
+    )
+  }
 
 export default RecipeAPISearcherPage
