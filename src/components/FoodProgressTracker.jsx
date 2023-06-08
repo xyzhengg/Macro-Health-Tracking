@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { LinearProgress, Stack, FormLabel, Grid, Typography } from "@mui/material";
+import { LinearProgress, Stack, FormLabel, Grid, Typography, Box } from "@mui/material";
 import { useGoal } from "../contexts/GoalProvider";
 
 const FoodProgressTracker = ( { accCalories, accFat, accCarbs, accProtein }) => {
@@ -61,24 +61,23 @@ const FoodProgressTracker = ( { accCalories, accFat, accCarbs, accProtein }) => 
   const values = [caloriesProgress, fatProgress, carbsProgress, proteinProgress]
 
   return (
-    <Stack spacing={2} sx={{width:300}}>
-    {labels.map((label, index) => (
-      <Grid key={label}>
-        <FormLabel>{label}</FormLabel>
-        <LinearProgress
-          variant="determinate"
-          sx={{
+    <Box sx={{ border: '1px solid #ccc', borderRadius: '1rem', p: '2rem' }} >
+      <Stack spacing={2} sx={{ width: 180 }}>
+        {labels.map((label, index) => (
+        <Grid key={label}>
+          <FormLabel>{label}</FormLabel>
+          <LinearProgress variant="determinate" value={values[index]}
+            sx={{
             backgroundColor: `rgb(${colors[index]}, 0.4)`,
-            "& .MuiLinearProgress-bar": {
-              backgroundColor: `rgb(${colors[index]})`
-            }
-          }}
-          value={values[index]}
-        />
-        <Typography variant="body2"> {Math.round(intake[index])} / {goalValue[index]} </Typography>
-      </Grid>
-    ))}
-  </Stack>
+            '& .MuiLinearProgress-bar': {
+            backgroundColor: `rgb(${colors[index]})`},
+            }}
+          />
+          <Typography variant="body2"> {Math.round(intake[index])} / {goalValue[index]} </Typography>
+        </Grid>
+        ))}
+      </Stack>
+    </Box>
   )
 }
 

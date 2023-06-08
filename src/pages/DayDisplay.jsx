@@ -230,35 +230,43 @@ const DayDisplay = () => {
   },[breakfastTotals, lunchTotals, dinnerTotals, snackTotals])
 
   return (
-    <Grid container direction="row">
-      <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3}> 
-        <Grid item sx={{ marginTop: 7}}>
-          <DateNavigation/>
-        </Grid>
-        <Grid item > 
-          <Box component="main" sx={{ bgcolor: 'background.default', p: 3, margin: 1}} >
-            <MacroTrackingDisplay
-            breakfastData = {breakfastData}
-            breakfastTotals = {breakfastTotals}
-            lunchData = {lunchData}
-            lunchTotals = {lunchTotals}
-            dinnerData = {dinnerData}
-            dinnerTotals = {dinnerTotals}
-            snackData = {snackData}
-            snackTotals = {snackTotals}
-            />
-          </Box>
-        </Grid>
+    <Grid container direction="column" justifyContent="center" alignItems="center">
+      <Grid item sx={{ marginTop: 7}}>
+        <DateNavigation/>
       </Grid>
-      <Grid container direction="column">
-        <FoodProgressTracker 
-          accCalories = {accCalories}
-          accFat = {accFat}
-          accCarbs = {accCarbs}
-          accProtein = {accProtein}
-          />
+      <Grid item>
+        <Grid container direction="row" justifyContent="center" alignItems="center" spacing={3}> 
+          <Grid item > 
+            <Box component="main" sx={{ bgcolor: 'background.default', p: 3, margin: 1}} >
+              <MacroTrackingDisplay
+              breakfastData = {breakfastData}
+              breakfastTotals = {breakfastTotals}
+              lunchData = {lunchData}
+              lunchTotals = {lunchTotals}
+              dinnerData = {dinnerData}
+              dinnerTotals = {dinnerTotals}
+              snackData = {snackData}
+              snackTotals = {snackTotals}
+              />
+            </Box>
+          </Grid>
+          <Grid item >
+            <Grid container direction="column">
+              <Grid item>
+                <FoodProgressTracker 
+                accCalories = {accCalories}
+                accFat = {accFat}
+                accCarbs = {accCarbs}
+                accProtein = {accProtein}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
+      
+      
   )
 }
 
