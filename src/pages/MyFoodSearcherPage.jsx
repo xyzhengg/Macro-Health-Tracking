@@ -5,6 +5,7 @@ import {InputBase, Button, Box, Grid, Table, TableBody, TableCell, TableContaine
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import MyFoodItemCell from "../components/MyFoodItemCell";
+import FoodItemTableRow from "../components/FoodItemTableRow";
 
 const MyFoodSearcherPage = () => {
   const { user } = useAuth()
@@ -41,7 +42,6 @@ const MyFoodSearcherPage = () => {
     }
     getMyFoods()
   }, [])
-
 
   const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -134,18 +134,9 @@ const MyFoodSearcherPage = () => {
     myFoodData.map(([letter, foods]) => (
       <TableContainer component={Paper} key={letter} sx={{ minWidth: 400, maxWidth: 800 }}>
         <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}>{letter}</TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-            </TableRow>
-          </TableHead>
+          <FoodItemTableRow
+            text={letter}
+          />
           <TableBody>
           {foods.map((food) => (
             <MyFoodItemCell
@@ -168,18 +159,9 @@ const MyFoodSearcherPage = () => {
     {searching && mySearchResult && (
       <TableContainer component={Paper} sx={{ minWidth: 400, maxWidth: 800 }}>
         <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}>{searchTerm.toUpperCase()}</TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-              <TableCell sx={{ backgroundColor: '#afc2d6' }}></TableCell>
-            </TableRow>
-          </TableHead>
+        <FoodItemTableRow
+            text={searchTerm.toUpperCase()}
+          />
           <TableBody>
           {mySearchResult.map((food) => (
             <MyFoodItemCell
