@@ -70,7 +70,6 @@ const DataEditDeleteButton = ({ id }) => {
         setOpenModal(true)
         setInitialFoodData(data[0])
         setFoodData(data[0])
-        console.log(data[0])
       }
     } catch (err) {
       console.log(err)
@@ -120,7 +119,6 @@ const DataEditDeleteButton = ({ id }) => {
       if (error) {
         console.log(error)
       } else {
-        console.log(data)
         setDate(new Date(date.getTime() + 10000))
         setInitialFoodData("")
         setFoodData({

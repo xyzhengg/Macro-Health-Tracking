@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { supabase } from '../supabaseAuth/supabaseClient';
-import Button from '@mui/material/Button';
-import { Box } from '@mui/material'
+import { Box, Typography, TextField, Button } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useMeal } from '../contexts/MealContext';
 import { useAuth } from '../contexts/AuthProvider';
@@ -105,26 +104,51 @@ const FoodAPIInfoAdd = () => {
   const { foodServing, foodKcal, foodProtein, foodFat, foodCarbs } = nutritionValues;
 
   return (
-    <Box sx={{ bgcolor: 'background.paper', marginTop: '20px', maxWidth: '80%', margin: '0 auto', marginLeft: '300px'}}>
-      <br/>
-      <br/>
-      <Button variant="outlined" onClick={() => navigate(-1)}> <ArrowBackIcon></ArrowBackIcon> Back</Button>
+    <Box
+      sx={{
+        bgcolor: 'background.paper',
+        marginTop: '20px',
+        maxWidth: '400px',
+        margin: '0 auto',
+        padding: '20px',
+      }}
+    >
+      <Button variant="outlined" onClick={() => navigate(-1)} sx={{marginBottom: "40px"}}>
+        <ArrowBackIcon />
+        Back
+      </Button>
       <form id={id} onSubmit={handleAddFood}>
-        <h4>{label}</h4>
-        <input type="number" name="serving" value={foodServing} onChange={handleServingChange}/>
-        <label htmlFor="serving">g</label>
-        <p>Calories: {foodKcal.toFixed(1)} kcal</p>
-        <p>P: {foodProtein.toFixed(1)}g</p>
-        <p>F: {foodFat.toFixed(1)}g</p>
-        <p>C: {foodCarbs.toFixed(1)}g</p>
-        <label htmlFor="notes"> Notes </label>
-        <input type="textbox" name="notes" />
-        <br/>
-        <br/>
-        <Button variant="contained" size="small" type="submit">Add</Button>
+        <Typography variant="h6">{label}</Typography>
+        <TextField
+          type="number"
+          name="serving"
+          value={foodServing}
+          onChange={handleServingChange}
+          label="Serving (g)"
+          variant="outlined"
+          margin="normal"
+        />
+        <Typography>Calories: {foodKcal.toFixed(1)} kcal</Typography>
+        <Typography>P: {foodProtein.toFixed(1)}g</Typography>
+        <Typography>F: {foodFat.toFixed(1)}g</Typography>
+        <Typography>C: {foodCarbs.toFixed(1)}g</Typography>
+        <TextField
+          type="text"
+          name="notes"
+          label="Notes"
+          variant="outlined"
+          margin="normal"
+          multiline
+          rows={4}
+          fullWidth
+        />
+        <Button variant="contained" size="small" type="submit" fullWidth sx={{ marginTop: '10px' }}>
+          Add
+        </Button>
       </form>
     </Box>
-  )
+  );
+
 }
 
 export default FoodAPIInfoAdd
