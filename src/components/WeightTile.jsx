@@ -4,6 +4,8 @@ import { TextField, Stack, FormLabel, Grid, Typography, Box, Button } from "@mui
 import { useGoal } from "../contexts/GoalProvider";
 import { useAuth } from "../contexts/AuthProvider";
 import { useDate } from "../contexts/DateProvider";
+import AddIcon from '@mui/icons-material/Add';
+import { IconButton } from '@mui/material';
 
 const WeightTile = () => {
   const { user } = useAuth() 
@@ -116,7 +118,15 @@ const WeightTile = () => {
               </form>
             </Grid>
             <Grid item>
-              <Button variant="contained" type="submit" form="editWeightForm">Save</Button>
+              <Button type="submit" form="editWeightForm" sx={{
+                backgroundColor: `rgb(196, 155, 178)`, 
+                color: `rgb(255,255,255)`, 
+                '&:hover': {
+                  backgroundColor: `rgb(196, 155, 178)`, 
+                color: `rgb(255,255,255)`,
+                transform: 'scale(1.05)'}}}
+              > Save
+              </Button>
             </Grid>
           </Grid>
         </Grid>
@@ -129,7 +139,9 @@ const WeightTile = () => {
               <Typography variant="h4">{weight.kg}kg</Typography>
             </Grid>
             <Grid item>
-              <Button variant="contained" onClick={handleEditModeToggle}>+</Button>
+              <IconButton onClick={handleEditModeToggle}>
+                <AddIcon />
+              </IconButton>
             </Grid>
           </Grid>
           <Grid container direction="row" justifyContent="flex-start" alignItems="center">

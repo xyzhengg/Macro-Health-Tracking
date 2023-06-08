@@ -49,7 +49,7 @@ const LunchTable = ( {lunchData, lunchTotals, handleDelete}) => {
             <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell>
             <StyledTableCell align="center">Calories&nbsp;(kcal)</StyledTableCell>
             <StyledTableCell sx={{ width: '10px' }}>
-            <IconButton onClick={handleSelectMeal}>
+              <IconButton onClick={handleSelectMeal}>
                 <Link to="/search" id="lunch">
                   <AddCircleOutlineIcon />
                 </Link>
