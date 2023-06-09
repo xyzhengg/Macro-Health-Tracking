@@ -273,8 +273,6 @@ const DayDisplay = () => {
         </Grid>
       </Grid>
     </Grid>
-      
-      
   )
 }
 

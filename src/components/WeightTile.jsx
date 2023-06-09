@@ -16,32 +16,27 @@ const WeightTile = () => {
   const [weightDifference, setWeightDifference] = useState(0)
 
   useEffect(() => {
+    // console.log(date.toISOString())
     const getWeightData = async () => {
       try {
-        if (user && goal) {
-          const { data, error } = await supabase
-            .from('weight')
-            .select('*')
-            .eq('user_id', user)
-            .lte('created_at', date.toISOString())
-            .order('created_at', { ascending: false })
-            .limit(1)
-  
-          if (error) {
-            console.log(error)
-          } else if (data[0]) {
-            setWeight(data[0])
-            setWeightDifference((goal.goal_weight - data[0].kg) > 0 ? `+${goal.goal_weight - data[0].kg}` : goal.goal_weight - data[0].kg)
-          } else {
-            setWeight({ kg: 0 })
-            setWeightDifference(0)
-          }
+        const { data, error } = await supabase
+        .from('weight')
+        .select('*')
+        .eq('user_id', user)
+        .lte('created_at', date.toISOString())
+        .order('created_at', { ascending: false })
+        .limit(1)
+        if (error) {
+          console.log(error)
+        } else {
+          setWeight(data[0])
+          setWeightDifference((goal.goal_weight - data[0].kg) > 0 ? `+${goal.goal_weight - data[0].kg}` : goal.goal_weight - data[0].kg)
+          // console.log(goal.goal_weight - data[0].kg)
         }
       } catch (err) {
         console.log(err)
       }
-    }
-  
+    } 
     getWeightData()
   }, [date, goal])
 
@@ -109,7 +104,6 @@ const WeightTile = () => {
     <>
       {editMode && weight && (
         <Grid container direction="column" sx={{ border: '1px solid #ccc', borderRadius: '1rem', p: '2rem'}}>
-          <Typography variant="subtitle1"> Weight </Typography>
           <Grid container direction="row" justifyContent="space-between" alignItems="center">
             <Grid item>
               <form onSubmit={addWeight} id="editWeightForm">
@@ -141,25 +135,25 @@ const WeightTile = () => {
       {!editMode && weight && (
         <Grid container direction="column" sx={{ border: '1px solid #ccc', borderRadius: '1rem', p: '2rem'}}>
           <Grid container direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="h6"> Weight </Typography>
-            <IconButton onClick={handleEditModeToggle} >
-              <AddIcon />
-            </IconButton>
+            <Grid item>
+              <Typography variant="h4">{weight.kg}kg</Typography>
+            </Grid>
+            <Grid>
+              <IconButton onClick={handleEditModeToggle} >
+                <AddIcon />
+              </IconButton>
+            </Grid>
           </Grid>
-          <Grid container direction="row" justifyContent="space-between" alignItems="center">
-            <Typography variant="h5">{weight.kg}kg</Typography>
-          <Grid>
           <Grid container direction="row" justifyContent="flex-start" alignItems="center">
-            <Typography variant="body2">{weightDifference}kg left to target</Typography>
+            <Grid item>
+              <Typography variant="body2">{weightDifference}kg left to target</Typography>
+            </Grid>
           </Grid>
         </Grid>
-      </Grid>
-      </Grid>
-    )}
+      )}
     </>
   )
 }
 
 export default WeightTile
-
 
