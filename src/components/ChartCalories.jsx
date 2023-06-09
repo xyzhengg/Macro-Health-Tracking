@@ -86,7 +86,7 @@ export default function ChartCalories () {
   return (
     <>
       <div style={{margin: "20px auto"}}>
-        <Typography variant="h5" style={{ textAlign: "center" }}>Weekly Calories Comparison</Typography>
+        <Typography variant="h5" style={{ textAlign: "center" }}>Calories Comparison</Typography>
         <div style={{ width: "100%", padding: "30px", maxWidth: "1000px", margin: "20px auto"}}>
           <ResponsiveContainer height={300}>
             <BarChart data={calorieData}>

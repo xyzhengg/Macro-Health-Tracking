@@ -1,8 +1,6 @@
 import './App.css'
-import { useEffect, useState } from "react";
-import { Routes, Route, Link, useParams, useNavigate, Navigate } from "react-router-dom";
-import SignUp from './components/SignUp';
-import Login  from './components/Login';
+import { useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import FoodSearcher from './components/FoodAPISearcher';
 import RecipeAPISearcherPage from './pages/RecipeAPISearcherPage';
 import RecipeAPIInfo from './components/RecipeAPIInfo';
@@ -11,7 +9,7 @@ import CreateFoodForm from './components/CreateFoodForm';
 import NotFound from './pages/NotFound';
 import PermanentDrawerLeft from './components/PermanentDrawerLeft';
 import FoodAndRecipeSearcherPage from './components/FoodAndRecipeSearcherPage';
-import { Box, Grid} from '@mui/material'
+import { Grid} from '@mui/material'
 import { MealProvider } from './contexts/MealContext';
 import DayDisplay from './pages/DayDisplay';
 import { useAuth } from './contexts/AuthProvider'
@@ -58,15 +56,12 @@ function App() {
                   <Route path="/statistics" element={<Statistics />} />
                   <Route path="/" element={<DayDisplay />} />
                 </>
-              )
-
-               : (
-                    <>
-                      <Route path="/" element={<LoginSignUp/>} />
-                      <Route path="/*" element={<LoginSignUp/>} />
-                    </>
-                  )
-                }
+                ) : (
+                <>
+                  <Route path="/" element={<LoginSignUp/>} />
+                  <Route path="/*" element={<LoginSignUp/>} />
+                </>
+                )}
                 <Route path="/*" element={<NotFound />} />
               </Routes>
             </MealProvider>
