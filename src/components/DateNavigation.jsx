@@ -4,16 +4,21 @@ import CalendarDisplay from './CalendarDisplay';
 import Button from '@mui/material/Button';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { Grid } from '@mui/material';
+import { Grid, Box, Popover } from '@mui/material';
+
 
 
 const DateNavigation = () => {
   const { date, setDate } = useDate()
-  const [showCalendar, setShowCalendar] = useState(false)
- 
-  const handleShowCalendar = () => {
-    setShowCalendar(true)
-  }
+  const [anchorEl, setAnchorEl] = useState(null)
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  } 
+  const handleCloseCalendar = () => {
+    setAnchorEl(null);
+  };
+  const open = Boolean(anchorEl)
 
   const handleLeftArrow = () => {
     setDate(new Date(date.getTime() - 86400000))
@@ -31,7 +36,7 @@ const DateNavigation = () => {
           <Button onClick={handleLeftArrow}> <ArrowBackIosIcon/> </Button>
         </Grid>
         <Grid item> 
-          <Button onClick={handleShowCalendar}> 
+          <Button onClick={handleClick}> 
           {
             date.toISOString().split('T')[0] === new Date().toISOString().split('T')[0] ? "TODAY" :
             date.toISOString().split('T')[0] === new Date(Date.now() - 86400000).toISOString().split('T')[0] ? "YESTERDAY" :
@@ -44,17 +49,22 @@ const DateNavigation = () => {
           <Button onClick = {handleRightArrow}> <ArrowForwardIosIcon/> </Button>
         </Grid>
       </Grid>
-      {showCalendar && 
-      <Grid container>
-        <CalendarDisplay setShowCalendar = {setShowCalendar}/>
-      </Grid>  
-      }
+      <>
+      <Popover
+        open={Boolean(anchorEl)}
+        anchorEl={anchorEl}
+        onClick={handleCloseCalendar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center'}}
+        transformOrigin={{ vertical: 'top', horizontal: 'center'}}
+      >
+        <CalendarDisplay />
+      </Popover>
+      </>
     </Grid>
   )
 }
 
 export default DateNavigation
-
 
 
 
