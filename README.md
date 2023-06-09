@@ -78,8 +78,8 @@ You will find on the home screen, there are four tables:
 - Snacks
 There is a + button on the right side of the take header row. Use this button to start logging your food. As you start logging your food, you will notice the totals at the end of each table.
 
-![searcher] (searcher.png)
-![searchresults] [searchresults.png]
+![searcher] (./src/assets/searcher.png)
+![searchresults] (./src/assets/searchresults.png)
 
 The right side of the homepage displays 3 tiles showing your current weight status, calories in and out, and food intake progress. The button on the calories in/out tile is for logging your calories out. This is NOT cumulative as it wouldn't make sense to be. If you have a fitness watch, all you have to do is check your caloris burnt and **update** it on the tracker. 
 
