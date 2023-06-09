@@ -4,7 +4,7 @@ import CalendarDisplay from './CalendarDisplay';
 import Button from '@mui/material/Button';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import { Grid, Box, Popover } from '@mui/material';
+import { Grid, Box, Popover, Typography } from '@mui/material';
 
 
 
@@ -31,22 +31,24 @@ const DateNavigation = () => {
 
   return (
     <Grid container direction="column">
-      <Grid container direction="row">
+      <Grid container direction="row" alignItems="center">
         <Grid item> 
-          <Button onClick={handleLeftArrow}> <ArrowBackIosIcon/> </Button>
+          <Button onClick={handleLeftArrow} sx={{color: '#3c274a'}}> <ArrowBackIosIcon/> </Button>
         </Grid>
         <Grid item> 
           <Button onClick={handleClick}> 
+          <Typography variant="h4" sx={{color: '#3c274a'}}>
           {
             date.toISOString().split('T')[0] === new Date().toISOString().split('T')[0] ? "TODAY" :
             date.toISOString().split('T')[0] === new Date(Date.now() - 86400000).toISOString().split('T')[0] ? "YESTERDAY" :
             date.toISOString().split('T')[0] === new Date(Date.now() + 86400000).toISOString().split('T')[0] ? "TOMORROW" :
             date.toDateString()
           }
+          </Typography>
           </Button>
         </Grid>
         <Grid item> 
-          <Button onClick = {handleRightArrow}> <ArrowForwardIosIcon/> </Button>
+          <Button onClick = {handleRightArrow} sx={{color: '#3c274a'}}> <ArrowForwardIosIcon/> </Button>
         </Grid>
       </Grid>
       <>
