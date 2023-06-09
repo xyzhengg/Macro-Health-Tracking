@@ -1,7 +1,4 @@
-import { Box } from '@mui/material'
-import Drawer from '@mui/material/Drawer';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
+import { styled, Grid, Typography, Drawer, Box } from '@mui/material';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -18,6 +15,7 @@ import { useState } from 'react';
 import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { useDate } from '../contexts/DateProvider';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 
 const drawerWidth = 250
 
@@ -55,52 +53,51 @@ const PermanentDrawerLeft = () => {
     navigate('/')
   }
 
+  const handleClickProfile = () => {
+    navigate('/profile')
+  }
+
   return (
-    <Box sx={{ display: 'flex' }}>
-      <Drawer
-        sx={{
-          width: drawerWidth, flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-            bgcolor: '#3c274a'
-          },
-        }}
+    <Grid container direction="column">
+      <Drawer sx={{ width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box', bgcolor: '#3c274a' }}}
         variant="permanent"
-        anchor="left"
-      >
-        <Toolbar />
-        <List>
-            <ListItem disablePadding onClick={handleClickToday}>
-              <ListItemButton>
-                <ListItemIcon sx={{ marginLeft: '30px'}}>
-                  <CalendarTodayIcon sx={{color:'#e7e7ec'}}/>
-                </ListItemIcon>
-                <ListItemText primary='Today' sx={{color: 'white', paddingLeft: '0px'}}/>
-              </ListItemButton>
-            </ListItem>
-          {['Recipes', 'Statistics', 'Settings'].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton component={Link} to={routes[index]}>
-                <ListItemIcon sx={{ marginLeft: '30px'}}>
-                  {icons[index]}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{color: 'white', paddingLeft: '0px'}}/>
-              </ListItemButton>
-            </ListItem>
-          ))}
-            <ListItem disablePadding onClick={handleLogout}>
-              <ListItemButton>
-                <ListItemIcon sx={{ marginLeft: '30px'}}>
-                  <LogoutIcon sx={{color:'#e7e7ec'}}/>
-                </ListItemIcon>
-                <ListItemText primary='Logout' sx={{color: 'white', paddingLeft: '0px'}}/>
-              </ListItemButton>
-            </ListItem>
-        </List>
-      </Drawer>
-    </Box>
-  );
+        anchor="left">
+      <Grid container direction="row" justifyContent="center" alignItems="center" onClick={handleClickProfile}
+        sx={{padding: 4, '&:hover': { backgroundColor: 'rgb(155, 101, 141)'}, height: '100px', backgroundColor: 'rgb(140, 127, 169)'}}>
+        <AccountCircleIcon sx={{ color: '#e7e7ec', marginRight: 2 }} />
+        <Typography variant="h5" sx={{ color: '#e7e7ec' }}> Profile </Typography>
+      </Grid>
+      <List>
+        <ListItem disablePadding onClick={handleClickToday}>
+          <ListItemButton sx={{ '&:hover': { backgroundColor: 'rgb(155, 101, 141)' } }}>
+            <ListItemIcon sx={{ marginLeft: '30px' }}>
+              <CalendarTodayIcon sx={{ color: '#e7e7ec' }} />
+            </ListItemIcon>
+            <ListItemText primary="Today" sx={{color: 'white', paddingLeft: '0px'}}/>
+          </ListItemButton>
+        </ListItem>
+        {['Recipes', 'Statistics', 'Settings'].map((text, index) => (
+        <ListItem key={text} disablePadding>
+          <ListItemButton component={Link} to={routes[index]} sx={{ '&:hover': { backgroundColor: 'rgb(155, 101, 141)' } }}>
+            <ListItemIcon sx={{ marginLeft: '30px' }}>
+              {icons[index]}
+            </ListItemIcon>
+            <ListItemText primary={text} sx={{color: 'white', paddingLeft: '0px'}}/>
+          </ListItemButton>
+        </ListItem>
+        ))}
+        <ListItem disablePadding onClick={handleLogout}>
+          <ListItemButton sx={{ '&:hover': { backgroundColor: 'rgb(155, 101, 141)' } }}>
+            <ListItemIcon sx={{ marginLeft: '30px' }}>
+              <LogoutIcon sx={{ color: '#e7e7ec' }} />
+            </ListItemIcon>
+            <ListItemText primary="Logout" sx={{color: 'white', paddingLeft: '0px'}}/>
+          </ListItemButton>
+        </ListItem>
+      </List>
+    </Drawer>
+  </Grid>
+  )
 }
 
 export default PermanentDrawerLeft
