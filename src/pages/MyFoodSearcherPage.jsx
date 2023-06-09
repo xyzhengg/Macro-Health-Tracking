@@ -128,6 +128,10 @@ const MyFoodSearcherPage = () => {
     }
   }, [dataToAdd])
 
+  const handleCreateFood = () => {
+    navigate('/createfood')
+  }
+
   const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -168,13 +172,14 @@ const MyFoodSearcherPage = () => {
       
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center">
-      <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 7, marginTop: 5 }}>
-        <form onSubmit={handleSearchFood}>
-          <Search sx={{ width: '600px' }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 7, marginTop: 5 }}>
+        <Grid item>
+          <form onSubmit={handleSearchFood}>
+            <Search sx={{ width: '600px' }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
-            <StyledInputBase placeholder="Search…" name="search" sx={{ border: '1px solid #e0e0e0', width: '600px' }} />
+            <StyledInputBase placeholder="Search…" name="search" sx={{ border: '1px solid #e0e0e0', width: '400px' }} />
             <Button
               type="submit" sx={{
               height: "40px",
@@ -189,6 +194,20 @@ const MyFoodSearcherPage = () => {
             </Button>
           </Search>
         </form>
+        </Grid>
+        <Grid item sx={{marginLeft: 20}}>
+          <Button onClick={handleCreateFood} sx={{
+              height: "40px",
+              backgroundColor: `rgb(175, 194, 214)`,
+              color: `rgb(255,255,255)`,
+              '&:hover': {
+              backgroundColor: `rgb(175, 194, 214)`,
+              color: `rgb(255,255,255)`,
+              transform: 'scale(1.05)',
+              }}}>
+              + Add
+            </Button>
+        </Grid>
       </Box>
     
     {myFoodData && !searching &&

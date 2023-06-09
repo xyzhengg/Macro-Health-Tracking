@@ -2,11 +2,13 @@ import { supabase } from '../supabaseAuth/supabaseClient';
 import { useMeal } from '../contexts/MealContext';
 import { useAuth } from '../contexts/AuthProvider';
 import { Grid, TextField, Button, Typography } from '@mui/material'
-import MyFoodSearcherPage from '../pages/MyFoodSearcherPage';
+import { useNavigate } from 'react-router-dom';
 
 const CreateFoodForm = () => {
   const { meal } = useMeal()
   const { user } = useAuth()
+  const navigate = useNavigate()
+
   const handleAddCustomFood = async (e) => {
     e.preventDefault()
     const fields = Object.fromEntries(new FormData(e.target))
@@ -35,28 +37,32 @@ const CreateFoodForm = () => {
       .from('diary')
       .insert([
         {food_name: title, 
-         calories: calories,
-          fat: fat,
-          protein: protein,
-          carbs: carbs,
-          serving_amt: serving,
-          serving_measure: measure,
-          [meal]: true,
-          user_id: user
+        calories: calories,
+        fat: fat,
+        protein: protein,
+        carbs: carbs,
+        serving_amt: serving,
+        serving_measure: measure,
+        [meal]: true,
+        user_id: user,
+        created_at: date
         }
       ])
       if (error2) {
         console.log(error2)
+      } else {
+        console.log(data2)
       }
     } catch (err) {
       console.log(err.message)
     }
+    navigate("/")
   }
 
   return (
     <>
       <Grid container direction="column" justifyContent="center" alignItems="center" >
-        <Grid container sx={{ maxWidth: 400, marginTop: 3}} spacing={3}>
+        <Grid container sx={{ maxWidth: 400, marginTop: 7}} spacing={3}>
           <form onSubmit={handleAddCustomFood}>
           <Typography variant="h4" align="center" gutterBottom> Create Custom Food </Typography>
           <Grid container spacing={2}>
@@ -100,7 +106,6 @@ const CreateFoodForm = () => {
           </form>
         </Grid>
       </Grid>
-      < MyFoodSearcherPage/>
     </>
     
   )

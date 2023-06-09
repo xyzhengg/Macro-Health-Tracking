@@ -23,7 +23,7 @@ export default function ChartCalories () {
     date = new Date(date.getTime() - 86400000)
     }
     setCalorieData([...dateArray])
-    console.log(dateArray)
+    // console.log(dateArray)
   }, [])
 
   useEffect(() => {
@@ -51,8 +51,8 @@ export default function ChartCalories () {
           if (diaryData.error || caloriesOutData.error) {
             console.log(diaryData.error || caloriesOutData.error)
           } else {
-            console.log(diaryData.data)
-            console.log(caloriesOutData.data)
+            // console.log(diaryData.data)
+            // console.log(caloriesOutData.data)
   
             const updatedCalorieData = []
             for (let item of calorieData) {
@@ -66,13 +66,13 @@ export default function ChartCalories () {
               }
               const caloriesOutMatch = caloriesOutData.data.find(entry => entry.created_at === item.date)
               updatedCalorieData.push({...item,
-                calories: Math.round(totalCalories),
+                caloriesIn: Math.round(totalCalories),
                 caloriesOut: caloriesOutMatch ? caloriesOutMatch.calories : null
               })
             }
   
             setCalorieData(updatedCalorieData)
-            console.log(updatedCalorieData)
+            // console.log(updatedCalorieData)
           }
         }
       } catch (err) {
@@ -95,8 +95,8 @@ export default function ChartCalories () {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="calories" fill="#8884d8" />
-                <Bar dataKey="caloriesOut" fill="#82ca9d" />
+                <Bar dataKey="caloriesIn" fill="#9b658d" />
+                <Bar dataKey="caloriesOut" fill="#7e88ab" />
             </BarChart>
           </ResponsiveContainer>
         </div>
