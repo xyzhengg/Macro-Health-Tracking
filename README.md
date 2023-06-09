@@ -10,7 +10,7 @@
 - [Credits](#credits)
 - [License](#license)
 
-## Project Description (#project-description)
+## Project Description
 This is a health diary that allows users to track their health and fitness journey. If your goal is to lose weight, or simply lead a healthier lifestyle by keeping track of your food intake, using a macro tracking app like this is the way to go. 
 
 By using this app, you will be able to log your food intake including data such as:
@@ -30,15 +30,15 @@ To make things even easier, you can set your food intake goals, right down to th
 
 If you like planning ahead, you can easily log data for future dates through the calendar picker. 
 
-## Technologies (#technologies)
+## Technologies
 This web application utilises React js which allows for a very interactive front-end and allows the best SPAs and MPAs. Supabase was used for the backend, which provides extra security features such as OTP, extra user authentication, signing in through third party apps, and ease of database organisation. The front-end has been styled with Material UI which has a vast amoutn of components and faetures built in. The designs have also been specifically made to be user friendly and visually appealing. 
 
-## Challenges (#challenges)
+## Challenges 
 As this app contains a lot of data and data manipulation, it was very time consuming to organise all the data for this project. Some calculations were also more complex, especially when it came to creating custom objects through different api calls to render the data for the statistical charts. Due to Reacts component rendering methods, there are a couple of minor bugs where an extra refresh after loading is required to view all the data - this will of course be resolved in the future. 
 
 Due to the nature of using pre-styles components with Material UI, it was very difficult to change the design. Even overriding basic things like hover states, colouring, and sizing proved to be quite a difficult task. However, in other ways, it was also very useful to have ready-to-go styles. (Unfortuantely, some of their props didn't work correctly either, requiring more style overriding!). 
 
-## Future Features (#future-features)
+## Future Features
 As you may have noticed, the My Recipes section is coming soon. This feature will allow users to create their own recipes and store them on the app. Through implementing this, it means users have the convenience of having everything food related in one place. In the future, users will also have the ability to store external recipes from the library, into their own personal library. 
 
 It would also be great to make the page responsive, and set loading spinners etc so uses know something is happening in the background. To create a more seamless setup, I would also like to feature an onboarding page when users first sign up so their can input all their goals. 
@@ -49,7 +49,7 @@ Water intake logging may also be implemented with more people becoming aware of 
 
 Currently, the weight and calories chart only display the past 7 days data. Future features my include allowing a visual presentation of monthly, quarterly, and yearly data.
 
-## Installation and Running (#installation-and-running)
+## Installation and Running 
 As this app is not currently deployed, you will need to run this locally on your machine. Here are the instructions: 
 1. Clone this repository to your device. This can be done by going to your terminal and typing: git clone https://github.com/xyzhengg/Macro-Health-Tracking 
 2. If you don't already have Node js, install it here: https://nodejs.org/en
@@ -59,7 +59,7 @@ As this app is not currently deployed, you will need to run this locally on your
 
 In the future, you'll only need to go into the app folder, and run npm start for it to work
 
-## Using the app (#using-the-app)
+## Using the app
 You will need to sign up with an email and password. Once you're signed up, you will be automatically redirected to the home page of the app. 
 
 It is highly recommended that the first thing you do after this is go to your profile or settings, and update your profile. If you have trouble with working out your recommended calorie goals, there are many free calculators to calculate your Total Daily Energy Expenditure which then provide guidance on your recommended food intake. 
@@ -77,11 +77,11 @@ The weight tile will display the last logged weight, and the statistics charts a
 
 Note that if you do not log out, the session will time out after 1 hour and automatically log you out. 
 
-## Credits (#credits)
+## Credits 
 Definitely a big shoutout to @pkawula https://codesandbox.io/u/pkawula who provided an workaround to getting recharts displaying.
 I extend my thanks to Material UI for providing great access to icons and codesandbox demos of their components.
 
-## License (#license)
+## License
                     GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
