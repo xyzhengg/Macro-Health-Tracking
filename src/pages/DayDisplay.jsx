@@ -236,7 +236,7 @@ const DayDisplay = () => {
 
   return (
     <Grid container direction="column" justifyContent="center" alignItems="center">
-      <Grid item sx={{ marginTop: 7}}>
+      <Grid item sx={{ marginTop: 7, marginRight: 10}}>
         <DateNavigation/>
       </Grid>
       <Grid item>
