@@ -78,7 +78,7 @@ export default function ChartWeightLine() {
     <>
     {weightData.length > 0 && (
       <div style={{margin: "20px auto"}}>
-        <Typography variant="h5" style={{ textAlign: "center" }}>Weekly weight trend</Typography>
+        <Typography variant="h5" style={{ textAlign: "center" }}>Weekly Weight Trend</Typography>
         <div style={{ width: "100%", padding: "30px", maxWidth: "1000px", margin: "20px auto" }}>
           <ResponsiveContainer height={300}>
             <LineChart data={weightData}>

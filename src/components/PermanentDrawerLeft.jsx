@@ -21,7 +21,7 @@ const drawerWidth = 250
 
 const PermanentDrawerLeft = () => {
   const navigate = useNavigate()
-  const routes = ['/api/recipes/search', '/statistics', '/settings'];
+  const routes = ['/api/recipes/search', '/statistics', '/profile'];
   const icons = [<MenuBookIcon sx={{color:'#e7e7ec'}}/>, <BarChartIcon sx={{color:'#e7e7ec'}}/>, <SettingsIcon sx={{color:'#e7e7ec'}}/> ]
   const { setUser } = useAuth()
   const { setDate } = useDate()
