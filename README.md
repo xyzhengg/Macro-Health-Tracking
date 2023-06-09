@@ -52,13 +52,13 @@ Currently, the weight and calories chart only display the past 7 days data. Futu
 ## Installation and Running 
 As this app is not currently deployed, you will need to run this locally on your machine. Here are the instructions: 
 1. Clone this repository to your device. This can be done by going to your terminal and typing: 
-> git clone https://github.com/xyzhengg/Macro-Health-Tracking 
+``` git clone https://github.com/xyzhengg/Macro-Health-Tracking ```
 2. If you don't already have Node js, install it here: https://nodejs.org/en
 3. In your terminal, go into the app folder and run 
->npm install 
+``` npm install ```
 This will install all the dependencies needed for the app
 4. To run the app, type in your terminal 
->npm start
+``` npm start ```
 * Note this will usually run the app on this local address http://localhost:3000 or this http://localhost:5173/
 
 In the future, you'll only need to go into the app folder, and run npm start for it to work
