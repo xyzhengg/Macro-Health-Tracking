@@ -31,10 +31,18 @@ export const GoalProvider = ({ children }) => {
           if (error) {
             setError(error)
             console.log(error)
-          } else {
+          } else if (data[0]) {
             setLoading(false)
             setGoal(data[0])
             console.log(data[0])
+          } else {
+            setGoal({
+              goal_calories: 0,
+              goal_weight: 0,
+              fat: 0,
+              carbs: 0,
+              protein: 0
+            })
           }
         } catch (err) {
           setError(err.message)

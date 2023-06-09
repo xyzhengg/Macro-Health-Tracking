@@ -3,10 +3,12 @@ import { Button, Typography, Paper, Card, Grid } from "@mui/material"
 import { supabase } from "../supabaseAuth/supabaseClient"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGoal } from "../contexts/GoalProvider";
 
 
 const ProfilePage = () => {
   const { user } = useAuth()
+  const { goal } = useGoal()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [profileData, setProfileData] = useState([])
@@ -16,16 +18,28 @@ const ProfilePage = () => {
     setLoading(true)
     const getProfileData = async () => {
       try {
+        if (user && goal) {
         const { data, error } = await supabase
           .from('user_profile')
           .select("*")
           .eq('user_id', user)
         if (error) {
           setError(error)
-        } else {
+        } else if (data[0]) {
           setLoading(false)
           setProfileData(data[0])
+        } else {
+          setProfileData({
+            first_name: " ",
+            last_name: " ",
+            goal_weight: " ",
+            goal_calories: " ",
+            goal_fat: " ",
+            goal_protein: " ",
+            goal_carbs: " "
+          })
         }
+      }
       } catch (err) {
         setError(err.message)
       }
