@@ -12,7 +12,7 @@ const CalendarDisplay = ( {setShowCalendar}) => {
     console.log(date)
   }, [date])
 
-  const handleOnchange = async (newDate) => {
+  const handleOnChange = async (newDate) => {
     await setDate(newDate)
     setShowCalendar(false)
   }

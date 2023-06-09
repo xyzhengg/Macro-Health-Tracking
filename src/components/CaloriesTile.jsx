@@ -26,8 +26,10 @@ const CaloriesTile = ( { totalCalories} ) => {
         .limit(1)
         if (error) {
           console.log(error)
-        } else {
+        } else if (data[0]) {
           setCalories(data[0])
+        }else {
+          setCalories({calories: 0})
           console.log(data[0])
         }
       } catch (err) {
@@ -158,5 +160,4 @@ const CaloriesTile = ( { totalCalories} ) => {
 }
 
 export default CaloriesTile
-
 
