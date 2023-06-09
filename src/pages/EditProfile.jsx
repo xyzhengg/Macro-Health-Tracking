@@ -24,10 +24,20 @@ const EditProfile = () => {
           .eq('user_id', user)
         if (error) {
           setError(error)
-        } else {
+        } else if (data[0]){
           setLoading(false)
           setProfileData(data[0])
           // console.log(data[0])
+        } else {
+          setProfileData({
+            first_name: "",
+            last_name: "",
+            goal_calories: "",
+            goal_weight: "",
+            fat: "",
+            carbs: "",
+            protein: ""
+          })
         }
       } catch (err) {
         setError(err.message)
