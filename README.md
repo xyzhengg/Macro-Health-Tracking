@@ -10,6 +10,8 @@
 - [Original Wireframes](#original-wireframes)
 - [Credits](#credits)
 - [License](#license)
+- [Wire Frames](./Wireframes.md)
+- [User Stories](./UserStories.md)
 
 ## Project Description
 This is a health diary that allows users to track their health and fitness journey. Whether your goal is to lose weight or simply lead a healthier lifestyle by keeping track of your food intake, using a macro tracking app like this is the way to go.
@@ -89,16 +91,6 @@ The right side of the homepage displays three tiles showing your current weight 
 The weight tile displays the last logged weight, and the statistics charts always display the data from the past 7 days. If you find that some expected data is missing, simply refresh the page.
 
 Please note that if you do not log out, the session will time out after 1 hour and automatically log you out.
-
-## Original Wireframes
-The following images showcase the original wireframe designs, which were subsequently modified throughout the development process.
-
-![homepage wireframe](./src/assets/homewf.png)
-![my foods earch wireframe](./src/assets/myfoodsearchwf.png)
-![food api wireframe](./src/assets/foodapiwf.png)
-![add food wireframe](./src/assets/addfoodwf.png)
-![recipe search wireframe](./src/assets/recipesearchwf.png)
-
 
 ## Credits
 A special thanks to @pkawula (https://codesandbox.io/u/pkawula), who provided a workaround for displaying recharts. I would also like to express my gratitude to Material UI for providing excellent access to icons and codesandbox demos of their components.
