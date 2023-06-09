@@ -6,7 +6,7 @@ import { useGoal } from '../contexts/GoalProvider';
 import { Button, Typography, Grid, TextField } from "@mui/material"
 
 const Login = ({ toggleForm }) => {
-  const [session, setSession] = useState(null)
+  const {session, setSession} = useAuth(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const { user, setUser } = useAuth()
@@ -26,7 +26,7 @@ const Login = ({ toggleForm }) => {
     })
     if (error) {
       setError(error.message)
-      console.log(error)
+      console.log(error.message)
     } else {
       setUser(data.user.id)
       setSession(true)

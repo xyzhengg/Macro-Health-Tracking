@@ -1,3 +1,4 @@
+import { Box, Typography } from "@mui/material"
 const NotFound = () => {
   return (
     <Box sx={{ marginTop: 10}}>

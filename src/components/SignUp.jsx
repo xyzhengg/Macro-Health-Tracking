@@ -1,10 +1,12 @@
 import { supabase } from '../supabaseAuth/supabaseClient';
 import { useState } from 'react';
 import { Button, Typography, Grid, TextField } from "@mui/material"
+import { useAuth } from '../contexts/AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = ({toggleForm}) => {
   const [error, setError] = useState(null)
-
+  
   const handleSignUp = async (e) => {
     e.preventDefault()
     const fields = Object.fromEntries(new FormData(e.target))
@@ -14,14 +16,11 @@ const SignUp = ({toggleForm}) => {
       {
         email: fields.email,
         password: fields.password,
-        options: {
-          emailRedirectTo: '/login'
-        }
       }) 
       if (error) {
         setError(error.message)
         console.log(error)
-      } 
+      }
     } 
     catch (err) {
       setError(err.message)

@@ -37,13 +37,13 @@ function App() {
     <DateProvider>
       <GoalProvider>
         <Grid container>
-          { user && (<Grid item xs={2}>
+          { user && session && (<Grid item xs={2}>
             <PermanentDrawerLeft/>
           </Grid>)} 
           <Grid item xs={user? 10 : 12}>
             <MealProvider>
             <Routes>
-              {user && session &&
+              {user && session ? (
                 <>
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/profile/edit" element={<EditProfile />} />
@@ -54,13 +54,11 @@ function App() {
                   <Route path="/api/food/search" element={<FoodSearcher />} />
                   <Route path="/createfood" element={<CreateFoodForm />} />
                   <Route path="/search" element={<FoodAndRecipeSearcherPage />} />
-                  <Route path="/signup" element={<Navigate to="/" />} />
-                  <Route path="/login" element={<Navigate to="/" />} />
                   <Route path="/" element={<DayDisplay />} />
                 </>
-                }
+              )
 
-                {!user && (
+               : (
                     <>
                       <Route path="/" element={<LoginSignUp/>} />
                       <Route path="/*" element={<LoginSignUp/>} />
