@@ -3,12 +3,12 @@ import { useState, useEffect } from 'react';
 import { useDate } from '../contexts/DateProvider';
 import { supabase } from "../supabaseAuth/supabaseClient"
 import { useAuth } from '../contexts/AuthProvider';
-import { Typography, Grid} from "@mui/material"
+import { Typography } from "@mui/material"
 
 
 export default function ChartWeightLine() {
 
-  const { date } = useDate()
+  const { date, setDate } = useDate()
   const { user } = useAuth()
   const [weightData, setWeightData] = useState([])
 
@@ -39,9 +39,7 @@ export default function ChartWeightLine() {
             .select('created_at, kg')
             .eq('user_id', user)
             .lte('created_at', date.toISOString())
-            .gte(
-              'created_at',
-              new Date(date.getTime() - 604800000).toISOString()
+            .gte('created_at', new Date(date.getSeconds() - 604800000).toISOString()
             )
             .order('created_at', { ascending: true })
 
@@ -61,7 +59,7 @@ export default function ChartWeightLine() {
               )
             }
             setWeightData(updatedWeightData)
-            console.log(updatedWeightData)
+            // console.log(updatedWeightData)
           } 
           // else {
           //   const emptyWeightData = weightData.map(item => ({...item, kg: null}))
@@ -74,21 +72,14 @@ export default function ChartWeightLine() {
       }
     }
     getWeightData()
-  }, [date, user])
+  }, [user, date])
 
   return (
     <>
     {weightData.length > 0 && (
       <div style={{margin: "20px auto"}}>
         <Typography variant="h5" style={{ textAlign: "center" }}>Weekly weight trend</Typography>
-        <div
-        style={{
-          width: "100%",
-          padding: "30px",
-          maxWidth: "1000px",
-          margin: "20px auto"
-        }}
-      >
+        <div style={{ width: "100%", padding: "30px", maxWidth: "1000px", margin: "20px auto" }}>
           <ResponsiveContainer height={300}>
             <LineChart data={weightData}>
               <CartesianGrid />

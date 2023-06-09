@@ -8,11 +8,11 @@ const CalendarDisplay = ( {setShowCalendar}) => {
   const {date, setDate} = useDate()
 
   useEffect(() => {
-    console.log(date)
   }, [date])
 
   const handleOnChange = async (newDate) => {
     await setDate(newDate)
+    console.log(newDate)
     setShowCalendar(false)
   }
 
