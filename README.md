@@ -51,11 +51,11 @@ As you may have noticed, the My Recipes section is coming soon. This feature wil
 
 Additional planned features include making the page responsive, implementing loading spinners to indicate background processes, and incorporating an onboarding page to allow users to input their goals when they first sign up.
 
-Originally, the plan included utilizing an API to help users determine their recommended calorie intake based on their current weight, height, and goals. Due to the growing prevalence of diabetes, future features may include a blood glucose level tracker and
-
- a blood pressure logger, which would be helpful for individuals dealing with stress or heart disease.
+Originally, the plan included utilizing an API to help users determine their recommended calorie intake based on their current weight, height, and goals. Due to the growing prevalence of diabetes, future features may include a blood glucose level tracker and blood pressure logger, which would be helpful for individuals dealing with stress or heart disease.
 
 Water intake logging may also be implemented, as more people are becoming aware of the need to increase fluid consumption and the associated health benefits.
+
+To become an all in one fitness and health app, it would be great to have a diary/notes section where users can create diary entries and upload photos. 
 
 Currently, the weight and calories chart only display data from the past 7 days. Future updates may include visual presentations of monthly, quarterly, and yearly data.
 

@@ -1,0 +1,17 @@
+# User Stories
+- Story: As an app user, I want to be able to log the foods I eat so that I can track my intake
+  - Acceptance Criteria: App allows you to input food item and data
+  - Acceptance Criteria: App displays recent foods eaten
+  - Acceptance Criteria: App allows users to save their foods their app for easier access next time
+- Story: As an app user, I want to track my health/fitness progress
+  - Acceptance Criteria: App displays bar chart of food progression
+  - Acceptance Criteria: App has statistics page with line graph and bar chart showing progress
+  - Acceptance Criteria: App has uper progile set up to allow logging goals, and uses these goals to compare data
+  - Acceptance Criteria: App has totals for each day on home page
+- Story: As an app user, I want to track my macro nutrients
+  - Acceptance Criteria: App displays marcro data on page
+  - Acceptance Criteria: Libraries used have that type of data that can be collected
+  - Acceptance Criteria: All food items that user adds require macro data
+- Story: As an app user, I want to be able to pre-plan my meals
+  - Acceptance Criteria: App allows user to access days ahead of time, and easily jump ahead with calendar picker function
+  - Acceptance Criteria: App also allows user to log future foods
