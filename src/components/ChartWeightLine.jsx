@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { useDate } from '../contexts/DateProvider';
 import { supabase } from "../supabaseAuth/supabaseClient"
 import { useAuth } from '../contexts/AuthProvider';
+import { Typography, Grid} from "@mui/material"
+
 
 export default function ChartWeightLine() {
 
@@ -76,17 +78,17 @@ export default function ChartWeightLine() {
 
   return (
     <>
-    {weightData  && 
-      <div className="App">
-        <h1>Weekly weight trend</h1>
+    {weightData.length > 0 && (
+      <div style={{margin: "20px auto"}}>
+        <Typography variant="h5" style={{ textAlign: "center" }}>Weekly weight trend</Typography>
         <div
-          style={{
-            width: "80%",
-            padding: "20px",
-            maxWidth: "900px",
-            margin: "20px auto"
-          }}
-        >
+        style={{
+          width: "100%",
+          padding: "30px",
+          maxWidth: "1000px",
+          margin: "20px auto"
+        }}
+      >
           <ResponsiveContainer height={300}>
             <LineChart data={weightData}>
               <CartesianGrid />
@@ -99,7 +101,7 @@ export default function ChartWeightLine() {
           </ResponsiveContainer>
         </div>
       </div>
-      }
+      )}
     </>
   )
 }
