@@ -32,8 +32,8 @@ If you prefer planning ahead, you can easily log data for future dates using the
 
 ![homepage](./src/assets/homepage.png)
 ![statistics](./src/assets/statistics.png)
-![searcher](./src/assets/searcher.png)
-![searchresults](./src/assets/searchresults.png)
+![search](./src/assets/search.png)
+![searchresult](./src/assets/searchresult.png)
 
 ## Technologies
 This web application utilizes React.js, which allows for a highly interactive front-end and enables the creation of the best single-page and multi-page applications (SPAs and MPAs). The backend is powered by Supabase, which provides additional security features such as OTP, enhanced user authentication, sign-in through third-party apps, and easy database organization. The front-end has been styled with Material UI, a comprehensive UI framework that offers a wide range of components and features. The designs have been specifically crafted to be user-friendly and visually appealing.
