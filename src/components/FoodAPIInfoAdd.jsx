@@ -112,11 +112,19 @@ const FoodAPIInfoAdd = () => {
         margin: '0 auto',
         padding: '20px',
       }}
-    >
-      <Button variant="outlined" onClick={() => navigate(-1)} sx={{marginBottom: "40px"}}>
-        <ArrowBackIcon />
-        Back
-      </Button>
+    > 
+      <Button onClick={() => navigate(-1)} sx={{
+              marginTop: 5,
+              marginBottom: "40px",
+              height:"35px",
+              backgroundColor: `rgb(175, 194, 214)`, 
+              color: `rgb(255,255,255)`, 
+              '&:hover': {
+              backgroundColor: `rgb(175, 194, 214)`, 
+              color: `rgb(255,255,255)`,
+              transform: 'scale(1.05)'}}}
+              > Back
+        </Button>
       <form id={id} onSubmit={handleAddFood}>
         <Typography variant="h6">{label}</Typography>
         <TextField
@@ -154,7 +162,7 @@ const FoodAPIInfoAdd = () => {
         </Button>
 
       </form>
-    </Box>
+      </Box>
   );
 
 }
