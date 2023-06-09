@@ -161,4 +161,3 @@ const WeightTile = () => {
 }
 
 export default WeightTile
-

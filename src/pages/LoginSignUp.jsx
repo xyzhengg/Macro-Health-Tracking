@@ -10,9 +10,9 @@ const LoginSignUp = () => {
   }
 
   return (
-    <Grid container direction="row" justifyContent="space-around" alignItems="center" 
+    <Grid container direction="row" justifyContent="center" alignItems="center" 
       style={{ height: '100vh'}} sx={{backgroundColor: 'rgb(234, 233, 239)'}}>
-        <Grid item xs={8}>
+        <Grid item xs={6}>
         </Grid>
         <Grid item xs={3} sx={{border: '1px solid grey', borderRadius: 2, p: 10, backgroundColor: 'white'}}>
           {hasAccount ? 

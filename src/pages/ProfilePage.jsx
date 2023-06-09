@@ -18,7 +18,7 @@ const ProfilePage = () => {
     setLoading(true)
     const getProfileData = async () => {
       try {
-        if (user && goal) {
+        // if (user && goal) {
         const { data, error } = await supabase
           .from('user_profile')
           .select("*")
@@ -39,7 +39,7 @@ const ProfilePage = () => {
             goal_carbs: " "
           })
         }
-      }
+      // }
       } catch (err) {
         setError(err.message)
       }
