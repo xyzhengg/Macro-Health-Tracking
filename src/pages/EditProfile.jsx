@@ -3,7 +3,7 @@ import { supabase } from "../supabaseAuth/supabaseClient"
 import { useGoal } from "../contexts/GoalProvider"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { Button, Typography, Paper, Card, Grid, TextField } from "@mui/material"
+import { Button, Typography, Grid, TextField } from "@mui/material"
 
 const EditProfile = () => {
   const { user } = useAuth()

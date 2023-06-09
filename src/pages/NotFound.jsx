@@ -1,6 +1,8 @@
 const NotFound = () => {
   return (
-    <h1> 404 Not Found </h1>
+    <Box sx={{ marginTop: 10}}>
+      <Typography variant="h4" sx={{ color: 'grey' }}> 404 Not Found</Typography>
+    </Box>
   )
 }
 

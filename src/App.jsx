@@ -20,6 +20,7 @@ import { GoalProvider } from './contexts/GoalProvider';
 import ProfilePage from './pages/ProfilePage';
 import EditProfile from './pages/EditProfile';
 import InitialProfileSetup from './components/InitialProfileSetup';
+import LoginSignUp from './pages/LoginSignUp';
 
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
 
   useEffect(() => {
     if (!user && !session) {
-      navigate('/login')
+      navigate('/')
     }
   }, [user, session])
   
@@ -42,7 +43,7 @@ function App() {
           <Grid item xs={user? 10 : 12}>
             <MealProvider>
             <Routes>
-              {user && 
+              {user && session &&
                 <>
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/profile/edit" element={<EditProfile />} />
@@ -61,10 +62,8 @@ function App() {
 
                 {!user && (
                     <>
-                      <Route path="/" element={<Navigate to="/login"/>} />
-                      <Route path="/signup" element={<SignUp />} />
-                      <Route path="/login" element={<Login />} />
-                      <Route path="/*" element={<Navigate to="/login"/>} />
+                      <Route path="/" element={<LoginSignUp/>} />
+                      <Route path="/*" element={<LoginSignUp/>} />
                     </>
                   )
                 }

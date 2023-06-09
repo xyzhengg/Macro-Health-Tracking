@@ -237,8 +237,7 @@ const DayDisplay = () => {
         <DateNavigation/>
       </Grid>
       <Grid item>
-        <Grid container direction="row" justifyContent="flex-start" alignItems="center" spacing={3}> 
-          <Grid item > 
+        <Grid container direction="row" justifyContent="flex-start" spacing={3} sx={{marginTop: 5}}> 
             <Box component="main" sx={{ bgcolor: 'background.default', p: 3, margin: 1}} >
               <MacroTrackingDisplay
               breakfastData = {breakfastData}
@@ -251,7 +250,6 @@ const DayDisplay = () => {
               snackTotals = {snackTotals}
               />
             </Box>
-          </Grid>
           <Grid item >
             <Grid container direction="column" spacing={2} justifyContent="flex-start">
               <Grid item>

@@ -6,9 +6,10 @@ import RecipeAPISearcherPage from '../pages/RecipeAPISearcherPage'
 import FoodAPISearcher from './FoodAPISearcher'
 import CreateFoodForm from './CreateFoodForm'
 import MyFoodSearcherPage from '../pages/MyFoodSearcherPage'
+import ComingSoon from './ComingSoon'
 
 const FoodAndRecipeSearcherPage = () => {
-  const [value, setValue] = useState(1)
+  const [value, setValue] = useState(0)
 
   const handleChange = (e, newValue) => {
     setValue(newValue);
@@ -45,7 +46,7 @@ const FoodAndRecipeSearcherPage = () => {
         <Box sx={{ width: '100%', bgcolor: 'background.paper', margin: '0 auto'}}>
           {value === 0 && <MyFoodSearcherPage />}
           {value === 1 && <FoodAPISearcher/>}
-          {value === 2 && <MyRecipesComponent />}
+          {value === 2 && <ComingSoon />}
           {value === 3 && <RecipeAPISearcherPage />}
         </Box>
       </Box>

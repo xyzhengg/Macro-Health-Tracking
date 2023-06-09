@@ -1,7 +1,8 @@
 import { supabase } from '../supabaseAuth/supabaseClient';
 import { useState } from 'react';
+import { Button, Typography, Grid, TextField } from "@mui/material"
 
-const SignUp = () => {
+const SignUp = ({toggleForm}) => {
   const [error, setError] = useState(null)
 
   const handleSignUp = async (e) => {
@@ -29,17 +30,38 @@ const SignUp = () => {
   }
 
   return (
-    <form onSubmit={handleSignUp}>
-      <label htmlFor="email"> Email</label>
-      <input type="email" name="email" placeholder="email" />
-      <label htmlFor="email"> Password</label>
-      <input type="password" name="password" placeholder="password" />
-      {error && <div>Error: {error}</div>}
-      <button type="submit"> Sign Up </button>
+    <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3}>
+      <form onSubmit={handleSignUp}>
+      <Typography variant="h2" align="center" gutterBottom>Sign Up</Typography>
+      <Grid container spacing={5} sx={{ maxWidth: 600, marginTop: 2 }}>
+        <Grid item xs={12}>
+          <TextField label="Email" name="email" type="email" variant="outlined" margin="normal" fullWidth />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField label="Password" name="password" type="password" variant="outlined" margin="normal" fullWidth />
+        </Grid>
+      </Grid>
+      {error && <Typography variant="body1" color="error">Error: {error}</Typography>}
+      <Button type="submit" fullWidth
+        sx={{
+          height: '50px',
+          marginTop: 5,
+          backgroundColor: 'rgb(154, 198, 199)',
+          color: 'rgb(255, 255, 255)',
+          '&:hover': {
+            backgroundColor: 'rgb(154, 198, 199)',
+            color: 'rgb(255, 255, 255)',
+          },
+        }}
+      >
+        Sign Up
+      </Button>
     </form>
+    <Button onClick={toggleForm} sx={{marginTop: 4}}> Have an account? Login here </Button>
+  </Grid>
   )
 }
 
-export default SignUp;
+export default SignUp
 
 

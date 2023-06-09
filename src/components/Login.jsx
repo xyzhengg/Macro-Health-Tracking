@@ -3,8 +3,9 @@ import { supabase } from '../supabaseAuth/supabaseClient';
 import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { useGoal } from '../contexts/GoalProvider';
+import { Button, Typography, Grid, TextField } from "@mui/material"
 
-const Login = () => {
+const Login = ({ toggleForm }) => {
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
@@ -41,15 +42,36 @@ const Login = () => {
   }
   
   return (
-    <form onSubmit={handleLogin}>
-      <label htmlFor="email"> Email</label>
-      <input type="email" name="email" placeholder="email" />
-      <label htmlFor="email"> Password</label>
-      <input type="password" name="password" placeholder="password" />
-      {session && <div> Sign in sucessful! Redirecting... </div>}
-      {error && <div> Error: {error} </div>}
-      <button type="submit"> Login </button>
-    </form>
+    <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3}>
+      <form onSubmit={handleLogin}>
+        <Typography variant="h2" align="center" gutterBottom> Login </Typography>
+        <Grid container spacing={5} sx={{ maxWidth: 600, marginTop: 2 }}>
+          <Grid item xs={12}>
+            <TextField label="Email" name="email" type="email" variant="outlined" margin="normal" fullWidth />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField label="Password" name="password" type="password" variant="outlined" margin="normal" fullWidth />
+          </Grid>
+        </Grid>
+        {session && <Typography variant="body1">Sign in successful! Redirecting...</Typography>}
+        {error && <Typography variant="body1" color="error">Error: {error}</Typography>}
+        <Button type="submit" fullWidth
+          sx={{
+            height: '50px',
+            marginTop: 5,
+            backgroundColor: 'rgb(196, 155, 178)',
+            color: 'rgb(255, 255, 255)',
+            '&:hover': {
+              backgroundColor: 'rgb(196, 155, 178)',
+              color: 'rgb(255, 255, 255)',
+            },
+          }}
+        >
+          Login
+        </Button>
+      </form>
+      <Button onClick={toggleForm} sx={{marginTop: 4}}> Create new account </Button>
+    </Grid>
   )
 }
 
