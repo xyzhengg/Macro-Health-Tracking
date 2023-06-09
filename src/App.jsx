@@ -21,6 +21,7 @@ import ProfilePage from './pages/ProfilePage';
 import EditProfile from './pages/EditProfile';
 import InitialProfileSetup from './components/InitialProfileSetup';
 import LoginSignUp from './pages/LoginSignUp';
+import Statistics from './pages/Statistics';
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
                   <Route path="/api/food/search" element={<FoodSearcher />} />
                   <Route path="/createfood" element={<CreateFoodForm />} />
                   <Route path="/search" element={<FoodAndRecipeSearcherPage />} />
+                  <Route path="/statistics" element={<Statistics />} />
                   <Route path="/" element={<DayDisplay />} />
                 </>
               )

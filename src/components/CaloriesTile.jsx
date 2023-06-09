@@ -43,6 +43,10 @@ const CaloriesTile = ( { totalCalories} ) => {
     setEditMode(!editMode)
   }
 
+  const editModeFalse = () => {
+    setEditMode(false)
+  }
+
   const addCalories = async (e) => {
     e.preventDefault()
     const fields = Object.fromEntries(new FormData(e.target))
