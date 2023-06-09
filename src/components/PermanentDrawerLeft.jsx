@@ -59,11 +59,12 @@ const PermanentDrawerLeft = () => {
 
   return (
     <Grid container direction="column">
-      <Drawer sx={{ width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box', bgcolor: '#3c274a' }}}
+      <Drawer sx={{ alignItems: 'center',
+        justifyContent: 'center', width: drawerWidth, flexShrink: 0, '& .MuiDrawer-paper': { width: drawerWidth, boxSizing: 'border-box', bgcolor: '#3c274a' }}}
         variant="permanent"
-        anchor="left">
+        anchor="left" >
       <Grid container direction="row" justifyContent="center" alignItems="center" onClick={handleClickProfile}
-        sx={{padding: 4, '&:hover': { backgroundColor: 'rgb(155, 101, 141)'}, height: '100px', backgroundColor: 'rgb(140, 127, 169)'}}>
+        sx={{padding: 4, '&:hover': { backgroundColor: 'rgb(155, 101, 141)'}, height: '100px', backgroundColor: 'rgb(38, 23, 51)'}}>
         <AccountCircleIcon sx={{ color: '#e7e7ec', marginRight: 2 }} />
         <Typography variant="h5" sx={{ color: '#e7e7ec' }}> Profile </Typography>
       </Grid>
