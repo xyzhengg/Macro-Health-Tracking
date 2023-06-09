@@ -3,7 +3,7 @@ import { supabase } from "../supabaseAuth/supabaseClient"
 import { useGoal } from "../contexts/GoalProvider"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { Button, Typography, Paper, Card, Grid, TextField } from "@mui/material"
+import { Button, Typography, Grid, TextField } from "@mui/material"
 
 const EditProfile = () => {
   const { user } = useAuth()
@@ -24,10 +24,20 @@ const EditProfile = () => {
           .eq('user_id', user)
         if (error) {
           setError(error)
-        } else {
+        } else if (data[0]){
           setLoading(false)
           setProfileData(data[0])
           // console.log(data[0])
+        } else {
+          setProfileData({
+            first_name: "",
+            last_name: "",
+            goal_calories: "",
+            goal_weight: "",
+            fat: "",
+            carbs: "",
+            protein: ""
+          })
         }
       } catch (err) {
         setError(err.message)
@@ -104,7 +114,15 @@ const EditProfile = () => {
               <TextField label="Protein (g)" name="protein" type="number" variant="outlined" margin="normal" defaultValue={profileData.protein } InputLabelProps={{ shrink: true }} required fullWidth sx={{ height: 40 }}/>
             </Grid>
           </Grid>
-        <Button type="submit" variant="contained" fullWidth sx={{ marginTop: 5 }}> Save </Button>
+        <Button type="submit" fullWidth 
+          sx={{ marginTop: 5,
+          backgroundColor: `rgb(196, 155, 178)`, 
+          color: `rgb(255,255,255)`, 
+          '&:hover': {
+          backgroundColor: `rgb(196, 155, 178)`, 
+          color: `rgb(255,255,255)`}}}
+          > Save
+        </Button>
       </form>
       {success && ( <Typography variant="body1" align="center" > {success} </Typography> )}
     </Grid>
