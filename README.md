@@ -30,6 +30,9 @@ To make things even easier, you can set your food intake goals, right down to th
 
 If you like planning ahead, you can easily log data for future dates through the calendar picker. 
 
+![homepage] (homepage.png)
+![statistics] (statistics.png)
+
 ## Technologies
 This web application utilises React js which allows for a very interactive front-end and allows the best SPAs and MPAs. Supabase was used for the backend, which provides extra security features such as OTP, extra user authentication, signing in through third party apps, and ease of database organisation. The front-end has been styled with Material UI which has a vast amoutn of components and faetures built in. The designs have also been specifically made to be user friendly and visually appealing. 
 
@@ -74,6 +77,9 @@ You will find on the home screen, there are four tables:
 - Dinner
 - Snacks
 There is a + button on the right side of the take header row. Use this button to start logging your food. As you start logging your food, you will notice the totals at the end of each table.
+
+![searcher] (searcher.png)
+![searchresults] [searchresults.png]
 
 The right side of the homepage displays 3 tiles showing your current weight status, calories in and out, and food intake progress. The button on the calories in/out tile is for logging your calories out. This is NOT cumulative as it wouldn't make sense to be. If you have a fitness watch, all you have to do is check your caloris burnt and **update** it on the tracker. 
 
