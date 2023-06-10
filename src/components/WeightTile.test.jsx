@@ -9,9 +9,9 @@ import "@testing-library/jest-dom";
 beforeEach(() => {
   fetch.resetMocks()
 })
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close())
+// beforeAll(() => server.listen());
+// afterEach(() => server.resetHandlers());
+// afterAll(() => server.close())
 
 const mockWeight = [
   {
@@ -27,8 +27,8 @@ const mockWeight = [
 ]
 
 it('should render the weight as 47', () => {
-  render(<WeightTile weight={{kg: 47}} weightDifference={[47, 43]}/>)
-  const weight = screen.getByText('47kg')
+  render(<WeightTile weight={{kg: 45}} weightDifference={[47, 43]}/>)
+  const weight = screen.getByText('45kg')
   expect(weight).toBeInTheDocument()
   const weightDifference = screen.getByText('4kg left to target')
   expect(weightDifference).toBeInTheDocument()
