@@ -1,12 +1,14 @@
 import { supabase } from '../supabaseAuth/supabaseClient';
 import { useMeal } from '../contexts/MealContext';
 import { useAuth } from '../contexts/AuthProvider';
+import { useDate } from '../contexts/DateProvider';
 import { Grid, TextField, Button, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 
 const CreateFoodForm = () => {
   const { meal } = useMeal()
   const { user } = useAuth()
+  const { date } = useDate()
   const navigate = useNavigate()
 
   const handleAddCustomFood = async (e) => {
