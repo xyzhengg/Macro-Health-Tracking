@@ -4,7 +4,7 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { useEffect } from 'react';
 
-const CalendarDisplay = () => {
+const CalendarDisplay = ( {}) => {
   const {date, setDate} = useDate()
 
   useEffect(() => {
