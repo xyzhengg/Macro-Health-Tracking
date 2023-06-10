@@ -81,7 +81,7 @@ export default function ChartCalories () {
   }, [user, date])
   
   return (
-    <>
+    <>{ calorieData.length > 0 && ( 
       <div style={{margin: "20px auto"}}>
         <Typography variant="h5" style={{ textAlign: "center" }}>Calories Comparison</Typography>
         <div style={{ width: "100%", padding: "30px", maxWidth: "1000px", margin: "20px auto"}}>
@@ -98,6 +98,7 @@ export default function ChartCalories () {
           </ResponsiveContainer>
         </div>
       </div>
+      )}
     </> 
   )
 }
