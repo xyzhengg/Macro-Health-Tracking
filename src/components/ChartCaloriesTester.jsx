@@ -1,13 +1,4 @@
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { Typography } from "@mui/material"
-import { useAuth } from '../contexts/AuthProvider'
-import { useState, useEffect } from 'react';
-import { supabase } from "../supabaseAuth/supabaseClient"
-import { useDate } from '../contexts/DateProvider';
-
-export default function ChartCalories () {
-
-  const { user } = useAuth()
+const { user } = useAuth()
   const { date, setDate } = useDate()
   const [calorieData, setCalorieData] = useState([])
 
@@ -53,7 +44,6 @@ export default function ChartCalories () {
           } else {
             // console.log(diaryData.data)
             // console.log(caloriesOutData.data)
-  
             const updatedCalorieData = []
             for (let item of calorieData) {
               const diaryMatches = diaryData.data.filter(entry => {
@@ -70,7 +60,6 @@ export default function ChartCalories () {
                 caloriesOut: caloriesOutMatch ? caloriesOutMatch.calories : null
               })
             }
-  
             setCalorieData(updatedCalorieData)
             // console.log(updatedCalorieData)
           }
@@ -78,32 +67,6 @@ export default function ChartCalories () {
       } catch (err) {
         console.log(err)
       }
-    };
-  
+    }
     getCalorieTotals()
   }, [user, date])
-  
-  return (
-    <>
-      <div style={{margin: "20px auto"}}>
-        <Typography variant="h5" style={{ textAlign: "center" }}>Calories Comparison</Typography>
-        <div style={{ width: "100%", padding: "30px", maxWidth: "1000px", margin: "20px auto"}}>
-          <ResponsiveContainer height={300}>
-            <BarChart data={calorieData}>
-              <CartesianGrid />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="caloriesIn" fill="#9b658d" />
-                <Bar dataKey="caloriesOut" fill="#7e88ab" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-    </> 
-  )
-}
-
-
-//https://www.javascripttutorial.net/es6/javascript-promise-all/

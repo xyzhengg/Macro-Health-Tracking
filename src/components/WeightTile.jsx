@@ -1,6 +1,6 @@
 import { supabase } from "../supabaseAuth/supabaseClient"
 import { useState, useEffect } from "react";
-import { TextField, Stack, FormLabel, Grid, Typography, Box, Button } from "@mui/material";
+import { TextField, Grid, Typography, Box, Button } from "@mui/material";
 import { useGoal } from "../contexts/GoalProvider";
 import { useAuth } from "../contexts/AuthProvider";
 import { useDate } from "../contexts/DateProvider";
