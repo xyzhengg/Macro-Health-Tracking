@@ -43,9 +43,6 @@ const CaloriesTile = ( { totalCalories} ) => {
     setEditMode(!editMode)
   }
 
-  const editModeFalse = () => {
-    setEditMode(false)
-  }
 
   const addCalories = async (e) => {
     e.preventDefault()

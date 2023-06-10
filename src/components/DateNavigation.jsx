@@ -6,8 +6,6 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import { Grid, Box, Popover, Typography } from '@mui/material';
 
-
-
 const DateNavigation = () => {
   const { date, setDate } = useDate()
   const [anchorEl, setAnchorEl] = useState(null)

@@ -1,16 +1,10 @@
 import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { IconButton } from '@mui/material';
+import { tableCellClasses } from '@mui/material/TableCell';
+import { Table, TableBody, TableCell, IconButton, Paper, TableRow, TableHead, TableContainer } from '@mui/material';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import DataEditDeleteButton from './DataEditDeleteButton';
 import { Link } from 'react-router-dom';
 import { useMeal } from '../contexts/MealContext';
+import DataEditDeleteButton from './DataEditDeleteButton';
 
 const SnackTable = ( {snackData, snackTotals, handleDelete}) => {
   const {setMeal} = useMeal()
@@ -51,7 +45,7 @@ const SnackTable = ( {snackData, snackTotals, handleDelete}) => {
             <StyledTableCell align="center">Calories&nbsp;(kcal)</StyledTableCell>
             <StyledTableCell sx={{ width: '10px' }}>
             <IconButton onClick={handleSelectMeal}>
-                <Link to="/search" id="snack">
+                <Link to="/search" id="snack" sx={{ textDecoration: 'none', color:"grey" }}>
                   <AddCircleOutlineIcon />
                 </Link>
               </IconButton>
