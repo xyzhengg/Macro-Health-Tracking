@@ -13,6 +13,10 @@ const ProfilePage = () => {
   const [error, setError] = useState(null)
   const [profileData, setProfileData] = useState([])
   const navigate = useNavigate()
+
+  useEffect(() => {
+    document.body.style.zoom = "80%";
+  }, [])
   
   useEffect (() => {
     setLoading(true)

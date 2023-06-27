@@ -14,6 +14,10 @@ const EditProfile = () => {
   const navigate = useNavigate()
   const [profileData, setProfileData] = useState(null)
 
+  useEffect(() => {
+    document.body.style.zoom = "80%";
+  }, [])
+
   useEffect (() => {
     setLoading(true)
     const getProfileData = async () => {

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider"
 import { supabase } from "../supabaseAuth/supabaseClient"
-import {InputBase, Button, Box, Grid, Table, TableBody, TableContainer, Paper } from '@mui/material';
+import {Modal, Typography, TextField, InputBase, Button, Box, Grid, Table, TableBody, TableContainer, Paper } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import MyFoodItemCell from "../components/MyFoodItemCell";
@@ -13,13 +13,36 @@ import { useDate } from '../contexts/DateProvider';
 const MyFoodSearcherPage = () => {
   const { user } = useAuth()
   const { meal } = useMeal()
-  const { date } = useDate()
+  const { setDate, date } = useDate()
   const [myFoodData, setMyFoodData] = useState()
   const [mySearchResult, setMySearchResult] = useState()
-  const [dataToAdd, setDataToAdd] = useState()
   const [searching, setSearching] = useState(false)
   const [searchTerm, setSearchTerm] = useState()
   const navigate = useNavigate()
+
+  const [foodData, setFoodData] = useState({
+    food_name: "",
+    serving_amt: "",
+    serving_measure: "",
+    calories: "",
+    protein: "",
+    fat: "",
+    carbs: "",
+    meal: ""
+  })
+
+  const [initialFoodData, setInitialFoodData] = useState('')
+  const [onDisplay, setOnDisplay] = useState(null)
+  const open = Boolean(onDisplay)
+  const [openModal, setOpenModal] = useState(false)
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  }
+
+  useEffect(() => {
+    document.body.style.zoom = "80%";
+  }, [])
 
   useEffect(() => {
     const getMyFoods = async () => {
@@ -77,7 +100,7 @@ const MyFoodSearcherPage = () => {
   const handleAddFood = async (e) => {
     e.preventDefault()
     const id = e.currentTarget.id
-  
+    console.log(id)
     try {
       const { data, error } = await supabase
         .from('food')
@@ -87,46 +110,82 @@ const MyFoodSearcherPage = () => {
       if (error) {
         console.log(error)
       } else {
-        setDataToAdd(data[0])
+        setOpenModal(true)
+        setInitialFoodData(data[0])
+        setFoodData(data[0])
       }
     } catch (err) {
       console.log(err.message)
     }
   }
-  
+
+  const handleServingChange = (e) => {
+    const newServing = e.target.value;
+    // console.log(e.target.value)
+    setFoodData({
+      ...foodData,
+      serving_amt: newServing
+    })
+  }
+
   useEffect(() => {
-    if (dataToAdd) {
-    console.log(dataToAdd)
-  
-    const insertData = async () => {
-      try {
-        const { data, error } = await supabase
-          .from('diary')
-          .insert([{
-            food_name: dataToAdd.food_name,
-            calories: dataToAdd.calories,
-            fat: dataToAdd.fat,
-            protein: dataToAdd.protein,
-            carbs: dataToAdd.carbs,
-            serving_amt: dataToAdd.serving_amt,
-            serving_measure: dataToAdd.serving_measure,
-            [meal]: true,
-            user_id: user,
-            created_at: date,
-          },
-        ])
-        if (error) {
-          console.log(error)
-        } else {
-          navigate('/')
-        }
-      } catch (err) {
-        console.log(err.message)
+    const { serving_amt } = foodData
+    const servingMultiplier = serving_amt / initialFoodData.serving_amt
+    const newKcal = initialFoodData.calories * servingMultiplier
+    const newProtein = initialFoodData.protein * servingMultiplier
+    const newFat = initialFoodData.fat  * servingMultiplier
+    const newCarbs = initialFoodData.carbs  * servingMultiplier
+    setFoodData((prevFoodData) => ({
+      ...prevFoodData,
+      serving_amt: serving_amt,
+      calories: newKcal,
+      protein: newProtein,
+      fat: newFat,
+      carbs: newCarbs,
+    }));
+  },[foodData.serving_amt])
+
+  const handleSaveEdit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data, error } = await supabase
+      .from('diary')
+      .insert([{
+        food_name: foodData.food_name,
+        calories: foodData.calories,
+        fat: foodData.fat,
+        protein: foodData.protein,
+        carbs: foodData.carbs,
+        serving_amt: foodData.serving_amt,
+        serving_measure: foodData.serving_measure || "g",
+        [meal]: true,
+        user_id: user,
+        created_at: date,
+       },
+      ])
+      if (error) {
+        console.log(error)
+      } else {
+        // console.log(data)
+        setDate(new Date(date.getTime() + 10000))
+        setInitialFoodData("")
+        setFoodData({
+          food_name: "",
+          serving_amt: "",
+          serving_measure: "",
+          calories: "",
+          protein: "",
+          fat: "",
+          carbs: ""
+        })
+        handleCloseModal()
+        navigate('/')
       }
     }
-    insertData()
-    }
-  }, [dataToAdd])
+    catch (err){
+      console.log(err)
+    }    
+  }
 
   const handleCreateFood = () => {
     navigate('/createfood')
@@ -262,6 +321,55 @@ const MyFoodSearcherPage = () => {
         </Table>
       </TableContainer>
     )}
+
+{ foodData && (
+      
+      <Modal open={openModal} onClose={handleCloseModal}>
+        <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3} >
+          <Grid container sx={{ maxWidth: 350, marginTop: 10, padding: 5, position: 'absolute', left: '58%', transform: 'translate(-50%, -50%)', top: '40%', bgcolor: 'background.paper', border: '1px solid #b8b8b8', borderRadius: '0.5rem', boxShadow: 24 }}>
+            <form onSubmit={handleSaveEdit}>
+              <Grid container spacing={1}>
+                <Grid item xs={12}>
+                  <Typography variant="h6">{foodData.food_name}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    onChange={handleServingChange}
+                    label={`Serving size ${initialFoodData.serving_measure || 'g'}`}
+                    name="serving_amt"
+                    type="number"
+                    variant="outlined"
+                    margin="normal"
+                    defaultValue={foodData.serving_amt}
+                    InputLabelProps={{ shrink: true }}
+                    required
+                    fullWidth
+                    sx={{ height: 40 }}
+                  />
+                  <Typography></Typography>
+                  </Grid>
+                  <Grid item xs={12} sx={{marginTop: 5}}>
+                    <Typography>Calories: {Math.round(foodData.calories)}kcal</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography>F: {Math.round(foodData.fat)}g</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography>C: {Math.round(foodData.carbs)}g</Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography>P: {Math.round(foodData.protein)}g</Typography>
+                  </Grid>
+                </Grid>
+                <Button type="submit" variant="contained" fullWidth sx={{ marginTop: 5 }}>
+                  Save
+                </Button>
+              </form>
+            </Grid>
+        </Grid>
+      </Modal>
+      )
+      }
   </Grid>
   )
 }

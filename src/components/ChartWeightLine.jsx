@@ -13,6 +13,10 @@ export default function ChartWeightLine() {
   const [weightData, setWeightData] = useState([])
 
   useEffect(() => {
+    document.body.style.zoom = "80%";
+  }, [])
+
+  useEffect(() => {
     if (date) {
       let endDate = date
       let dateArray = []

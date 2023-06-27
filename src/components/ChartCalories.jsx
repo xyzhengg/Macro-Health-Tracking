@@ -12,6 +12,10 @@ export default function ChartCalories () {
   const [calorieData, setCalorieData] = useState([])
 
   useEffect(() => {
+    document.body.style.zoom = "80%";
+  }, [])
+
+  useEffect(() => {
     let date = new Date()
     let dateArray = []
     for (let i = 0; i < 7; i++) {

@@ -10,6 +10,10 @@ const RecipeAPISearcherPage = () => {
   const [filteredResults, setFilteredResults] = useState(null)
   const [error, setError] = useState(null)
 
+  useEffect(() => {
+    document.body.style.zoom = "80%";
+  }, [])
+
   const handleSearchRecipes = async (e) => {
     e.preventDefault()
     const { keywords, calories, diet, allergies } = Object.fromEntries(new FormData(e.target))

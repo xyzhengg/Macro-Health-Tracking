@@ -49,6 +49,10 @@ const DayDisplay = () => {
   const [accProtein, setAccProtein] = useState(0)
 
   useEffect(() => {
+    document.body.style.zoom = "80%";
+  }, [])
+
+  useEffect(() => {
     const getBreakfastData = async () => {
       try {
         const { data, error } = await supabase

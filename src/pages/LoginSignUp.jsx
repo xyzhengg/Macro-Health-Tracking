@@ -9,6 +9,10 @@ const LoginSignUp = () => {
     setHasAccount(!hasAccount);
   }
 
+  useEffect(() => {
+    document.body.style.zoom = "80%";
+  }, [])
+
   return (
   <>
     <Grid textAlign="center" sx={{backgroundColor: 'rgb(234, 233, 239)', paddingTop: 4, paddingBottom: 0}}>
