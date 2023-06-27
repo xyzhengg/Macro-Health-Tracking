@@ -97,10 +97,9 @@ const MyFoodSearcherPage = () => {
     }
   }
 
-  const handleAddFood = async (e) => {
+  const handleSelectFood = async (e) => {
     e.preventDefault()
     const id = e.currentTarget.id
-    console.log(id)
     try {
       const { data, error } = await supabase
         .from('food')
@@ -145,7 +144,7 @@ const MyFoodSearcherPage = () => {
     }));
   },[foodData.serving_amt])
 
-  const handleSaveEdit = async (e) => {
+  const handleSaveFood = async (e) => {
     e.preventDefault();
     try {
       const { data, error } = await supabase
@@ -288,7 +287,7 @@ const MyFoodSearcherPage = () => {
               carbs={food.carbs}
               protein={food.protein}
               calories={food.calories}
-              handleClick={handleAddFood}
+              handleClick={handleSelectFood}
             />
             ))}
           </TableBody>
@@ -323,11 +322,10 @@ const MyFoodSearcherPage = () => {
     )}
 
 { foodData && (
-      
       <Modal open={openModal} onClose={handleCloseModal}>
         <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3} >
           <Grid container sx={{ maxWidth: 350, marginTop: 10, padding: 5, position: 'absolute', left: '58%', transform: 'translate(-50%, -50%)', top: '40%', bgcolor: 'background.paper', border: '1px solid #b8b8b8', borderRadius: '0.5rem', boxShadow: 24 }}>
-            <form onSubmit={handleSaveEdit}>
+            <form onSubmit={handleSaveFood}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <Typography variant="h6">{foodData.food_name}</Typography>
@@ -361,7 +359,14 @@ const MyFoodSearcherPage = () => {
                     <Typography>P: {Math.round(foodData.protein)}g</Typography>
                   </Grid>
                 </Grid>
-                <Button type="submit" variant="contained" fullWidth sx={{ marginTop: 5 }}>
+                <Button type="submit" variant="contained" fullWidth 
+                  sx={{ marginTop: 5,
+                  backgroundColor: `rgb(196, 155, 178)`, 
+                  color: `rgb(255,255,255)`, 
+                  '&:hover': {
+                  backgroundColor: `rgb(196, 155, 178)`, 
+                  color: `rgb(255,255,255)`}}}
+                  >
                   Save
                 </Button>
               </form>

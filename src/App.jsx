@@ -1,7 +1,7 @@
 import './App.css'
 import { useEffect } from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import FoodSearcher from './components/FoodAPISearcher';
+import FoodSearcher from './components/FoodAPISearcherPage';
 import RecipeAPISearcherPage from './pages/RecipeAPISearcherPage';
 import RecipeAPIInfo from './components/RecipeAPIInfo';
 import FoodAPIInfoAdd from './components/FoodAPIInfoAdd';
