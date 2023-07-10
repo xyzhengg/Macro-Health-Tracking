@@ -18,35 +18,61 @@ const EditProfile = () => {
     document.body.style.zoom = "80%";
   }, [])
 
-  useEffect (() => {
+  useEffect(() => {
     setLoading(true)
     const getProfileData = async () => {
       try {
         const { data, error } = await supabase
           .from('user_profile')
-          .select("*")
+          .select('*')
           .eq('user_id', user)
         if (error) {
           setError(error)
-        } else if (data[0]){
-          setLoading(false)
-          setProfileData(data[0])
-          // console.log(data[0])
+          console.log(error)
         } else {
-          setProfileData({
-            first_name: "",
-            last_name: "",
-            goal_calories: "",
-            goal_weight: "",
-            fat: "",
-            carbs: "",
-            protein: ""
-          })
+          if (data.length > 0) {
+            setLoading(false)
+            setProfileData(data[0])
+            console.log(data[0])
+          } else {
+            setProfileData({
+              first_name: '',
+              last_name: '',
+              goal_calories: '',
+              goal_weight: '',
+              fat: '',
+              carbs: '',
+              protein: ''
+            });
+  
+            try {
+              const { data, error } = await supabase
+                .from('user_profile')
+                .insert([
+                  {
+                    user_id: user,
+                    first_name: '',
+                    last_name: '',
+                    goal_calories: 0,
+                    goal_weight: 0,
+                    fat: 0,
+                    carbs: 0,
+                    protein: 0,
+                  }
+                ]);
+              if (error) {
+                console.log(error)
+              }
+            } catch (err) {
+              setError(err.message)
+            }
+          }
         }
       } catch (err) {
         setError(err.message)
       }
     }
+  
     getProfileData()
   }, [])
 
@@ -84,7 +110,7 @@ const EditProfile = () => {
     }
     catch (err){
       setError(err.message)
-      console.log(error)
+      console.log(err.message)
     }    
     setLoading(false)
   }

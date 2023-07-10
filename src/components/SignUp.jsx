@@ -1,11 +1,15 @@
 import { supabase } from '../supabaseAuth/supabaseClient';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Typography, Grid, TextField } from "@mui/material"
 import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 
 const SignUp = ({toggleForm}) => {
   const [error, setError] = useState(null)
+
+  useEffect(() => {
+    document.body.style.zoom = "80%";
+  }, [])
   
   const handleSignUp = async (e) => {
     e.preventDefault()

@@ -13,6 +13,10 @@ const Login = ({ toggleForm }) => {
   const { goal } = useGoal()
   const navigate = useNavigate()
 
+  useEffect(() => {
+    document.body.style.zoom = "80%";
+  }, [])
+
   const handleLogin = async (e) => {
     e.preventDefault()
     setLoading(true)

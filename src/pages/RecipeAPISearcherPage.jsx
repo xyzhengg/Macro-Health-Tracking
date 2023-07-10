@@ -149,7 +149,7 @@ const RecipeAPISearcherPage = () => {
           </Grid>
           <Grid container xs={10}justifyContent="space-around">
           {filteredResults && filteredResults.map((result) => (
-            <Grid container justifyContent="flex-start" xs={3} key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}>
+            <Grid item justifyContent="flex-start" xs={3} key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}>
               <RecipeAPIResultsList
                 key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
                 id={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}

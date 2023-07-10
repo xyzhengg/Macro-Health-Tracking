@@ -4,7 +4,6 @@ import { Routes, Route, useNavigate } from "react-router-dom";
 import FoodSearcher from './components/FoodAPISearcherPage';
 import RecipeAPISearcherPage from './pages/RecipeAPISearcherPage';
 import RecipeAPIInfo from './components/RecipeAPIInfo';
-import FoodAPIInfoAdd from './components/FoodAPIInfoAdd';
 import CreateFoodForm from './components/CreateFoodForm';
 import NotFound from './pages/NotFound';
 import PermanentDrawerLeft from './components/PermanentDrawerLeft';
@@ -49,7 +48,6 @@ function App() {
                   <Route path="/profile/setup" element={<InitialProfileSetup/>}/>
                   <Route path="/api/recipes/search" element={<RecipeAPISearcherPage />} />
                   <Route path="/api/recipe/:id" element={<RecipeAPIInfo />} />
-                  <Route path="/api/food/:id" element={<FoodAPIInfoAdd />} />
                   <Route path="/api/food/search" element={<FoodSearcher />} />
                   <Route path="/createfood" element={<CreateFoodForm />} />
                   <Route path="/search" element={<FoodAndRecipeSearcherPage />} />

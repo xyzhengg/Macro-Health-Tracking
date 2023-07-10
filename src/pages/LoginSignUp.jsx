@@ -1,6 +1,6 @@
 import Login from "../components/Login"
 import SignUp  from"../components/SignUp"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Grid, Box, Typography } from "@mui/material"
 
 const LoginSignUp = () => {
