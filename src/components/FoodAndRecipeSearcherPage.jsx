@@ -6,6 +6,7 @@ import RecipeAPISearcherPage from '../pages/RecipeAPISearcherPage'
 import FoodAPISearcher from './FoodAPISearcherPage'
 import CreateFoodForm from './CreateFoodForm'
 import MyFoodSearcherPage from '../pages/MyFoodSearcherPage'
+import MyRecipeSearcherPage from '../pages/MyRecipeSearcherPage'
 import ComingSoon from './ComingSoon'
 
 const FoodAndRecipeSearcherPage = () => {
@@ -46,7 +47,7 @@ const FoodAndRecipeSearcherPage = () => {
         <Box sx={{ width: '100%', bgcolor: 'background.paper', margin: '0 auto'}}>
           {value === 0 && <MyFoodSearcherPage />}
           {value === 1 && <FoodAPISearcher/>}
-          {value === 2 && <ComingSoon />}
+          {value === 2 && <MyRecipeSearcherPage />}
           {value === 3 && <RecipeAPISearcherPage />}
         </Box>
       </Box>

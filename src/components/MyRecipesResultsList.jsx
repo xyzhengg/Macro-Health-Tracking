@@ -9,42 +9,7 @@ import axios from 'axios'
 import { supabase } from "../supabaseAuth/supabaseClient"
 
 
-const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, carbs, diet, allergies, servings }) => {
-  const caloriesPerServe = (Math.round(totalCalories/servings))
-  const allergyConsiderations =[
-    "dairy-free",
-    "egg-free",
-    "gluten-free",
-    "peanut-free",
-    "shellfish-free",
-    "crustacean-free",
-    "soy-free",
-    "sesame-free",
-    "wheat-free",
-    "fish-free",
-    "lupine-free",
-    "tree-nut-free",
-    "celery-free",
-    "mustard-free"
-  ]
-
-  const dietConsiderations = [
-    "low-carb",
-    "low-fat",
-    "high-protein",
-    "balanced",
-    "high-fiber",
-    "low-sodium",
-    "paleo",
-    "pescatarian",
-    "vegan",
-    "vegetarian",
-    "pork-free"
-  ]
-
-  const filteredAllergies = allergies.filter((allergen) => allergyConsiderations.includes(allergen.toLowerCase()))
-  const filteredDiets = diet.filter((dietItem) => dietConsiderations.includes(dietItem.toLowerCase()))
-
+const MyRecipesResultsList = ({ id, title, image, calories, fat, protein, carbs, servings, ingredients, handleClick }) => {
   const [selectedRecipe, setSelectedRecipe] = useState(null)
   const [error, setError] = useState(null)
   const navigate = useNavigate()
@@ -63,7 +28,7 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
         id: id,
         title: title,
         image: image,
-        calories: caloriesPerServe,
+        calories: Math.round(totalCalories/servings),
         servings: servings,
         fat: Math.round(fat/servings),
         protein: Math.round(protein/servings),
@@ -86,7 +51,6 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
     try {
       const res = await axios.get(`https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=1630a2de&app_key=8c2f7e5b603050e3bc5815d4675ac28e`);
       console.log(res.data)
-      console.log(title, image, servings, fat, protein, carbs)
       const rawIngredientData = res.data.recipe.ingredients
       const restructuredIngredients = rawIngredientData.map((ingredient) => ({
         food: ingredient.food,
@@ -95,24 +59,6 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
         weight: Math.round(ingredient.weight)
       }))
   
-      const { data, error } = await supabase
-        .from('recipes')
-        .insert([
-          {
-            user_id: user,
-            calories: caloriesPerServe,
-            fat: Math.round(fat/servings),
-            protein: Math.round(protein/servings),
-            carbs: Math.round(carbs/servings),
-            recipe_name: title,
-            servings: servings,
-            ingredients: restructuredIngredients,
-            image: image
-          }
-        ])
-        if (error) {
-          console.log(error)
-        }
       const {data: data2, error: error2} = await supabase
         .from('diary')
         .insert([
@@ -141,16 +87,15 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
 
   return (
     <>
-      <CardContent  sx={{ marginTop: 2, paddingBottom: 0, border: '1px solid #e0e0e0', borderRadius: '8px', maxWidth: 200}}>
+      <CardContent  sx={{ marginTop: 2, paddingBottom: 0, border: '1px solid #e0e0e0', borderRadius: '8px', maxWidth: 400}}>
         <Typography variant="h6" component="div" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}> {title} </Typography>
         <Box minHeight="120px" maxHeight="200px" display="flex" alignItems="center" justifyContent="center">
           <img src={image} loading="lazy" alt={`image of ${title}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </Box>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Calories/serve: {caloriesPerServe}kcal </Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Servings: {servings} </Typography>
-        <Typography variant="body2">F: {Math.round(fat/servings)}g </Typography>
-        <Typography variant="body2">C: {Math.round(carbs/servings)}g </Typography>
-        <Typography variant="body2">P: {Math.round(protein/servings)}g </Typography>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Calories/serve: {calories}kcal </Typography>
+        <Typography variant="body2">F: {fat}g </Typography>
+        <Typography variant="body2">C: {carbs}g </Typography>
+        <Typography variant="body2">P: {protein}g </Typography>
         <Button id={id} size="small" fullWidth onClick={handleShowRecipeDetails}
           sx={{ padding:'0px', marginTop: "20px",
           backgroundColor: `rgb(175, 194, 214)`, 
@@ -174,4 +119,4 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
   )
 }
 
-export default RecipeAPIResultsList
+export default MyRecipesResultsList

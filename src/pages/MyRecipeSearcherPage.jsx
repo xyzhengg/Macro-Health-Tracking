@@ -5,33 +5,35 @@ import { supabase } from "../supabaseAuth/supabaseClient"
 import {Modal, Typography, TextField, InputBase, Button, Box, Grid, Table, TableBody, TableContainer, Paper } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
+import MyRecipesResultsList from "../components/MyRecipesResultsList";
 import MyFoodItemCell from "../components/MyFoodItemCell";
 import FoodItemTableRow from "../components/FoodItemTableRow";
 import { useMeal } from '../contexts/MealContext';
 import { useDate } from '../contexts/DateProvider';
 
-const MyFoodSearcherPage = () => {
+const MyRecipeSearcherPage = () => {
   const { user } = useAuth()
   const { meal } = useMeal()
   const { setDate, date } = useDate()
-  const [myFoodData, setMyFoodData] = useState()
+  const [myRecipeData, setMyRecipeData] = useState()
   const [mySearchResult, setMySearchResult] = useState()
   const [searching, setSearching] = useState(false)
   const [searchTerm, setSearchTerm] = useState()
   const navigate = useNavigate()
 
-  const [foodData, setFoodData] = useState({
-    food_name: "",
-    serving_amt: "",
-    serving_measure: "",
+  const [recipeData, setRecipeData] = useState({
+    recipe_name: "",
+    servings: "",
     calories: "",
     protein: "",
     fat: "",
     carbs: "",
-    meal: ""
+    meal: "",
+    image: "",
+    ingredients: ""
   })
 
-  const [initialFoodData, setInitialFoodData] = useState('')
+  const [initialRecipeData, setInitialRecipeData] = useState('')
   const [onDisplay, setOnDisplay] = useState(null)
   const open = Boolean(onDisplay)
   const [openModal, setOpenModal] = useState(false)
@@ -45,45 +47,37 @@ const MyFoodSearcherPage = () => {
   }, [])
 
   useEffect(() => {
-    const getMyFoods = async () => {
+    const getMyRecipes = async () => {
       try {
         const { data, error } = await supabase
-        .from('food')
+        .from('recipes')
         .select('*')
         .eq('user_id', user)
-        .order('food_name', { ascending: true })
+        .order('recipe_name', { ascending: true })
         if (error) {
           console.log(error)
         } else {
-          const sortedData = {}
-          for (const food of data) {
-            const letter = food.food_name.charAt(0).toUpperCase()
-            if (!sortedData[letter]) {
-              sortedData[letter] = []
-            }
-            sortedData[letter].push(food)
-          }
-          setMyFoodData(Object.entries(sortedData))
+          setMyRecipeData(data)
           // console.log(sortedData)
         }
       } catch (err) {
         console.log(err)
       }
     }
-    getMyFoods()
+    getMyRecipes()
   }, [])
 
-  const handleSearchFood = async (e) => {
+  const handleSearchRecipes = async (e) => {
     e.preventDefault()
     const { search } = Object.fromEntries(new FormData(e.target))
     setSearchTerm(search)
     try {
       const { data, error } = await supabase
-      .from('food')
+      .from('recipes')
       .select('*')
       .eq('user_id', user)
-      .ilike('food_name', `%${search}%`)
-      .order('food_name', { ascending: true })
+      .ilike('recipe_name', `%${search}%`)
+      .order('recipe_name', { ascending: true })
       if (error) {
         console.log(error)
       } else {
@@ -97,12 +91,13 @@ const MyFoodSearcherPage = () => {
     }
   }
 
-  const handleSelectFood = async (e) => {
+  const handleAddRecipe = async (e) => {
     e.preventDefault()
     const id = e.currentTarget.id
+    console.log(id)
     try {
       const { data, error } = await supabase
-        .from('food')
+        .from('recipe')
         .select('*')
         .eq('user_id', user)
         .eq('id', id)
@@ -110,8 +105,8 @@ const MyFoodSearcherPage = () => {
         console.log(error)
       } else {
         setOpenModal(true)
-        setInitialFoodData(data[0])
-        setFoodData(data[0])
+        setInitialRecipeData(data[0])
+        setRecipeData(data[0])
       }
     } catch (err) {
       console.log(err.message)
@@ -121,42 +116,42 @@ const MyFoodSearcherPage = () => {
   const handleServingChange = (e) => {
     const newServing = e.target.value;
     // console.log(e.target.value)
-    setFoodData({
-      ...foodData,
-      serving_amt: newServing
+    setRecipeData({
+      ...recipeData,
+      servings: newServing
     })
   }
 
   useEffect(() => {
-    const { serving_amt } = foodData
-    const servingMultiplier = serving_amt / initialFoodData.serving_amt
-    const newKcal = initialFoodData.calories * servingMultiplier
-    const newProtein = initialFoodData.protein * servingMultiplier
-    const newFat = initialFoodData.fat  * servingMultiplier
-    const newCarbs = initialFoodData.carbs  * servingMultiplier
-    setFoodData((prevFoodData) => ({
-      ...prevFoodData,
-      serving_amt: serving_amt,
+    const { servings } = recipeData
+    const servingMultiplier = servings / initialRecipeData.servings
+    const newKcal = initialRecipeData.calories * servingMultiplier
+    const newProtein = initialRecipeData.protein * servingMultiplier
+    const newFat = initialRecipeData.fat  * servingMultiplier
+    const newCarbs = initialRecipeData.carbs  * servingMultiplier
+    setRecipeData((prevRecipeData) => ({
+      ...prevRecipeData,
+      servings: servings,
       calories: newKcal,
       protein: newProtein,
       fat: newFat,
       carbs: newCarbs,
     }));
-  },[foodData.serving_amt])
+  },[recipeData.servings])
 
-  const handleSaveFood = async (e) => {
+  const handleSaveRecipe = async (e) => {
     e.preventDefault();
     try {
       const { data, error } = await supabase
       .from('diary')
       .insert([{
-        food_name: foodData.food_name,
-        calories: foodData.calories,
-        fat: foodData.fat,
-        protein: foodData.protein,
-        carbs: foodData.carbs,
-        serving_amt: foodData.serving_amt,
-        serving_measure: foodData.serving_measure || "g",
+        food_name: recipeData.recipe_name,
+        calories: recipeData.calories,
+        fat: recipeData.fat,
+        protein: recipeData.protein,
+        carbs: recipeData.carbs,
+        serving_amt: recipeData.servings,
+        serving_measure: "serve/s",
         [meal]: true,
         user_id: user,
         created_at: date,
@@ -167,15 +162,17 @@ const MyFoodSearcherPage = () => {
       } else {
         // console.log(data)
         setDate(new Date(date.getTime() + 10000))
-        setInitialFoodData("")
-        setFoodData({
-          food_name: "",
-          serving_amt: "",
-          serving_measure: "",
+        setInitialRecipeData("")
+        setRecipeData({
+          recipe_name: "",
+          servings: "",
           calories: "",
           protein: "",
           fat: "",
-          carbs: ""
+          carbs: "",
+          meal: "",
+          image: "",
+          ingredients: ""
         })
         handleCloseModal()
         navigate('/')
@@ -186,8 +183,8 @@ const MyFoodSearcherPage = () => {
     }    
   }
 
-  const handleCreateFood = () => {
-    navigate('/create/food')
+  const handleCreateRecipe = () => {
+    navigate('/create/recipe')
   }
 
   const Search = styled('div')(({ theme }) => ({
@@ -232,7 +229,7 @@ const MyFoodSearcherPage = () => {
     <Grid container direction="column" justifyContent="center" alignItems="center">
       <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 7, marginTop: 5 }}>
         <Grid item>
-          <form onSubmit={handleSearchFood}>
+          <form onSubmit={handleSearchRecipes}>
             <Search sx={{ width: '600px' }}>
             <SearchIconWrapper>
               <SearchIcon />
@@ -254,7 +251,7 @@ const MyFoodSearcherPage = () => {
         </form>
         </Grid>
         <Grid item sx={{marginLeft: 20}}>
-          <Button onClick={handleCreateFood} sx={{
+          <Button onClick={handleCreateRecipe} sx={{
               height: "40px",
               backgroundColor: `rgb(175, 194, 214)`,
               color: `rgb(255,255,255)`,
@@ -267,78 +264,72 @@ const MyFoodSearcherPage = () => {
             </Button>
         </Grid>
       </Box>
+
     
-    {myFoodData && !searching &&
-    myFoodData.map(([letter, foods]) => (
-      <TableContainer component={Paper} key={letter} sx={{ minWidth: 400, maxWidth: 800 }}>
-        <Table size="small">
-          <FoodItemTableRow
-            text={letter}
-          />
-          <TableBody>
-          {foods.map((food) => (
-            <MyFoodItemCell
-              key={food.id}
-              id={food.id}
-              food_name={food.food_name}
-              serving_amt={food.serving_amt}
-              serving_measure={food.serving_measure || 'g'}
-              fat={food.fat}
-              carbs={food.carbs}
-              protein={food.protein}
-              calories={food.calories}
-              handleClick={handleSelectFood}
+    {myRecipeData && !searching && (
+      <Box justifyContent="space-around">
+        {myRecipeData.map((recipe) => (
+          <Grid item justifyContent="flex-start" xs={8} key={recipe.id}>
+            <MyRecipesResultsList
+              key={recipe.id}
+              id={recipe.id}
+              title={recipe.recipe_name}
+              image={recipe.image}
+              calories={Math.round(recipe.calories)}
+              fat={Math.round(recipe.fat)}
+              protein={Math.round(recipe.protein)}
+              carbs={Math.round(recipe.carbs)}
+              servings={Math.round(recipe.servings)}
+              ingredients={recipe.ingredients}
             />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    ))}
+          </Grid>
+        ))}
+      </Box>
+    )}
+    
     
     {searching && mySearchResult && (
-      <TableContainer component={Paper} sx={{ minWidth: 400, maxWidth: 800 }}>
-        <Table size="small">
-        <FoodItemTableRow
-            text={searchTerm.toUpperCase()}
+    <Box xs={12} justifyContent="space-around">
+      {mySearchResult.map((recipe) => (
+        <Grid item justifyContent="flex-start" xs={2} key={recipe.id}>
+          <MyRecipesResultsList
+            key={recipe.id}
+            id={recipe.id}
+            title={recipe.recipe_name}
+            image={recipe.image}
+            calories={Math.round(recipe.calories)}
+            fat={Math.round(recipe.fat)}
+            protein={Math.round(recipe.protein)}
+            carbs={Math.round(recipe.carbs)}
+            servings={Math.round(recipe.servings)}
+            ingredients={recipe.ingredients}
+            handleClick={handleAddRecipe}
           />
-          <TableBody>
-          {mySearchResult.map((food) => (
-            <MyFoodItemCell
-              key={food.id}
-              id={food.id}
-              food_name={food.food_name}
-              serving_amt={food.serving_amt}
-              serving_measure={food.serving_measure || 'g'}
-              fat={food.fat}
-              carbs={food.carbs}
-              protein={food.protein}
-              calories={food.calories}
-              handleClick={handleAddFood}
-            />
-          ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    )}
+        </Grid>
+      ))}
+    </Box>
+  )}
 
-{ foodData && (
+
+{ recipeData && (
+      
       <Modal open={openModal} onClose={handleCloseModal}>
         <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3} >
           <Grid container sx={{ maxWidth: 350, marginTop: 10, padding: 5, position: 'absolute', left: '58%', transform: 'translate(-50%, -50%)', top: '40%', bgcolor: 'background.paper', border: '1px solid #b8b8b8', borderRadius: '0.5rem', boxShadow: 24 }}>
-            <form onSubmit={handleSaveFood}>
+            <form onSubmit={handleSaveRecipe}>
               <Grid container spacing={1}>
                 <Grid item xs={12}>
-                  <Typography variant="h6">{foodData.food_name}</Typography>
+                  <Typography variant="h6">{recipeData.recipe_name}</Typography>
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     onChange={handleServingChange}
-                    label={`Serving size ${initialFoodData.serving_measure || 'g'}`}
-                    name="serving_amt"
+                    label={`Servings`}
+                    name="servings"
                     type="number"
                     variant="outlined"
                     margin="normal"
-                    defaultValue={foodData.serving_amt}
+                    defaultValue={recipeData.servings}
                     InputLabelProps={{ shrink: true }}
                     required
                     fullWidth
@@ -347,26 +338,19 @@ const MyFoodSearcherPage = () => {
                   <Typography></Typography>
                   </Grid>
                   <Grid item xs={12} sx={{marginTop: 5}}>
-                    <Typography>Calories: {Math.round(foodData.calories)}kcal</Typography>
+                    <Typography>Calories: {Math.round(recipeData.calories)}kcal</Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography>F: {Math.round(foodData.fat)}g</Typography>
+                    <Typography>F: {Math.round(recipeData.fat)}g</Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography>C: {Math.round(foodData.carbs)}g</Typography>
+                    <Typography>C: {Math.round(recipeData.carbs)}g</Typography>
                   </Grid>
                   <Grid item xs={12}>
-                    <Typography>P: {Math.round(foodData.protein)}g</Typography>
+                    <Typography>P: {Math.round(recipeData.protein)}g</Typography>
                   </Grid>
                 </Grid>
-                <Button type="submit" variant="contained" fullWidth 
-                  sx={{ marginTop: 5,
-                  backgroundColor: `rgb(196, 155, 178)`, 
-                  color: `rgb(255,255,255)`, 
-                  '&:hover': {
-                  backgroundColor: `rgb(196, 155, 178)`, 
-                  color: `rgb(255,255,255)`}}}
-                  >
+                <Button type="submit" variant="contained" fullWidth sx={{ marginTop: 5 }}>
                   Save
                 </Button>
               </form>
@@ -379,6 +363,4 @@ const MyFoodSearcherPage = () => {
   )
 }
 
-export default MyFoodSearcherPage
-
-// https://www.educative.io/answers/how-to-get-keys-values-and-entries-in-javascript-object
+export default MyRecipeSearcherPage

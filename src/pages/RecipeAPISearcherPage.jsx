@@ -147,6 +147,7 @@ const RecipeAPISearcherPage = () => {
               <FormControlLabel control={<Checkbox id="mustard-free" name="allergies" value="mustard-free" />} label="Mustard Free" sx={{ height: '28px' }}/>
             </FormGroup>
           </Grid>
+          
           <Grid container xs={10}justifyContent="space-around">
           {filteredResults && filteredResults.map((result) => (
             <Grid item justifyContent="flex-start" xs={3} key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}>

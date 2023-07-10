@@ -5,6 +5,7 @@ import FoodSearcher from './components/FoodAPISearcherPage';
 import RecipeAPISearcherPage from './pages/RecipeAPISearcherPage';
 import RecipeAPIInfo from './components/RecipeAPIInfo';
 import CreateFoodForm from './components/CreateFoodForm';
+import CreateRecipeForm from'./components/CreateRecipeForm';
 import NotFound from './pages/NotFound';
 import PermanentDrawerLeft from './components/PermanentDrawerLeft';
 import FoodAndRecipeSearcherPage from './components/FoodAndRecipeSearcherPage';
@@ -49,7 +50,8 @@ function App() {
                   <Route path="/api/recipes/search" element={<RecipeAPISearcherPage />} />
                   <Route path="/api/recipe/:id" element={<RecipeAPIInfo />} />
                   <Route path="/api/food/search" element={<FoodSearcher />} />
-                  <Route path="/createfood" element={<CreateFoodForm />} />
+                  <Route path="/create/food" element={<CreateFoodForm />} />
+                  <Route path="/create/recipe" element={<CreateRecipeForm />} />                 
                   <Route path="/search" element={<FoodAndRecipeSearcherPage />} />
                   <Route path="/statistics" element={<Statistics />} />
                   <Route path="/" element={<DayDisplay />} />
