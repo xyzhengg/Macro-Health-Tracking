@@ -1,4 +1,3 @@
-import RecipeAPIInfo from "./RecipeAPIInfo"
 import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthProvider';
 import { useMeal } from '../contexts/MealContext';
@@ -66,9 +65,9 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
         image: image,
         calories: caloriesPerServe,
         servings: servings,
-        fat: fat,
-        protein: protein,
-        carbs: carbs,
+        fat: Math.round(fat/servings),
+        protein: Math.round(protein/servings),
+        carbs: Math.round(carbs/servings),
         allergies: filteredAllergies,
         diets: filteredDiets,
         ingredients: res.data.recipe.ingredients,
@@ -101,9 +100,9 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
           {
             user_id: user,
             calories: caloriesPerServe,
-            fat: Math.round(fat),
-            protein: Math.round(protein),
-            carbs: Math.round(carbs),
+            fat: Math.round(fat/servings),
+            protein: Math.round(protein/servings),
+            carbs: Math.round(carbs/servings),
             recipe_name: title,
             servings: servings,
             ingredients: restructuredIngredients
@@ -118,9 +117,9 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
           {
             food_name: title,
             calories: caloriesPerServe,
-            fat: fat,
-            protein: protein, 
-            carbs, carbs, 
+            fat: Math.round(fat/servings),
+            protein: Math.round(protein/servings),
+            carbs: Math.round(carbs/servings),
             serving_amt: servings,
             serving_measure: "serve/s",
             [meal]: true,
@@ -147,9 +146,9 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
         </Box>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Calories/serve: {caloriesPerServe}kcal </Typography>
         <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Servings: {servings} </Typography>
-        <Typography variant="body2">F: {Math.round(fat)}g </Typography>
-        <Typography variant="body2">C: {Math.round(carbs)}g </Typography>
-        <Typography variant="body2">P: {Math.round(protein)}g </Typography>
+        <Typography variant="body2">F: {Math.round(fat/servings)}g </Typography>
+        <Typography variant="body2">C: {Math.round(carbs/servings)}g </Typography>
+        <Typography variant="body2">P: {Math.round(protein/servings)}g </Typography>
         <Button id={id} size="small" fullWidth onClick={handleShowRecipeDetails}
           sx={{ padding:'0px', marginTop: "20px",
           backgroundColor: `rgb(175, 194, 214)`, 
