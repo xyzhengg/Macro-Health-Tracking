@@ -9,7 +9,7 @@ const MyRecipesResultsList = ({ id, title, image, calories, fat, protein, carbs,
           <Typography variant="h6" component="div" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {title}
           </Typography>
-          <Box sx={{ width: '100%', height: 0, paddingTop: '100%', position: 'relative', overflow: 'hidden',}} >
+          <Box sx={{ width: '100%', height: 0, paddingTop: '100%', position: 'relative', overflow: 'hidden'}} >
             <img src={image} alt={`image of ${title}`}
               style={{position: 'absolute', top: 0,left: 0, width: '100%', height: '100%', objectFit: 'cover',}}
             />

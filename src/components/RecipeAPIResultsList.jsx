@@ -132,8 +132,10 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
       <CardContent  sx={{ marginTop: 2, paddingBottom: 0, border: '1px solid #e0e0e0', borderRadius: '8px', maxWidth: 300}}>
         <Box display="flex" flexDirection="column">
           <Typography variant="h6" component="div" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}> {title} </Typography>
-          <Box minHeight="120px" maxHeight="200px" display="flex" alignItems="center" justifyContent="center">
-            <img src={image} alt={`image of ${title}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          <Box sx={{ width: '100%', height: 0, paddingTop: '100%', position: 'relative', overflow: 'hidden'}}>
+            <img src={image} alt={`image of ${title}`} 
+              style={{position: 'absolute', top: 0,left: 0, width: '100%', height: '100%', objectFit: 'cover'}}
+            />
           </Box>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Calories/serve: {caloriesPerServe}kcal </Typography>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Servings: {servings} </Typography>

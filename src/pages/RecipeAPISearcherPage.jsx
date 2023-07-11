@@ -110,10 +110,11 @@ const RecipeAPISearcherPage = () => {
             </Button>
           </Search>
         </Grid>
+
         <Grid container justifyContent="space-between" alignItems="center">
           <TextField type="number" name="calories" label="Max calories /serve" variant="outlined" margin="normal"/>
         </Grid>
-        <Grid container> 
+        <Grid container justifyContent="space-between"> 
           <Grid item xs={2}>
             <Typography variant="h6" sx={{marginTop: 2}}> Diets </Typography>
             <FormGroup>
@@ -147,26 +148,28 @@ const RecipeAPISearcherPage = () => {
               <FormControlLabel control={<Checkbox id="mustard-free" name="allergies" value="mustard-free" />} label="Mustard Free" sx={{ height: '28px' }}/>
             </FormGroup>
           </Grid>
-          
-          <Grid container justifyContent="flex-start" spacing={2}>
-          {filteredResults && filteredResults.map((result) => (
-            <Grid item xs={3} key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}>
-              <RecipeAPIResultsList
-                key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
-                id={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
-                title={result.recipe.label}
-                image={result.recipe.image}
-                totalCalories={parseFloat(result.recipe.calories.toFixed(2))}
-                fat={parseFloat(result.recipe.totalNutrients.FAT.quantity).toFixed(2)}
-                protein={parseFloat(result.recipe.totalNutrients.PROCNT.quantity).toFixed(2)}
-                carbs={parseFloat(result.recipe.totalNutrients.CHOCDF.quantity).toFixed(2)}
-                diet={result.recipe.dietLabels}
-                allergies={result.recipe.healthLabels}
-                servings={result.recipe.yield}              
-              /> 
+          <Grid item xs={9}>
+            <Grid container justifyContent="flex-start" spacing={3}>
+            {filteredResults && filteredResults.map((result) => (
+              <Grid item xs={4} key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}>
+                <RecipeAPIResultsList
+                  key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
+                  id={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
+                  title={result.recipe.label}
+                  image={result.recipe.image}
+                  totalCalories={parseFloat(result.recipe.calories.toFixed(2))}
+                  fat={parseFloat(result.recipe.totalNutrients.FAT.quantity).toFixed(2)}
+                  protein={parseFloat(result.recipe.totalNutrients.PROCNT.quantity).toFixed(2)}
+                  carbs={parseFloat(result.recipe.totalNutrients.CHOCDF.quantity).toFixed(2)}
+                  diet={result.recipe.dietLabels}
+                  allergies={result.recipe.healthLabels}
+                  servings={result.recipe.yield}              
+                /> 
+              </Grid>
+              ))}
             </Grid>
-            ))}
           </Grid>
+          
         </Grid>
       </form>
     </Grid>
