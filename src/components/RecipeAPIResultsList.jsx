@@ -129,34 +129,38 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
 
   return (
     <>
-      <CardContent  sx={{ marginTop: 2, paddingBottom: 0, border: '1px solid #e0e0e0', borderRadius: '8px', maxWidth: 200}}>
-        <Typography variant="h6" component="div" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}> {title} </Typography>
-        <Box minHeight="120px" maxHeight="200px" display="flex" alignItems="center" justifyContent="center">
-          <img src={image} loading="lazy" alt={`image of ${title}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+      <CardContent  sx={{ marginTop: 2, paddingBottom: 0, border: '1px solid #e0e0e0', borderRadius: '8px', maxWidth: 300}}>
+        <Box display="flex" flexDirection="column">
+          <Typography variant="h6" component="div" sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}> {title} </Typography>
+          <Box minHeight="120px" maxHeight="200px" display="flex" alignItems="center" justifyContent="center">
+            <img src={image} alt={`image of ${title}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+          </Box>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Calories/serve: {caloriesPerServe}kcal </Typography>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Servings: {servings} </Typography>
+          <Typography variant="body2">F: {Math.round(fat/servings)}g </Typography>
+          <Typography variant="body2">C: {Math.round(carbs/servings)}g </Typography>
+          <Typography variant="body2">P: {Math.round(protein/servings)}g </Typography>
         </Box>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Calories/serve: {caloriesPerServe}kcal </Typography>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom> Servings: {servings} </Typography>
-        <Typography variant="body2">F: {Math.round(fat/servings)}g </Typography>
-        <Typography variant="body2">C: {Math.round(carbs/servings)}g </Typography>
-        <Typography variant="body2">P: {Math.round(protein/servings)}g </Typography>
-        <Button id={id} size="small" fullWidth onClick={handleShowRecipeDetails}
-          sx={{ padding:'0px', marginTop: "20px",
-          backgroundColor: `rgb(175, 194, 214)`, 
-          color: `rgb(255,255,255)`, 
-          '&:hover': {
-          backgroundColor: `rgb(175, 194, 214)`, 
-          color: `rgb(255,255,255)`}}}
-          > Show More
-        </Button>
-        <Button id={id} size="small" fullWidth onClick={handleAddAPIRecipe}
-          sx={{ padding:'0px', marginTop: "10px",
-          backgroundColor: `rgb(154, 198, 199)`, 
-          color: `rgb(255,255,255)`, 
-          '&:hover': {
-          backgroundColor: `rgb(154, 198, 199)`, 
-          color: `rgb(255,255,255)`}}}
-          > Add
-        </Button>
+        <Box>
+          <Button id={id} size="small" fullWidth onClick={handleShowRecipeDetails}
+            sx={{ padding:'0px', marginTop: "20px",
+            backgroundColor: `rgb(175, 194, 214)`, 
+            color: `rgb(255,255,255)`, 
+            '&:hover': {
+            backgroundColor: `rgb(175, 194, 214)`, 
+            color: `rgb(255,255,255)`}}}
+            > Show More
+          </Button>
+          <Button id={id} size="small" fullWidth onClick={handleAddAPIRecipe}
+            sx={{ padding:'0px', marginTop: "10px",
+            backgroundColor: `rgb(154, 198, 199)`, 
+            color: `rgb(255,255,255)`, 
+            '&:hover': {
+            backgroundColor: `rgb(154, 198, 199)`, 
+            color: `rgb(255,255,255)`}}}
+            > Add
+          </Button>
+        </Box>
       </CardContent>
     </>
   )

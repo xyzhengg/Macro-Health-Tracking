@@ -16,7 +16,6 @@ const MyRecipeSearcherPage = () => {
   const [myRecipeData, setMyRecipeData] = useState()
   const [mySearchResult, setMySearchResult] = useState()
   const [searching, setSearching] = useState(false)
-  const [searchTerm, setSearchTerm] = useState()
   const navigate = useNavigate()
 
   const [recipeData, setRecipeData] = useState({
@@ -74,7 +73,6 @@ const MyRecipeSearcherPage = () => {
   const handleSearchRecipes = async (e) => {
     e.preventDefault()
     const { search } = Object.fromEntries(new FormData(e.target))
-    setSearchTerm(search)
     try {
       const { data, error } = await supabase
       .from('recipes')
@@ -87,7 +85,6 @@ const MyRecipeSearcherPage = () => {
       } else {
         setMySearchResult(data)
         setSearching(true)
-        setSearchTerm(search)
       }
     } catch(err) {
       console.log(err)
@@ -292,9 +289,9 @@ const MyRecipeSearcherPage = () => {
       </Box>
 {/* // Shows all current recipes */}
     {myRecipeData && !searching && (
-      <Box justifyContent="space-around">
-        {myRecipeData.map((recipe) => (
-        <Grid item justifyContent="flex-start" xs={8} key={recipe.id}>
+      <Grid container justifyContent="flex-start" spacing={2}>
+      {myRecipeData.map((recipe) => (
+        <Grid item xs={3} key={recipe.id} >
           <MyRecipesResultsList
             key={recipe.id}
             id={recipe.id}
@@ -311,13 +308,13 @@ const MyRecipeSearcherPage = () => {
           />
         </Grid>
         ))}
-      </Box>
+      </Grid>
     )}
 {/* // Shows recipe search results */}
     {searching && mySearchResult && (
-    <Box xs={12} justifyContent="space-around">
+    <Grid container justifyContent="flex-start" spacing={2}>
       {mySearchResult.map((recipe) => (
-      <Grid item justifyContent="flex-start" xs={2} key={recipe.id}>
+      <Grid item xs={3} key={recipe.id}>
         <MyRecipesResultsList
           key={recipe.id}
           id={recipe.id}
@@ -334,7 +331,7 @@ const MyRecipeSearcherPage = () => {
         />
       </Grid>
       ))}
-    </Box>
+    </Grid>
     )}
 
     {recipeData && showModal && (
@@ -382,29 +379,6 @@ const MyRecipeSearcherPage = () => {
         </Grid>
       </Grid>
     </Modal>
-    )}
-
-    {searching && mySearchResult && (
-    <Box xs={12} justifyContent="space-around">
-      {mySearchResult.map((recipe) => (
-      <Grid item justifyContent="flex-start" xs={2} key={recipe.id}>
-        <MyRecipesResultsList
-          key={recipe.id}
-          id={recipe.id}
-          title={recipe.recipe_name}
-          image={recipe.image}
-          calories={Math.round(recipe.calories)}
-          fat={Math.round(recipe.fat)}
-          protein={Math.round(recipe.protein)}
-          carbs={Math.round(recipe.carbs)}
-          servings={1}
-          ingredients={JSON.parse(recipe.ingredients)}
-          handleClick={handleSelectRecipe}
-          handleShowRecipeDetails={handleShowRecipeDetails}
-        />
-      </Grid>
-      ))}
-    </Box>
     )}
 
 {/* // Show More modal */}

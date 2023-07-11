@@ -148,9 +148,9 @@ const RecipeAPISearcherPage = () => {
             </FormGroup>
           </Grid>
           
-          <Grid container xs={10}justifyContent="space-around">
+          <Grid container justifyContent="flex-start" spacing={2}>
           {filteredResults && filteredResults.map((result) => (
-            <Grid item justifyContent="flex-start" xs={3} key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}>
+            <Grid item xs={3} key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}>
               <RecipeAPIResultsList
                 key={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
                 id={result.recipe.uri.substring(result.recipe.uri.lastIndexOf("#") + 1)}
