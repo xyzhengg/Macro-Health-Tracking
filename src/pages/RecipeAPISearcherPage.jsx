@@ -111,11 +111,9 @@ const RecipeAPISearcherPage = () => {
           </Search>
         </Grid>
 
-        <Grid container justifyContent="space-between" alignItems="center">
-          <TextField type="number" name="calories" label="Max calories /serve" variant="outlined" margin="normal"/>
-        </Grid>
-        <Grid container justifyContent="space-between"> 
-          <Grid item xs={2}>
+        <Grid container> 
+          <Grid item xs={3}>
+            <TextField type="number" name="calories" label="Max calories /serve" variant="outlined" margin="normal"/>
             <Typography variant="h6" sx={{marginTop: 2}}> Diets </Typography>
             <FormGroup>
               <FormControlLabel control={<Checkbox id="low-carb" name="diet" value="low-carb" />} label="Low Carb" sx={{ height: '28px' }} />
@@ -169,7 +167,6 @@ const RecipeAPISearcherPage = () => {
               ))}
             </Grid>
           </Grid>
-          
         </Grid>
       </form>
     </Grid>
