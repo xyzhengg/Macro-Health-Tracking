@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useAuth } from '../contexts/AuthProvider';
 import { useMeal } from '../contexts/MealContext';
 import { useDate } from '../contexts/DateProvider';
-import { useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {Typography, Button, CardContent, Box} from '@mui/material';
 import axios from 'axios'
 import { supabase } from "../supabaseAuth/supabaseClient"
