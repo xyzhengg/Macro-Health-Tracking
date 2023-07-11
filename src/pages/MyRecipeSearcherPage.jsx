@@ -2,12 +2,10 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider"
 import { supabase } from "../supabaseAuth/supabaseClient"
-import {Modal, Typography, TextField, InputBase, Button, Box, Grid, Table, TableBody, TableContainer, Paper } from '@mui/material';
+import {TableRow, TableCell, Modal, Typography, TextField, InputBase, Button, Box, Grid, Table, TableBody, TableContainer } from '@mui/material';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
 import MyRecipesResultsList from "../components/MyRecipesResultsList";
-import MyFoodItemCell from "../components/MyFoodItemCell";
-import FoodItemTableRow from "../components/FoodItemTableRow";
 import { useMeal } from '../contexts/MealContext';
 import { useDate } from '../contexts/DateProvider';
 
@@ -34,16 +32,23 @@ const MyRecipeSearcherPage = () => {
   })
 
   const [initialRecipeData, setInitialRecipeData] = useState('')
-  const [onDisplay, setOnDisplay] = useState(null)
-  const open = Boolean(onDisplay)
-  const [openModal, setOpenModal] = useState(false)
 
+  const [openModal, setOpenModal] = useState(false)
+  const [showModal, setShowModal] = useState(false)
   const handleCloseModal = () => {
     setOpenModal(false)
+    setShowModal(false)
   }
 
+  const [openShowMoreModal, setOpenShowMoreModal] = useState(false)
+  const handleCloseShowMoreModal = () => {
+    setOpenShowMoreModal(false)
+    setShowMore(false)
+  }
+  const [showMore, setShowMore] = useState(false)
+
   useEffect(() => {
-    document.body.style.zoom = "80%";
+    document.body.style.zoom = "78%";
   }, [])
 
   useEffect(() => {
@@ -58,7 +63,6 @@ const MyRecipeSearcherPage = () => {
           console.log(error)
         } else {
           setMyRecipeData(data)
-          // console.log(sortedData)
         }
       } catch (err) {
         console.log(err)
@@ -84,20 +88,19 @@ const MyRecipeSearcherPage = () => {
         setMySearchResult(data)
         setSearching(true)
         setSearchTerm(search)
-        // console.log(data)
       }
     } catch(err) {
       console.log(err)
     }
   }
 
-  const handleAddRecipe = async (e) => {
+  const handleSelectRecipe = async (e) => {
     e.preventDefault()
     const id = e.currentTarget.id
     console.log(id)
     try {
       const { data, error } = await supabase
-        .from('recipe')
+        .from('recipes')
         .select('*')
         .eq('user_id', user)
         .eq('id', id)
@@ -107,6 +110,29 @@ const MyRecipeSearcherPage = () => {
         setOpenModal(true)
         setInitialRecipeData(data[0])
         setRecipeData(data[0])
+        setShowModal(true)
+      }
+    } catch (err) {
+      console.log(err.message)
+    }
+  }
+
+  const handleShowRecipeDetails = async (e) => {
+    e.preventDefault()
+    const id = e.currentTarget.id
+    try {
+      const { data, error} = await supabase
+        .from('recipes')
+        .select('*')
+        .eq('user_id', user)
+        .eq('id', id)
+      if (error) {
+        console.log(error)
+      } else {
+        setOpenShowMoreModal(true)
+        setInitialRecipeData(data[0])
+        setRecipeData(data[0])
+        setShowMore(true)
       }
     } catch (err) {
       console.log(err.message)
@@ -115,7 +141,6 @@ const MyRecipeSearcherPage = () => {
 
   const handleServingChange = (e) => {
     const newServing = e.target.value;
-    // console.log(e.target.value)
     setRecipeData({
       ...recipeData,
       servings: newServing
@@ -160,7 +185,6 @@ const MyRecipeSearcherPage = () => {
       if (error) {
         console.log(error)
       } else {
-        // console.log(data)
         setDate(new Date(date.getTime() + 10000))
         setInitialRecipeData("")
         setRecipeData({
@@ -175,6 +199,8 @@ const MyRecipeSearcherPage = () => {
           ingredients: ""
         })
         handleCloseModal()
+        setShowModal(false)
+        setShowMore(false)
         navigate('/')
       }
     }
@@ -264,34 +290,11 @@ const MyRecipeSearcherPage = () => {
             </Button>
         </Grid>
       </Box>
-
-    
+{/* // Shows all current recipes */}
     {myRecipeData && !searching && (
       <Box justifyContent="space-around">
         {myRecipeData.map((recipe) => (
-          <Grid item justifyContent="flex-start" xs={8} key={recipe.id}>
-            <MyRecipesResultsList
-              key={recipe.id}
-              id={recipe.id}
-              title={recipe.recipe_name}
-              image={recipe.image}
-              calories={Math.round(recipe.calories)}
-              fat={Math.round(recipe.fat)}
-              protein={Math.round(recipe.protein)}
-              carbs={Math.round(recipe.carbs)}
-              servings={Math.round(recipe.servings)}
-              ingredients={recipe.ingredients}
-            />
-          </Grid>
-        ))}
-      </Box>
-    )}
-    
-    
-    {searching && mySearchResult && (
-    <Box xs={12} justifyContent="space-around">
-      {mySearchResult.map((recipe) => (
-        <Grid item justifyContent="flex-start" xs={2} key={recipe.id}>
+        <Grid item justifyContent="flex-start" xs={8} key={recipe.id}>
           <MyRecipesResultsList
             key={recipe.id}
             id={recipe.id}
@@ -302,63 +305,176 @@ const MyRecipeSearcherPage = () => {
             protein={Math.round(recipe.protein)}
             carbs={Math.round(recipe.carbs)}
             servings={Math.round(recipe.servings)}
-            ingredients={recipe.ingredients}
-            handleClick={handleAddRecipe}
+            ingredients={JSON.parse(recipe.ingredients)}
+            handleClick={handleSelectRecipe}
+            handleShowRecipeDetails={handleShowRecipeDetails}
           />
         </Grid>
+        ))}
+      </Box>
+    )}
+{/* // Shows recipe search results */}
+    {searching && mySearchResult && (
+    <Box xs={12} justifyContent="space-around">
+      {mySearchResult.map((recipe) => (
+      <Grid item justifyContent="flex-start" xs={2} key={recipe.id}>
+        <MyRecipesResultsList
+          key={recipe.id}
+          id={recipe.id}
+          title={recipe.recipe_name}
+          image={recipe.image}
+          calories={Math.round(recipe.calories)}
+          fat={Math.round(recipe.fat)}
+          protein={Math.round(recipe.protein)}
+          carbs={Math.round(recipe.carbs)}
+          servings={Math.round(recipe.servings)}
+          ingredients={JSON.parse(recipe.ingredients)}
+          handleClick={handleSelectRecipe}
+          handleShowRecipeDetails={handleShowRecipeDetails}
+        />
+      </Grid>
       ))}
     </Box>
-  )}
+    )}
 
+    {recipeData && showModal && (
+    <Modal open={openModal} onClose={handleCloseModal}>
+      <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3} >
+        <Grid container sx={{ maxWidth: 350, marginTop: 10, padding: 5, position: 'absolute', left: '58%', transform: 'translate(-50%, -50%)', top: '40%', bgcolor: 'background.paper', border: '1px solid #b8b8b8', borderRadius: '0.5rem', boxShadow: 24 }}>
+          <form onSubmit={handleSaveRecipe}>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <Typography variant="h6">{recipeData.recipe_name}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  onChange={handleServingChange}
+                  label={`Servings`}
+                  name="servings"
+                  type="number"
+                  variant="outlined"
+                  margin="normal"
+                  defaultValue={1}
+                  InputLabelProps={{ shrink: true }}
+                  required
+                  fullWidth
+                  sx={{ height: 40 }}
+                />
+                <Typography></Typography>
+              </Grid>
+              <Grid item xs={12} sx={{marginTop: 5}}>
+                <Typography>Calories: {Math.round(recipeData.calories)}kcal</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>F: {Math.round(recipeData.fat)}g</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>C: {Math.round(recipeData.carbs)}g</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>P: {Math.round(recipeData.protein)}g</Typography>
+              </Grid>
+            </Grid>
+            <Button type="submit" variant="contained" fullWidth sx={{ marginTop: 5 }}>
+              Save
+            </Button>
+          </form>
+        </Grid>
+      </Grid>
+    </Modal>
+    )}
 
-{ recipeData && (
-      
-      <Modal open={openModal} onClose={handleCloseModal}>
-        <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3} >
-          <Grid container sx={{ maxWidth: 350, marginTop: 10, padding: 5, position: 'absolute', left: '58%', transform: 'translate(-50%, -50%)', top: '40%', bgcolor: 'background.paper', border: '1px solid #b8b8b8', borderRadius: '0.5rem', boxShadow: 24 }}>
-            <form onSubmit={handleSaveRecipe}>
-              <Grid container spacing={1}>
-                <Grid item xs={12}>
-                  <Typography variant="h6">{recipeData.recipe_name}</Typography>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    onChange={handleServingChange}
-                    label={`Servings`}
-                    name="servings"
-                    type="number"
-                    variant="outlined"
-                    margin="normal"
-                    defaultValue={recipeData.servings}
-                    InputLabelProps={{ shrink: true }}
-                    required
-                    fullWidth
-                    sx={{ height: 40 }}
-                  />
-                  <Typography></Typography>
-                  </Grid>
-                  <Grid item xs={12} sx={{marginTop: 5}}>
-                    <Typography>Calories: {Math.round(recipeData.calories)}kcal</Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>F: {Math.round(recipeData.fat)}g</Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>C: {Math.round(recipeData.carbs)}g</Typography>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography>P: {Math.round(recipeData.protein)}g</Typography>
-                  </Grid>
-                </Grid>
-                <Button type="submit" variant="contained" fullWidth sx={{ marginTop: 5 }}>
-                  Save
-                </Button>
+    {searching && mySearchResult && (
+    <Box xs={12} justifyContent="space-around">
+      {mySearchResult.map((recipe) => (
+      <Grid item justifyContent="flex-start" xs={2} key={recipe.id}>
+        <MyRecipesResultsList
+          key={recipe.id}
+          id={recipe.id}
+          title={recipe.recipe_name}
+          image={recipe.image}
+          calories={Math.round(recipe.calories)}
+          fat={Math.round(recipe.fat)}
+          protein={Math.round(recipe.protein)}
+          carbs={Math.round(recipe.carbs)}
+          servings={1}
+          ingredients={JSON.parse(recipe.ingredients)}
+          handleClick={handleSelectRecipe}
+          handleShowRecipeDetails={handleShowRecipeDetails}
+        />
+      </Grid>
+      ))}
+    </Box>
+    )}
+
+{/* // Show More modal */}
+    {recipeData && showMore && (
+    <Modal open={openShowMoreModal} onClose={handleCloseShowMoreModal}>
+      <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3} >
+        <Grid container sx={{ maxWidth: 900, marginTop: 10, padding: 5, position: 'absolute', left: '58%', transform: 'translate(-50%, -50%)', top: '40%', bgcolor: 'background.paper', border: '1px solid #b8b8b8', borderRadius: '0.5rem', boxShadow: 24, maxHeight: '80vh', overflowY: 'auto' }} >
+          <Grid container justifyContent="center" xs={12} sx={{margin: 3}}>
+            <Typography variant="h4">{recipeData.recipe_name}</Typography>
+          </Grid>
+          <Grid container direction="row" justifyContent="space-around" xs={12}>
+            <Grid item xs={6}>
+              <Typography variant="h6">Ingredients:</Typography>
+              <TableContainer >
+                <Table>
+                  <TableBody>
+                  {recipeData && JSON.parse(recipeData.ingredients).map((ingredient) => (
+                    <TableRow key={ingredient.food}>
+                      <TableCell>{ingredient.quantity}</TableCell>
+                      <TableCell>{ingredient.measure !== '<unit>' ? ingredient.measure : ''}</TableCell>
+                      <TableCell>{ingredient.food}</TableCell>
+                      <TableCell>{ingredient.weight && Math.round(ingredient.weight)}g</TableCell>
+                    </TableRow>
+                  ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            </Grid>
+            <Grid item xs={4}>
+              <form onSubmit={handleSaveRecipe}>
+              <Grid item xs={12}>
+                <TextField
+                  onChange={handleServingChange}
+                  label={`Servings`}
+                  name="servings"
+                  type="number"
+                  variant="outlined"
+                  margin="normal"
+                  step="0.01"
+                  min="0"
+                  defaultValue={recipeData.servings}
+                  InputLabelProps={{ shrink: true }}
+                  required
+                  fullWidth
+                  sx={{ height: 40 }}
+                />
+                <Typography></Typography>
+              </Grid>
+              <Grid item xs={12} sx={{marginTop: 5}}>
+                <Typography>Calories: {Math.round(recipeData.calories)}kcal</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>F: {Math.round(recipeData.fat)}g</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>C: {Math.round(recipeData.carbs)}g</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography>P: {Math.round(recipeData.protein)}g</Typography>
+              </Grid>
+              <Button type="submit" variant="contained" fullWidth sx={{ marginTop: 5 }}>
+                Save
+              </Button>
               </form>
             </Grid>
+          </Grid>  
         </Grid>
-      </Modal>
-      )
-      }
+      </Grid>
+    </Modal>
+    )}
   </Grid>
   )
 }

@@ -267,6 +267,8 @@ const MyFoodSearcherPage = () => {
             </Button>
         </Grid>
       </Box>
+
+{/* // Shows all current foods */}
     
     {myFoodData && !searching &&
     myFoodData.map(([letter, foods]) => (
@@ -294,6 +296,8 @@ const MyFoodSearcherPage = () => {
         </Table>
       </TableContainer>
     ))}
+
+{/* // Shows food search results */}
     
     {searching && mySearchResult && (
       <TableContainer component={Paper} sx={{ minWidth: 400, maxWidth: 800 }}>
@@ -313,7 +317,7 @@ const MyFoodSearcherPage = () => {
               carbs={food.carbs}
               protein={food.protein}
               calories={food.calories}
-              handleClick={handleAddFood}
+              handleClick={handleSelectFood}
             />
           ))}
           </TableBody>
@@ -339,6 +343,8 @@ const MyFoodSearcherPage = () => {
                     variant="outlined"
                     margin="normal"
                     defaultValue={foodData.serving_amt}
+                    step="0.01"
+                    min="0"
                     InputLabelProps={{ shrink: true }}
                     required
                     fullWidth

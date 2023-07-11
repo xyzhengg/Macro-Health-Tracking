@@ -178,6 +178,8 @@ const DataEditDeleteButton = ({ id }) => {
                     type="number"
                     variant="outlined"
                     margin="normal"
+                    step="0.01"
+                    min="0"
                     defaultValue={foodData.serving_amt}
                     InputLabelProps={{ shrink: true }}
                     required

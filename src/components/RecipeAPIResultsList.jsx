@@ -1,13 +1,11 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useAuth } from '../contexts/AuthProvider';
 import { useMeal } from '../contexts/MealContext';
 import { useDate } from '../contexts/DateProvider';
-import { Routes, Route, useNavigate, useParams, Link } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import {Typography, Button, CardContent, Box} from '@mui/material';
-import { AspectRatio } from "@mui/icons-material";
 import axios from 'axios'
 import { supabase } from "../supabaseAuth/supabaseClient"
-
 
 const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, carbs, diet, allergies, servings }) => {
   const caloriesPerServe = (Math.round(totalCalories/servings))
@@ -57,7 +55,7 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
     console.log(id)
     try {
       const res = await axios.get(`https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=1630a2de&app_key=8c2f7e5b603050e3bc5815d4675ac28e`)
-      console.log(res.data)
+      console.log(res.data.recipe.ingredients)
       setSelectedRecipe(res.data)
       const recipe = {
         id: id,
@@ -70,10 +68,11 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
         carbs: Math.round(carbs/servings),
         allergies: filteredAllergies,
         diets: filteredDiets,
-        ingredients: res.data.recipe.ingredients,
+        ingredients: JSON.parse(res.data.recipe.ingredients),
         linkToDirections: res.data.recipe.url,
       }
       navigate(`/api/recipe/${id}`, { state: recipe})
+      console.log(typeof ingredients)
     } catch(err) {
       console.log(err)
       setError(err)
@@ -82,19 +81,8 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
 
   const handleAddAPIRecipe = async (e) => {
     const id = e.currentTarget.id
-  
     try {
       const res = await axios.get(`https://api.edamam.com/api/recipes/v2/${id}?type=public&app_id=1630a2de&app_key=8c2f7e5b603050e3bc5815d4675ac28e`);
-      console.log(res.data)
-      console.log(title, image, servings, fat, protein, carbs)
-      const rawIngredientData = res.data.recipe.ingredients
-      const restructuredIngredients = rawIngredientData.map((ingredient) => ({
-        food: ingredient.food,
-        quantity: ingredient.quantity,
-        measure: ingredient.measure,
-        weight: Math.round(ingredient.weight)
-      }))
-  
       const { data, error } = await supabase
         .from('recipes')
         .insert([
@@ -105,8 +93,8 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
             protein: Math.round(protein/servings),
             carbs: Math.round(carbs/servings),
             recipe_name: title,
-            servings: servings,
-            ingredients: restructuredIngredients,
+            servings: 1,
+            ingredients: res.data.recipe.ingredients,
             image: image
           }
         ])
@@ -122,7 +110,7 @@ const RecipeAPIResultsList = ({ id, title, image, totalCalories, fat, protein, c
             fat: Math.round(fat/servings),
             protein: Math.round(protein/servings),
             carbs: Math.round(carbs/servings),
-            serving_amt: servings,
+            serving_amt: 1,
             serving_measure: "serve/s",
             [meal]: true,
             user_id: user,
