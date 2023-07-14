@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabaseAuth/supabaseClient"
-import {Modal, Typography, TextField, InputBase, Button, Box, Grid, Table, TableBody, TableContainer, Paper } from '@mui/material';
-import FoodAPIResultsCell from './FoodAPIResultsCell'
-import SearchIcon from '@mui/icons-material/Search';
-import { styled, alpha } from '@mui/material/styles';
-import FoodItemTableRow from './FoodItemTableRow';
+import { Box, Grid } from '@mui/material';
+import FoodAPIResultsTable from './FoodAPIResultsTable';
+import FoodAPIServingsModal from './FoodAPIServingsModal';
+import SearchBar from './SearchBar';
 import { useMeal } from '../contexts/MealContext';
 import { useDate } from '../contexts/DateProvider';
 import { useAuth } from "../contexts/AuthProvider"
@@ -40,8 +39,6 @@ const FoodAPISearcherPage = () => {
     foodCarbs: "",
   })
 
-  const [onDisplay, setOnDisplay] = useState(null)
-  const open = Boolean(onDisplay)
   const [openModal, setOpenModal] = useState(false)
 
   const handleCloseModal = () => {
@@ -59,9 +56,6 @@ const FoodAPISearcherPage = () => {
 
     try {
       const res = await axios.get(`https://api.edamam.com/api/food-database/v2/parser?app_id=c3a053e6&app_key=a5494242fbb8e5d5184b54cad1d5e4b6&ingr=${search}&nutrition-type=cooking`)
-      console.log(res.data.hints)
-      console.log(res.data)
-      setResults(res.data.hints)
     } catch(err) {
       console.log(err)
       setError(err)
@@ -79,44 +73,6 @@ const FoodAPISearcherPage = () => {
       console.log(filteredResults)
     }
   }, [results])
-
-  const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
-  }));
-  
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }));
-
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '100%',
-      },
-  }}))
 
   const handleSelectFood = (e, foodData) => {
     console.log(foodData)
@@ -211,110 +167,39 @@ const FoodAPISearcherPage = () => {
       }
       navigate('/')
     }
+    
+  const searchInputWidth = '600px'
 
   return (
     <>
     <Box sx={{ display: 'flex', justifyContent: 'center', marginBottom: 7, marginTop: 5}}>
-      <form onSubmit={handleSearchFood}>
-        <Search sx={{ width: '600px'}}>
-          <SearchIconWrapper>
-              <SearchIcon />
-          </SearchIconWrapper>
-          <StyledInputBase placeholder="Search…" name="search" sx={{ border: '1px solid #e0e0e0', width: '600px'}}/>
-            <Button type="submit" sx={{ 
-              height:"40px",
-              backgroundColor: `rgb(196, 155, 178)`, 
-              color: `rgb(255,255,255)`, 
-              '&:hover': {
-              backgroundColor: `rgb(196, 155, 178)`, 
-              color: `rgb(255,255,255)`,
-              transform: 'scale(1.05)'}}}
-              > Search
-            </Button>
-        </Search>
-        {error && <div> Error: {error} </div>}
-      </form>
-    </Box>
-
-    {filteredResults && (
-    <TableContainer component={Paper} sx={{ minWidth: 400, maxWidth: 800, display: 'flex', justifyContent: 'center' }}>
-        <Table size="small">
-          <FoodItemTableRow
-            text={searchTerm.toUpperCase()}
-          />
-          <TableBody>
-          {filteredResults.map((result) => (
-            <FoodAPIResultsCell
-            key = {result.food.foodId}
-            id= {result.food.foodId}
-            label = {result.food.label}
-            kcal = {result.food.nutrients.ENERC_KCAL}
-            fat = {result.food.nutrients.FAT}
-            protein = {result.food.nutrients.PROCNT}
-            carbs = {result.food.nutrients.CHOCDF}
-            searchTerm = {searchTerm}
-            handleClick={(e) => handleSelectFood(e, result.food)}
-            serving = {result.food.servingSizes && result.food.servingSizes.find((serving) => serving.label === "gram")}
+      <Grid item>
+          <form onSubmit={handleSearchFood}>
+            <SearchBar 
+              searchInputWidth = {searchInputWidth}
             />
-          ))}  
-          </TableBody>  
-        </Table>
-      </TableContainer>
-    )}
-
-    {filteredResults && (
-    <Modal open={openModal} onClose={handleCloseModal}>
-      <Grid container direction="column" justifyContent="center" alignItems="center" spacing={3} >
-        <Grid container sx={{ maxWidth: 350, marginTop: 10, padding: 5, position: 'absolute', left: '58%', transform: 'translate(-50%, -50%)', top: '40%', bgcolor: 'background.paper', border: '1px solid #b8b8b8', borderRadius: '0.5rem', boxShadow: 24 }}>
-          <form onSubmit={handleSaveFood}>
-            <Grid container spacing={1}>
-              <Grid item xs={12}>
-                <Typography variant="h6">{nutritionValues.foodLabel}</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  onChange={handleServingChange}
-                  label={`Serving size: g`}
-                  name="serving_amt"
-                  type="number"
-                  variant="outlined"
-                  margin="normal"
-                  defaultValue={initialValues.foodServing}
-                  InputLabelProps={{ shrink: true }}
-                  required
-                  fullWidth
-                  sx={{ height: 40 }}
-                />
-                <Typography></Typography>
-              </Grid>
-              <Grid item xs={12} sx={{marginTop: 5}}>
-                <Typography>Calories: {Math.round(nutritionValues.foodKcal)}kcal</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography>F: {Math.round(nutritionValues.foodFat)}g</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography>C: {Math.round(nutritionValues.foodCarbs)}g</Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography>P: {Math.round(nutritionValues.foodProtein)}g</Typography>
-              </Grid>
-            </Grid>
-            <Button type="submit" variant="contained" fullWidth 
-              sx={{ marginTop: 5,
-                backgroundColor: `rgb(196, 155, 178)`, 
-                color: `rgb(255,255,255)`, 
-                '&:hover': {
-                backgroundColor: `rgb(196, 155, 178)`, 
-                color: `rgb(255,255,255)`}}}
-              >
-              Save
-            </Button>
           </form>
         </Grid>
-      </Grid>
-    </Modal>
-    )}
+    </Box>
+
+    {filteredResults && <FoodAPIResultsTable
+      searchTerm = {searchTerm}
+      filteredResults = {filteredResults}
+      handleSelectFood = {handleSelectFood}
+    />
+    }
+
+    {filteredResults && 
+      <FoodAPIServingsModal
+      handleSubmit = {handleSaveFood}
+      handleServingChange = {handleServingChange}
+      nutritionValues = {nutritionValues}
+      initialValues = {initialValues}
+      handleCloseModal = {handleCloseModal}
+      setOpenModal = {setOpenModal}
+      openModal = {openModal}
+      />
+    }
   </>
   )
 }

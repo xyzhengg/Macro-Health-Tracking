@@ -4,12 +4,17 @@ import { useAuth } from '../contexts/AuthProvider';
 import { useDate } from '../contexts/DateProvider';
 import { Grid, TextField, Button, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react'
 
 const CreateFoodForm = () => {
   const { meal } = useMeal()
   const { user } = useAuth()
   const { date } = useDate()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    document.body.style.zoom = "80%";
+  }, [])
 
   const handleAddCustomFood = async (e) => {
     e.preventDefault()

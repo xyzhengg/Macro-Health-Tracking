@@ -110,8 +110,6 @@ const DayDisplay = () => {
           console.log(error)
         } else {
           setLunchData(data)
-          // console.log(`${date.toISOString().split('T')[0]} 23:59:59`)
-          // console.log(data)
         }
       } catch (err) {
         console.log(err.message)
