@@ -11,18 +11,19 @@ import FoodItemTableRow from "../components/FoodItemTableRow";
 import CreateFoodForm from "../components/CreateFoodForm";
 import { useMeal } from '../contexts/MealContext';
 import { useDate } from '../contexts/DateProvider';
+import { useRecipeIngredients } from "../contexts/RecipeIngredientsContext";
 
 
-const RecipeIngredientFoodSearcher = () => {
+const RecipeIngredientFoodSearcher = ({ handleCloseRecipeIngredientSearch }) => {
   const { user } = useAuth()
   const { meal } = useMeal()
+  const { recipeIngredients, setRecipeIngredients } = useRecipeIngredients()
   const { setDate, date } = useDate()
   const [myFoodData, setMyFoodData] = useState()
   const [mySearchResult, setMySearchResult] = useState()
   const [searching, setSearching] = useState(false)
   const [searchTerm, setSearchTerm] = useState()
   const [showCreateFoodForm, setShowCreateFoodForm] = useState(false)
-  const navigate = useNavigate()
 
   const [foodData, setFoodData] = useState({
     food_name: "",
@@ -94,7 +95,6 @@ const RecipeIngredientFoodSearcher = () => {
         setMySearchResult(data)
         setSearching(true)
         setSearchTerm(search)
-        // console.log(data)
       }
     } catch(err) {
       console.log(err)
@@ -124,7 +124,6 @@ const RecipeIngredientFoodSearcher = () => {
 
   const handleServingChange = (e) => {
     const newServing = e.target.value;
-    // console.log(e.target.value)
     setFoodData({
       ...foodData,
       serving_amt: newServing
@@ -148,8 +147,21 @@ const RecipeIngredientFoodSearcher = () => {
     }));
   },[foodData.serving_amt])
 
-  const handleSaveFood = async (e) => {
+  const handleAddFood = () => {
     e.preventDefault();
+    recipeIngredients.push([foodData])
+    setInitialFoodData("")
+    setFoodData({
+      food_name: "",
+      serving_amt: "",
+      serving_measure: "",
+      calories: "",
+      protein: "",
+      fat: "",
+      carbs: ""
+    })
+    handleCloseModal()
+    handleCloseRecipeIngredientSearch()
   }
 
   const handleCreateFood = () => {
@@ -246,7 +258,7 @@ const RecipeIngredientFoodSearcher = () => {
     <MyFoodServingsModal
       openModal = {openModal}
       handleCloseModal = {handleCloseModal}
-      handleSaveFood ={handleSaveFood}
+      handleSaveFood ={handleAddFood}
       foodData = {foodData}
       initialFoodData = {initialFoodData}
       handleServingChange={handleServingChange}

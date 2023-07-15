@@ -10,7 +10,8 @@ import MyRecipesResultsList from "../components/MyRecipesResultsList";
 import { useMeal } from '../contexts/MealContext';
 import { useDate } from '../contexts/DateProvider';
 import AddCustomItemButton from "../components/AddCustomItemButton";
-import { Create } from "@mui/icons-material";
+import { Create, FamilyRestroomRounded } from "@mui/icons-material";
+import RecipeIngredientSearcherPage from "./RecipeIngredientSearcherPage";
 
 const MyRecipeSearcherPage = () => {
   const { user } = useAuth()
@@ -20,6 +21,8 @@ const MyRecipeSearcherPage = () => {
   const [mySearchResult, setMySearchResult] = useState()
   const [searching, setSearching] = useState(false)
   const [showCreateRecipeForm, setShowCreateRecipeForm] = useState(false)
+  const [goToRecipeIngredientSearcherPage, setGoToRecipeIngredientSearcherPage] = useState(false)
+
   const navigate = useNavigate()
 
   const [recipeData, setRecipeData] = useState({
@@ -218,16 +221,34 @@ const MyRecipeSearcherPage = () => {
     setShowCreateRecipeForm(false)
   }
 
+  const handleGoToIngredientSearch = () => {
+    setGoToRecipeIngredientSearcherPage(true)
+    setShowCreateRecipeForm(false)
+  }
+
+  const handleCloseRecipeIngredientSearch = () => {
+    setGoToRecipeIngredientSearcherPage(false)
+  }
+
   const searchInputWidth = '400px'
       
   return (
     <>
-    { showCreateRecipeForm ? 
-    <CreateRecipeForm
-    handleCancel = {handleCloseCreateRecipeForm}/> 
-    : 
-    (
-    <Grid container direction="column" justifyContent="center" alignItems="center">
+    { showCreateRecipeForm &&  (
+      <CreateRecipeForm
+      handleCancel = {handleCloseCreateRecipeForm}
+      handleSearchIngredients = {handleGoToIngredientSearch}
+      />
+    )}
+
+    { goToRecipeIngredientSearcherPage && (
+      <RecipeIngredientSearcherPage 
+      handleCloseRecipeIngredientSearch = {handleCloseRecipeIngredientSearch}
+      />
+    )}
+    
+    { !showCreateRecipeForm && !goToRecipeIngredientSearcherPage && (
+      <Grid container direction="column" justifyContent="center" alignItems="center">
         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: 7, marginTop: 5 }}>
           <Grid item>
             <form onSubmit={handleSearchRecipes}>

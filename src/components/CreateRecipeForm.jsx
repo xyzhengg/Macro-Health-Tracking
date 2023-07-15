@@ -8,12 +8,10 @@ import { Grid, TextField, Button, Typography, Box } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import RecipeIngredientSearcherPage from '../pages/RecipeIngredientSearcherPage'
 
-const CreateRecipeForm = ({handleCancel}) => {
+const CreateRecipeForm = ({handleCancel, handleSearchIngredients}) => {
   useEffect(() => {
     document.body.style.zoom = "80%";
   }, [])
-
-  const [goToRecipeIngredientSearcherPage, setGoToRecipeIngredientSearcherPage] = useState(false)
 
   const {recipeIngredients, setRecipeIngredients} = useRecipeIngredients()
 
@@ -51,21 +49,13 @@ const CreateRecipeForm = ({handleCancel}) => {
   //   calculateIngredientTotals()
   // }, [ingredientData])
 
-  const handleGoToIngredientSearch = async (e) => {
-    setGoToRecipeIngredientSearcherPage(true)
-  }
-  
   const handleAddCustomRecipe = async (e) => {
 
   }
  
   return (
     <>
-      { goToRecipeIngredientSearcherPage ? 
-      <RecipeIngredientSearcherPage/> 
-      :
-      (
-      <Grid container direction="column" justifyContent="center" alignItems="center" >
+        <Grid container direction="column" justifyContent="center" alignItems="center" >
         <Grid container sx={{ maxWidth: 600, marginTop: 7}} spacing={3}>
           <form onSubmit={handleAddCustomRecipe}>
           <Typography variant="h4" align="center" gutterBottom> Create Custom Recipe </Typography>
@@ -81,7 +71,7 @@ const CreateRecipeForm = ({handleCancel}) => {
             
             <Box sx={{ m: 5, marginTop: 0, p: 3, border: '1px black solid', borderRadius: '1rem', width: 600}}>
               <Typography variant="h6" align="left" gutterBottom> Ingredients </Typography>
-              <Button fullWidth onClick={handleGoToIngredientSearch} sx={{
+              <Button fullWidth onClick={handleSearchIngredients} sx={{
                 marginTop: 2,
                 backgroundColor: 'rgb(159, 160, 198)',
                 color: 'rgb(255, 255, 255)',
@@ -138,7 +128,6 @@ const CreateRecipeForm = ({handleCancel}) => {
           </form>
         </Grid>
       </Grid>
-      )}
     </>
   )
 }
