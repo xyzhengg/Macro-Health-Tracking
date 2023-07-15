@@ -6,7 +6,7 @@ import { Grid, TextField, Button, Typography } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react'
 
-const CreateFoodForm = () => {
+const CreateFoodForm = ({handleCancel}) => {
   const { meal } = useMeal()
   const { user } = useAuth()
   const { date } = useDate()
@@ -107,6 +107,17 @@ const CreateFoodForm = () => {
                 color: 'rgb(255, 255, 255)'},
               }} >
                 Next
+              </Button>
+
+              <Button onClick = {handleCancel} fullWidth sx={{
+                marginTop: 2,
+                backgroundColor: 'rgb(175, 194, 214)',
+                color: 'rgb(255, 255, 255)',
+                '&:hover': {
+                backgroundColor: 'rgb(175, 194, 214)',
+                color: 'rgb(255, 255, 255)'},
+              }} >
+                Cancel
               </Button>
             </Grid>
             </Grid>

@@ -12,7 +12,8 @@ import FoodAndRecipeSearcherPage from './components/FoodAndRecipeSearcherPage';
 import { Grid} from '@mui/material'
 import { MealProvider } from './contexts/MealContext';
 import DayDisplay from './pages/DayDisplay';
-import { useAuth } from './contexts/AuthProvider'
+import { useAuth } from './contexts/AuthProvider';
+import { RecipeIngredientsProvider } from './contexts/RecipeIngredientsContext';
 import { DateProvider} from './contexts/DateProvider.jsx'
 import { GoalProvider } from './contexts/GoalProvider';
 import ProfilePage from './pages/ProfilePage';
@@ -41,29 +42,31 @@ function App() {
           </Grid>)} 
           <Grid item xs={user? 10 : 12}>
             <MealProvider>
-            <Routes>
-              {user && session ? (
-                <>
-                  <Route path="/profile" element={<ProfilePage />} />
-                  <Route path="/profile/edit" element={<EditProfile />} />
-                  <Route path="/profile/setup" element={<InitialProfileSetup/>}/>
-                  <Route path="/api/recipes/search" element={<RecipeAPISearcherPage />} />
-                  <Route path="/api/recipe/:id" element={<RecipeAPIInfo />} />
-                  <Route path="/api/food/search" element={<FoodSearcher />} />
-                  <Route path="/create/food" element={<CreateFoodForm />} />
-                  <Route path="/create/recipe" element={<CreateRecipeForm />} />                 
-                  <Route path="/search" element={<FoodAndRecipeSearcherPage />} />
-                  <Route path="/statistics" element={<Statistics />} />
-                  <Route path="/" element={<DayDisplay />} />
-                </>
-                ) : (
-                <>
-                  <Route path="/" element={<LoginSignUp/>} />
-                  <Route path="/*" element={<LoginSignUp/>} />
-                </>
-                )}
-                <Route path="/*" element={<NotFound />} />
-              </Routes>
+              <RecipeIngredientsProvider>
+                <Routes>
+                {user && session ? (
+                  <>
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/profile/edit" element={<EditProfile />} />
+                    <Route path="/profile/setup" element={<InitialProfileSetup/>}/>
+                    <Route path="/api/recipes/search" element={<RecipeAPISearcherPage />} />
+                    <Route path="/api/recipe/:id" element={<RecipeAPIInfo />} />
+                    <Route path="/api/food/search" element={<FoodSearcher />} />
+                    <Route path="/create/food" element={<CreateFoodForm />} />
+                    <Route path="/create/recipe" element={<CreateRecipeForm />} />                 
+                    <Route path="/search" element={<FoodAndRecipeSearcherPage />} />
+                    <Route path="/statistics" element={<Statistics />} />
+                    <Route path="/" element={<DayDisplay />} />
+                  </>
+                  ) : (
+                  <>
+                    <Route path="/" element={<LoginSignUp/>} />
+                    <Route path="/*" element={<LoginSignUp/>} />
+                  </>
+                  )}
+                  <Route path="/*" element={<NotFound />} />
+                </Routes>
+              </RecipeIngredientsProvider>
             </MealProvider>
           </Grid>
         </Grid>

@@ -28,7 +28,7 @@ export const GoalProvider = ({ children }) => {
           } else {
             setLoading(false)
             setGoal(data[0])
-            console.log(data[0])
+            // console.log(data[0])
           }
         } catch (err) {
           setError(err.message)

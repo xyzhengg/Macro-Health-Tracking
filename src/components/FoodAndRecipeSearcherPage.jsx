@@ -4,10 +4,8 @@ import Tab from '@mui/material/Tab'
 import { useState } from 'react'
 import RecipeAPISearcherPage from '../pages/RecipeAPISearcherPage'
 import FoodAPISearcher from './FoodAPISearcherPage'
-import CreateFoodForm from './CreateFoodForm'
 import MyFoodSearcherPage from '../pages/MyFoodSearcherPage'
 import MyRecipeSearcherPage from '../pages/MyRecipeSearcherPage'
-import ComingSoon from './ComingSoon'
 
 const FoodAndRecipeSearcherPage = () => {
   const [value, setValue] = useState(0)
