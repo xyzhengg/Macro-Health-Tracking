@@ -8,7 +8,7 @@ import { Grid, TextField, Button, Typography, Box } from '@mui/material'
 import { useNavigate } from 'react-router-dom';
 import RecipeIngredientSearcherPage from '../pages/RecipeIngredientSearcherPage'
 
-const CreateRecipeForm = () => {
+const CreateRecipeForm = ({handleCancel}) => {
   useEffect(() => {
     document.body.style.zoom = "80%";
   }, [])
@@ -108,19 +108,32 @@ const CreateRecipeForm = () => {
                 <TextField label="Carbs (g)" name="carbs" type="number" variant="outlined" fullWidth />
               </Grid>
             </Box>
- 
-            <Grid item xs={12}>
-              <Button type="submit" fullWidth sx={{
-                marginTop: 2,
-                backgroundColor: 'rgb(196, 155, 178)',
-                color: 'rgb(255, 255, 255)',
-                '&:hover': {
-                backgroundColor: 'rgb(196, 155, 178)',
-                color: 'rgb(255, 255, 255)'},
-              }} >
-                Next
-              </Button>
-            </Grid>
+            
+            <Box sx={{ m: 5, marginTop: 0, p: 3, border: 'none', width: 600}}>
+              <Grid item xs={12}>
+                <Button type="submit" fullWidth sx={{
+                  marginTop: 2,
+                  backgroundColor: 'rgb(196, 155, 178)',
+                  color: 'rgb(255, 255, 255)',
+                  '&:hover': {
+                  backgroundColor: 'rgb(196, 155, 178)',
+                  color: 'rgb(255, 255, 255)'},
+                }} >
+                  Next
+                </Button>
+
+                <Button onClick ={handleCancel} fullWidth sx={{
+                  marginTop: 2,
+                  backgroundColor: 'rgb(175, 194, 214)',
+                  color: 'rgb(255, 255, 255)',
+                  '&:hover': {
+                  backgroundColor: 'rgb(175, 194, 214)',
+                  color: 'rgb(255, 255, 255)'},
+                }} >
+                  Cancel
+                </Button>
+              </Grid>
+            </Box>
             </Grid>
           </form>
         </Grid>

@@ -150,44 +150,6 @@ const RecipeIngredientFoodSearcher = () => {
 
   const handleSaveFood = async (e) => {
     e.preventDefault();
-    try {
-      const { data, error } = await supabase
-      .from('diary')
-      .insert([{
-        food_name: foodData.food_name,
-        calories: foodData.calories,
-        fat: foodData.fat,
-        protein: foodData.protein,
-        carbs: foodData.carbs,
-        serving_amt: foodData.serving_amt,
-        serving_measure: foodData.serving_measure || "g",
-        [meal]: true,
-        user_id: user,
-        created_at: date,
-       },
-      ])
-      if (error) {
-        console.log(error)
-      } else {
-        // console.log(data)
-        setDate(new Date(date.getTime() + 10000))
-        setInitialFoodData("")
-        setFoodData({
-          food_name: "",
-          serving_amt: "",
-          serving_measure: "",
-          calories: "",
-          protein: "",
-          fat: "",
-          carbs: ""
-        })
-        handleCloseModal()
-        navigate('/')
-      }
-    }
-    catch (err){
-      console.log(err)
-    }    
   }
 
   const handleCreateFood = () => {
