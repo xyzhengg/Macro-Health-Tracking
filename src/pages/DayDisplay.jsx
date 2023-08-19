@@ -221,6 +221,7 @@ const DayDisplay = () => {
         return acc
       }, initialTotals)
       setSnackTotals(updatedTotals)
+      console.log(snackData)
     }
     calculateSnackTotals()
   }, [snackData])

@@ -19,7 +19,7 @@ const MyFoodItemCell = ( {id, food_name, serving_amt, serving_measure, fat, carb
       <TableCell align="left">F: {Math.round(fat)}g</TableCell>
       <TableCell align="left">C: {Math.round(carbs)}g</TableCell>
       <TableCell align="left">P:{Math.round(protein)}g</TableCell>
-      <TableCell align="left">Cal: {Math.round(calories)}kcal</TableCell>
+      <TableCell align="left">kCal: {Math.round(calories)}kcal</TableCell>
       <TableCell align="left"><AddCircleOutlineIcon onClick={handleClick} id={id}/></TableCell>
     </StyledTableRow>
   )

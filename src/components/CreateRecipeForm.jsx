@@ -4,73 +4,79 @@ import { useAuth } from '../contexts/AuthProvider';
 import { useDate } from '../contexts/DateProvider';
 import { useRecipeIngredients } from '../contexts/RecipeIngredientsContext';
 import { useEffect, useState } from 'react'
-import { Grid, TextField, Button, Typography, Box } from '@mui/material'
-import { useNavigate } from 'react-router-dom';
-import RecipeIngredientSearcherPage from '../pages/RecipeIngredientSearcherPage'
+import { Grid, TextField, Button, Typography, Box, Table, TableBody, TableCell, TableRow } from '@mui/material'
+import DataEditDeleteButton from './DataEditDeleteButton';
+import { styled } from '@mui/material/styles';
+import { tableCellClasses } from '@mui/material/TableCell';
 
-const CreateRecipeForm = ({handleCancel, handleSearchIngredients}) => {
+const CreateRecipeForm = ({handleCancel, handleSearchIngredients, recipeIngredients, handleDelete, recipeIngredientTotals, handleAddCustomRecipe, handleChangeRecipeName, handleChangeRecipeServings, customRecipeServings, customRecipeName }) => {
   useEffect(() => {
     document.body.style.zoom = "80%";
   }, [])
 
-  const {recipeIngredients, setRecipeIngredients} = useRecipeIngredients()
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    '&:last-child td, &:last-child th': {
+      border: 0,
+    },
+    height: '30px',
+    '& > *': { // Apply styles to all child (*) elements of this (&)
+      width: '100%',
+      whiteSpace: 'nowrap', 
+      overflow: 'hidden',
+      textOverflow: 'ellipsis', 
+      padding: '4px',
+    },
+  }));
 
-  const [ingredientsList, setIngredientsList] = useState([])
-
-  const [ingredientsTotals, setIngredientsTotals] = useState({
-    calories: 0,
-    fat: 0,
-    carbs: 0,
-    protein: 0,
-  })
-  
-  const [accCalories, setAccCalories] = useState(0)
-  const [accFat, setAccFat] = useState(0)
-  const [accCarbs, setAccCarbs] = useState(0)
-  const [accProtein, setAccProtein] = useState(0)
-
-  // useEffect(() => {
-  //   const calculateIngredientTotals = () => {
-  //     const initialTotals = {
-  //       calories: 0,
-  //       fat: 0,
-  //       carbs: 0,
-  //       protein: 0,
-  //     };
-  //     const updatedTotals = ingredientData.reduce((acc, item) => {
-  //       acc.calories += item.calories
-  //       acc.fat += item.fat
-  //       acc.carbs += item.carbs
-  //       acc.protein += item.protein
-  //       return acc
-  //     }, initialTotals)
-  //     setIngredientTotals(updatedTotals)
-  //   }
-  //   calculateIngredientTotals()
-  // }, [ingredientData])
-
-  const handleAddCustomRecipe = async (e) => {
-
-  }
- 
   return (
     <>
         <Grid container direction="column" justifyContent="center" alignItems="center" >
-        <Grid container sx={{ maxWidth: 600, marginTop: 7}} spacing={3}>
+        <Grid container sx={{ maxWidth: 700, marginTop: 7}} spacing={3}>
           <form onSubmit={handleAddCustomRecipe}>
           <Typography variant="h4" align="center" gutterBottom> Create Custom Recipe </Typography>
           <Grid container spacing={2}>
-            <Box sx={{ m: 5, p: 3, border: '1px black solid', borderRadius: '1rem', width: 600}}>
+            <Box sx={{ m: 5, p: 3, border: '1px black solid', borderRadius: '1rem', width: 700}}>
               <Grid item xs={12} sx={{marginBottom: 2}}>
-                <TextField label="Name" name="title" variant="outlined" fullWidth/>
+                <TextField label="Name" name="title" variant="outlined" fullWidth value={customRecipeName}
+                onChange={handleChangeRecipeName}
+                />
               </Grid>
               <Grid item xs={12}>
-                <TextField label="Number of Servings" name="serving" type="number" variant="outlined" fullWidth />
+                <TextField label="Number of Servings" name="serving" type="number" value={customRecipeServings} variant="outlined" fullWidth 
+                onChange={handleChangeRecipeServings}/>
               </Grid>
             </Box>
-            
-            <Box sx={{ m: 5, marginTop: 0, p: 3, border: '1px black solid', borderRadius: '1rem', width: 600}}>
+
+            <Box sx={{ m: 5, marginTop: 0, p: 3, border: '1px black solid', borderRadius: '1rem', width: 700}}>
               <Typography variant="h6" align="left" gutterBottom> Ingredients </Typography>
+              <Table>
+                <TableBody>
+               {recipeIngredients.map((eachIngredient) => (
+                  <StyledTableRow key={eachIngredient.id} id={eachIngredient.id} sx={{width: 700}}>
+                    <TableCell>{eachIngredient.food_name}</TableCell>
+                    <TableCell align="left">F: {eachIngredient.fat.toFixed(1)}</TableCell>
+                    <TableCell align="left">C: {eachIngredient.carbs.toFixed(1)}</TableCell>
+                    <TableCell align="left">P: {eachIngredient.protein.toFixed(1)}</TableCell>
+                    <TableCell align="left">kCal: {eachIngredient.calories.toFixed(1)}</TableCell>
+                    <TableCell align="left">
+                      <DataEditDeleteButton id={eachIngredient.id} handleDelete={handleDelete}/>
+                    </TableCell>
+                  </StyledTableRow>
+                  ))}
+                  <StyledTableRow sx={{width: 700}}>
+                    <TableCell style={{ fontWeight: 'bold', fontSize: '20px' }}> Total: </TableCell>
+                    <TableCell align="left" style={{ fontWeight: 'bold', fontSize: '16px' }}>F: {recipeIngredientTotals.fat.toFixed(1)} </TableCell>
+                    <TableCell align="left" style={{ fontWeight: 'bold', fontSize: '16px' }}>C:  {recipeIngredientTotals.carbs.toFixed(1)} </TableCell>
+                    <TableCell align="left" style={{ fontWeight: 'bold', fontSize: '16px' }}>P: {recipeIngredientTotals.protein.toFixed(1)} </TableCell>
+                    <TableCell align="left" style={{ fontWeight: 'bold', fontSize: '16px' }}>kCal: {recipeIngredientTotals.calories.toFixed(1)} </TableCell>
+                    <TableCell align="left"></TableCell>
+                  </StyledTableRow>
+                </TableBody>
+              </Table>
+              
               <Button fullWidth onClick={handleSearchIngredients} sx={{
                 marginTop: 2,
                 backgroundColor: 'rgb(159, 160, 198)',
@@ -83,25 +89,10 @@ const CreateRecipeForm = ({handleCancel, handleSearchIngredients}) => {
               </Button>
 
             </Box>
-
-            <Box sx={{ m: 5, marginTop: 0, p: 3, border: '1px black solid', borderRadius: '1rem', width: 600}}>
-              <Grid item xs={12}>
-                <TextField label="Calories (kcal)" name="calories" type="number" variant="outlined" fullWidth />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField label="Protein (g)" name="protein" type="number" variant="outlined" fullWidth />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField label="Fat (g)" name="fat" type="number" variant="outlined" fullWidth />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField label="Carbs (g)" name="carbs" type="number" variant="outlined" fullWidth />
-              </Grid>
-            </Box>
             
-            <Box sx={{ m: 5, marginTop: 0, p: 3, border: 'none', width: 600}}>
+            <Box sx={{ m: 5, marginTop: 0, p: 3, border: 'none', width: 700}}>
               <Grid item xs={12}>
-                <Button type="submit" fullWidth sx={{
+                <Button type='submit' fullWidth sx={{
                   marginTop: 2,
                   backgroundColor: 'rgb(196, 155, 178)',
                   color: 'rgb(255, 255, 255)',
@@ -109,7 +100,7 @@ const CreateRecipeForm = ({handleCancel, handleSearchIngredients}) => {
                   backgroundColor: 'rgb(196, 155, 178)',
                   color: 'rgb(255, 255, 255)'},
                 }} >
-                  Next
+                  Add
                 </Button>
 
                 <Button onClick ={handleCancel} fullWidth sx={{
