@@ -15,17 +15,18 @@ const RecipeAPISearcherPage = () => {
 
   const handleSearchRecipes = async (e) => {
     e.preventDefault()
-    const { keywords, calories, diet, allergies } = Object.fromEntries(new FormData(e.target))
-    console.log(keywords, calories, diet, allergies)
+    const { search, calories, diet, allergies } = Object.fromEntries(new FormData(e.target))
+    console.log(search, calories, diet, allergies)
 
     const url = `https://api.edamam.com/api/recipes/v2?type=public` 
-      + (keywords ? `&q=${keywords}` : '')
+      + (search ? `&q=${search}` : '')
       + `&app_id=1630a2de&app_key=8c2f7e5b603050e3bc5815d4675ac28e`
       + (calories ? `&calories=0-${calories}` : '')
       + (diet ? `&diet=${diet}` : '')
       + (allergies ? `&health=${allergies}` : '')
 
     console.log(url)
+    console.log(search)
 
     try {
       const res = await axios.get(url)

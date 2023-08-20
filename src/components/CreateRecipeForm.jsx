@@ -5,11 +5,11 @@ import { useDate } from '../contexts/DateProvider';
 import { useRecipeIngredients } from '../contexts/RecipeIngredientsContext';
 import { useEffect, useState } from 'react'
 import { Grid, TextField, Button, Typography, Box, Table, TableBody, TableCell, TableRow } from '@mui/material'
-import DataEditDeleteButton from './DataEditDeleteButton';
+import RecipeIngredientEditDeleteButton from './RecipeIngredientEditDeleteButton';
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 
-const CreateRecipeForm = ({handleCancel, handleSearchIngredients, recipeIngredients, handleDelete, recipeIngredientTotals, handleAddCustomRecipe, handleChangeRecipeName, handleChangeRecipeServings, customRecipeServings, customRecipeName }) => {
+const CreateRecipeForm = ({handleCancel, handleSearchIngredients, recipeIngredients, handleDelete, recipeIngredientTotals, handleAddCustomRecipe, handleChangeRecipeName, handleChangeRecipeServings, customRecipeServings, customRecipeName, foodData, setFoodData }) => {
   useEffect(() => {
     document.body.style.zoom = "80%";
   }, [])
@@ -62,7 +62,7 @@ const CreateRecipeForm = ({handleCancel, handleSearchIngredients, recipeIngredie
                     <TableCell align="left">P: {eachIngredient.protein.toFixed(1)}</TableCell>
                     <TableCell align="left">kCal: {eachIngredient.calories.toFixed(1)}</TableCell>
                     <TableCell align="left">
-                      <DataEditDeleteButton id={eachIngredient.id} handleDelete={handleDelete}/>
+                      <RecipeIngredientEditDeleteButton id={eachIngredient.id} foodData={foodData} setFoodData={setFoodData}/>
                     </TableCell>
                   </StyledTableRow>
                   ))}

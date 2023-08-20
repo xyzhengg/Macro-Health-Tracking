@@ -2,6 +2,12 @@ import {Typography, Button, CardContent, Box} from '@mui/material';
 
 const MyRecipesResultsList = ({ id, title, image, calories, fat, protein, carbs, servings, ingredients, handleClick, handleShowRecipeDetails }) => {
 
+  const placeholderImage = 'src/images/foodimageplaceholder.jpg'
+  const recipeImage = image ? image : placeholderImage
+  const handleImageError = (e) => {
+    e.target.src = placeholderImage
+  }
+
   return (
     <>
       <CardContent sx={{ marginTop: 2, paddingBottom: 0, border: '1px solid #e0e0e0', borderRadius: '8px', maxWidth: 400 }}>
@@ -10,7 +16,7 @@ const MyRecipesResultsList = ({ id, title, image, calories, fat, protein, carbs,
             {title}
           </Typography>
           <Box sx={{ width: '100%', height: 0, paddingTop: '100%', position: 'relative', overflow: 'hidden'}} >
-            <img src={image} alt={`image of ${title}`}
+            <img src={recipeImage} alt={`Image of ${title}`} onError={handleImageError}
               style={{position: 'absolute', top: 0,left: 0, width: '100%', height: '100%', objectFit: 'cover',}}
             />
           </Box>

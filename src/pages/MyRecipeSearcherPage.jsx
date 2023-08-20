@@ -11,6 +11,7 @@ import { useDate } from '../contexts/DateProvider';
 import AddCustomItemButton from "../components/AddCustomItemButton";
 import RecipeIngredientFoodSearcher from "../components/RecipeIngredientFoodSearcher";
 import RecipeIngredientSearcherPage from "./RecipeIngredientSearcherPage";
+import RecipeIngredientFoodLibrarySearcher from "../components/RecipeIngredientFoodLibrarySearcher";
 
 const MyRecipeSearcherPage = () => {
   const { user } = useAuth()
@@ -22,6 +23,7 @@ const MyRecipeSearcherPage = () => {
   const [showCreateRecipeForm, setShowCreateRecipeForm] = useState(false)
   const [goToRecipeIngredientSearcherPage, setGoToRecipeIngredientSearcherPage] = useState(false)
   const [myFoodData, setMyFoodData] = useState()
+  const [allFoodData, setAllFoodData] = useState()
   const [myFoodSearchResult, setMyFoodSearchResult] = useState()
   const [searchingFood, setSearchingFood] = useState(false)
   const [searchFoodTerm, setSearchFoodTerm] = useState()
@@ -291,6 +293,35 @@ const MyRecipeSearcherPage = () => {
     getMyFoods()
   }, [])
 
+  useEffect(() => {
+    const getAllFoods = async () => {
+      try {
+        const { data, error } = await supabase
+        .from('food')
+        .select('*')
+        .order('food_name', { ascending: true })
+        .limit(30)
+        if (error) {
+          console.log(error)
+        } else {
+          const sortedData = {}
+          for (const food of data) {
+            const letter = food.food_name.charAt(0).toUpperCase()
+            if (!sortedData[letter]) {
+              sortedData[letter] = []
+            }
+            sortedData[letter].push(food)
+          }
+          setAllFoodData(Object.entries(sortedData))
+          // console.log(sortedData)
+        }
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    getAllFoods()
+  }, [])
+
   const handleSearchFood = async (e) => {
     e.preventDefault()
     const { search } = Object.fromEntries(new FormData(e.target))
@@ -321,7 +352,7 @@ const MyRecipeSearcherPage = () => {
       const { data, error } = await supabase
         .from('food')
         .select('*')
-        .eq('user_id', user)
+        // .eq('user_id', user)
         .eq('id', id)
       if (error) {
         console.log(error)
@@ -426,6 +457,7 @@ const MyRecipeSearcherPage = () => {
 
   useEffect(() => {
     const { serving_amt } = foodData
+    console.log(serving_amt)
     const servingMultiplier = serving_amt / initialFoodData.serving_amt
     const newKcal = initialFoodData.calories * servingMultiplier
     const newProtein = initialFoodData.protein * servingMultiplier
@@ -522,6 +554,8 @@ const MyRecipeSearcherPage = () => {
       handleChangeRecipeServings={handleCustomRecipeServingsChange}
       customRecipeName={customRecipeName}
       customRecipeServings={customRecipeServings}
+      foodData={foodData}
+      setFoodData={setFoodData}
       />
     )}
   {/* Modal to show servings to add for custom recipe  */}
@@ -588,6 +622,27 @@ const MyRecipeSearcherPage = () => {
         handleCreateFood = {handleCreateFood}
         handleCloseCreateFoodForm = {handleCloseCreateFoodForm}
         myFoodData = {myFoodData}
+        searchingFood = {searchingFood}
+        myFoodSearchResult = {myFoodSearchResult}
+        searchFoodTerm = {searchFoodTerm}
+        foodData = {foodData}
+        openFoodServingsModal = {openFoodServingsModal}
+        handleCloseFoodServingsModal = {handleCloseFoodServingsModal}
+        handleAddFood = {handleAddFood}
+        initialFoodData = {initialFoodData}
+        handleFoodServingChange = {handleFoodServingChange}
+        handleSelectFood = {handleSelectFood}
+      />}
+
+    {goToRecipeIngredientSearcherPage && tabValue === 1 && 
+      <RecipeIngredientFoodLibrarySearcher 
+        showCreateFoodForm = {showCreateFoodForm}
+        handleCancel = {handleCloseCreateFoodForm}
+        handleSearchFood ={handleSearchFood}
+        searchInputWidth = {searchInputWidth}
+        handleCreateFood = {handleCreateFood}
+        handleCloseCreateFoodForm = {handleCloseCreateFoodForm}
+        allFoodData = {allFoodData}
         searchingFood = {searchingFood}
         myFoodSearchResult = {myFoodSearchResult}
         searchFoodTerm = {searchFoodTerm}
