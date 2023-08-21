@@ -56,6 +56,8 @@ const FoodAPISearcherPage = () => {
 
     try {
       const res = await axios.get(`https://api.edamam.com/api/food-database/v2/parser?app_id=c3a053e6&app_key=a5494242fbb8e5d5184b54cad1d5e4b6&ingr=${search}&nutrition-type=cooking`)
+      console.log(res.data.hints)
+      setResults(res.data.hints)
     } catch(err) {
       console.log(err)
       setError(err)
