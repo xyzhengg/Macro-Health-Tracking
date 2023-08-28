@@ -34,7 +34,7 @@ const WeightTile = () => {
             console.log(error)
           } else if (data[0]) {
             setWeight(data[0])
-            setWeightDifference((goal.goal_weight - data[0].kg) > 0 ? `+${goal.goal_weight - data[0].kg}` : goal.goal_weight - data[0].kg)
+            setWeightDifference((goal.goal_weight - data[0].kg)> 0 ? `+${(goal.goal_weight - data[0].kg).toFixed(1)}` : (goal.goal_weight - data[0].kg).toFixed(1))
           } else {
             setWeight({ kg: 0 })
             setWeightDifference(0)
