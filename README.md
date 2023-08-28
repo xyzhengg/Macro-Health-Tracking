@@ -47,7 +47,8 @@ Due to the extensive amount of data and data manipulation involved in this app, 
 Using pre-styled components with Material UI posed challenges in terms of design customization. Overriding basic elements such as hover states, colors, and sizes proved to be quite difficult. However, having pre-styled components also proved useful in other aspects (although some props did not work correctly, necessitating further style overriding).
 
 ## Future Features
-As you may have noticed, the My Recipes section is coming soon. This feature will allow users to create and store their own recipes in the app. Implementing this feature means users will have the convenience of having all their food-related information in one place. In the future, users will also be able to save external recipes from the library to their personal collection.
+~~As you may have noticed, the My Recipes section is coming soon. This feature will allow users to create and store their own recipes in the app. Implementing this feature means users will have the convenience of having all their food-related information in one place. In the future, users will also be able to save external recipes from the library to their personal collection.~~
+(The "Create Custom Recipe" funciton has been implemented as of August, 2023)
 
 Additional planned features include making the page responsive, implementing loading spinners to indicate background processes, and incorporating an onboarding page to allow users to input their goals when they first sign up.
 
