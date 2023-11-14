@@ -3,6 +3,7 @@ import {Typography, Button, CardContent, Box} from '@mui/material';
 const MyRecipesResultsList = ({ id, title, image, calories, fat, protein, carbs, servings, ingredients, handleClick, handleShowRecipeDetails }) => {
 
   const placeholderImage = '/foodimageplaceholder.jpg'
+  console.log(placeholderImage)
   const recipeImage = image ? image : placeholderImage
   const handleImageError = (e) => {
     e.target.src = placeholderImage
