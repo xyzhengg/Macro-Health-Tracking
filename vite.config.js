@@ -9,4 +9,7 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: './setup-tests.js'
   },
+  build: {
+    mode: 'production'
+  }
 })
