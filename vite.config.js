@@ -10,6 +10,6 @@ export default defineConfig({
     setupFiles: './setup-tests.js'
   },
   build: {
-    mode: 'production'
+    mode: 'production',
   }
 })
